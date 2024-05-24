@@ -1,44 +1,27 @@
 function fnSetHeader(dataHeader){
     var strHTML = ''
     strHTML += "<td class='text-center textHeadTable'>No.</td>"
-    strHTML += "<td class='text-center textHeadTable'>หัวข้อการประเมิน</td>"
-    strHTML += "<td class='text-center textHeadTable'>รายการที่ประเมิน</td>"
+    strHTML += "<td class='text-center textHeadTable'>หัวข้อตรวจสอบ</td>"
+    strHTML += "<td class='text-center textHeadTable'>รายการ</td>"
     strHTML += "<td class='text-center textHeadTable'>สถานะ</td>"
-    strHTML += "<td class='text-center textHeadTable'>เอกสารที่แนบ</td>"
     strHTML += "<td class='text-center textHeadTable'>Action</td>"
-    // strHTML += "<td class='text-center' style='width: 9%;font-weight: bold;'Action<br>week</td>"
-
-    // if (dataHeader.tqsc_quota_ivr != null && dataHeader.short == 'insurance') {
-    //     strHTML += "<td class='text-center' style='width: 9%;font-weight: bold;'>Quota Motor</td>"
-    // }
-    // if (dataHeader.tqsc_quota_pq != null && dataHeader.short == 'insurance') {
-    //     strHTML += "<td class='text-center' style='width: 9%;font-weight: bold;'>Quota PQ</td>"
-    // }
-    // if (dataHeader.tqsc_quota_db != null && dataHeader.short == 'credit') {
-    //     strHTML += "<td class='text-center' style='width: 9%;font-weight: bold;'>Quota DB</td>"
-    // }
-    // if (dataHeader.tqsc_quota_rn != null && dataHeader.short == 'credit') {
-    //     strHTML += "<td class='text-center' style='width: 9%;font-weight: bold;'>Quota RN</td>"
-    // }
-    // strHTML += "<td class='text-center' style='width: 9%;font-weight: bold;'>Quota Reject</td>"
-    // strHTML += "<td class='text-center' style='width: 9%;font-weight: bold;'>Quota Swap</td>"
-    // strHTML += "<td class='text-center' style='width: 5%;font-weight: bold;'></td>"
-
     return strHTML
 }
-function fnDrawTable(groups,objData) {
+function fnDrawTable(access,objData) {
     
-    fnGetDataSelect() // Get data selete before create table 
+    if (access == 'admin') {
+        fnGetDataSelect()
+    }
+     // Get data selete before create table 
     var strHTML = ''
+    var strHTML2 = ''
     var group = ['A','B'] //groups
     var team = 'A'
     var data = objData
-    //var range = Object.keys(objData)
     
- 
     data.short = 'test' //make
     strHTML += "<table id='tb_" + group[0] + "' class='table table-hover table-nowrap' width: 100%;>"
-    strHTML += "<thead class='thead-light'>"
+    strHTML += "<thead class='table-light'>"
     strHTML += "<tr>"
     strHTML += fnSetHeader(data) 
     strHTML += "</tr>"
@@ -48,44 +31,10 @@ function fnDrawTable(groups,objData) {
     for (var i = 0; i < data.length; i++) {
     strHTML += "<tr>"
     strHTML += "<td id='No" + data[i].short + (i + 1) + "' class='text-center align-middle' style='width: 5%;'>" + (i + 1) + "<input type='hidden' id='idQuota" + data[i].short + (i + 1) + "' value='"+ data[i].tqsc_id +"'/></td>"
-    strHTML += "<td id='headRates" + data[i].short + (i + 1) + "' class='text-center align-middle' style='width: 20%;'>" + (data[i].headRates != null ? (data[i].headRates) : '-') + "</td>"
-    strHTML += "<td id='listRates" + data[i].short + (i + 1) + "'  class='text-center align-middle' style='width: 55%;white-space: pre-wrap;'>" + (data[i].listRates != null ? (data[i].listRates) : '-') + "</td>"
-    strHTML += "<td id='status" + data[i].short + (i + 1) + "'  class='text-center align-middle'style='width: 10%; align-middle'>" + (data[i].id != null ? "<div class='colorCircle'><span class='circle' style='background-color: green;'></span></div>" : '-') + "</td>"
-    
-    
-    if (data[i].id) {
-        strHTML += "<td class='text-center align-middle' style='width: 10%;'>"
-        strHTML += "<button id='btnEdit" + data[i].short + (i + 1) + "' type='button' class='btn btn-success'; onclick='fnEditConfig(\"" + team + "\",\"" + data[i].short + (i + 1) + "\")'>"
-        strHTML += "<i class='las la-file-pdf' aria-hidden=;'true'></i>"
-        strHTML += "</td>"
-    } else {
-        strHTML += "<td id='workWeekStart" + data[i].short + (i + 1) + "'  class='text-center align-middle' style='width: 10;'>-</td>"
-    }
-    //  strHTML += "<td id='workWeekEnd" + data[i].short + (i + 1) + "'  class='text-center' style='width: 9%;'>" + (data[i].tqsc_workage_end != null ? data[i].tqsc_workage_end : '-') + "</td>"
-    // strHTML += "<td id='forcastStart" + data[i].short + (i + 1) + "'  class='text-center' style='width: 9%;'>" + (data[i].tqsc_fc_lead_ok_start != null ? data[i].tqsc_fc_lead_ok_start : '-') + "</td>"
-    // strHTML += "<td id='forcastEnd" + data[i].short + (i + 1) + "' class='text-center' style='width: 9%;'>" + (data[i].tqsc_fc_lead_ok_end != null ? data[i].tqsc_fc_lead_ok_end : '-') + "</td>"
-    
-    /* quota */
-    // if (data[i].tqsc_quota_ivr != null && data[i].short == 'insurance') {
-    //     strHTML += "<td id='quotaMotor" + data[i].short + (i + 1) + "'  class='text-center' style='width: 9%;'>" + (data[i].tqsc_quota_ivr != null ? data[i].tqsc_quota_ivr : '-') + "</td>"
-    // }
-    // if (data[i].tqsc_quota_pq != null && data[i].short == 'insurance') {
-    //     strHTML += "<td id='quotaPQ" + data[i].short + (i + 1) + "'  class='text-center' style='width: 9%;'>" + (data[i].tqsc_quota_pq != null ? data[i].tqsc_quota_pq : '-') + "</td>"
-    // }
-    // if (data[i].tqsc_quota_db != null && data[i].short == 'credit') {
-    //     strHTML += "<td id='quotaDB" + data[i].short + (i + 1) + "'  class='text-center' style='width: 9%;'>" + (data[i].tqsc_quota_db != null ? data[i].tqsc_quota_db : '-') + "</td>"
-    // }
-    // if (data[i].tqsc_quota_rn != null && data[i].short == 'credit') {
-    //     strHTML += "<td id='quotaRN" + data[i].short + (i + 1) + "'  class='text-center' style='width: 9%;'>" + (data[i].tqsc_quota_rn != null ? data[i].tqsc_quota_rn : '-') + "</td>"
-    // }
-    // strHTML += "<td id='quotaReject" + data[i].short + (i + 1) + "'  class='text-center' style='width: 9%;'>" + (data[i].tqsc_quota_reject != null ? data[i].tqsc_quota_reject : '-') + "</td>"
-    // strHTML += "<td id='quotaSwap" + data[i].short + (i + 1) + "'  class='text-center' style='width: 9%;'>" + (data[i].tqsc_quota_swap != null ? data[i].tqsc_quota_swap : '-') + "</td>"
-    // strHTML += "<td class='text-center' style='width: 100%; display: flex;justify-content: center;'>"
-    // strHTML += "<button id='btnDelete" + data[i].short + (i + 1) + "' type='button' class='btn btn-danger'; onclick='fnSaveEditConfig(\"" + team + "\",\"" + data[i].short + (i + 1) + "\")' style=''>"
-    // strHTML += "<i class='las la-file-pdf' aria-hidden=;'true'></i>"
-    // strHTML += "</button>"
-    // strHTML += "</td>"
-
+    strHTML += "<td id='mainControl" + data[i].short + (i + 1) + "'  class='text-center align-middle' style='width: 55%;white-space: pre-wrap;'>" + (data[i].mainControl ? (data[i].mainControl) : '-') + "</td>"
+    strHTML += "<td id='listControl" + data[i].short + (i + 1) + "'  class='text-center align-middle' style='width: 55%;white-space: pre-wrap;'>" + (data[i].listControl ? (data[i].listControl) : '-') + "</td>"
+    // strHTML += "<td id='status" + data[i].short + (i + 1) + "'  class='text-center align-middle'style='width: 10%; align-middle'>" + (data[i].id ? "<div class='colorCircle'><span class='circle' style='background-color: green;'></span></div>" : '-') + "</td>"
+    strHTML += "<td id='status" + data[i].short + (i + 1) + "'  class='text-center align-middle'style='width: 10%; align-middle'>" + (data[i].id ? "<div class='colorCircle'><span class='badge bg-label-primary me-1'>Active</span></div>" : '-') + "</td>"
     strHTML += "<td class='text-center align-middle'>"
     strHTML += "<button id='btnEdit" + data[i].short + (i + 1) + "' type='button' class='btn btn-warning'; onclick='fnEditConfig(\"" + team + "\",\"" + data[i].short + (i + 1) + "\")' style='margin-right: 10px;'>"
     strHTML += "<i class='las la-pen' aria-hidden=;'true'></i>"
@@ -100,13 +49,10 @@ function fnDrawTable(groups,objData) {
 strHTML += "</tbody>"
 strHTML += "</table>"
 
-    //document.getElementById("dvContentTable").innerHTML = strHTML
     $("#dvContentTable")[0].innerHTML = strHTML
 
     //merge column
     mergeColumn()
-    
-  
 }
 
 function fnGetDataModal() {
@@ -152,19 +98,23 @@ function fnGetDataModal() {
     strHTML2 += " <button type='button' class='btn btn-primary'>บันทึกข้อมูล</button> "
     strHTML2 += " <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>ยกเลิก</button> "            
 
-    document.getElementById("dvBodyModalAssessment").innerHTML = strHTML
-    document.getElementById("dvFooterModalAssessment").innerHTML = strHTML2
+
+    // document.getElementById("dvBodyModalAssessment").innerHTML = strHTML
+    // document.getElementById("dvFooterModalAssessment").innerHTML = strHTML2
+    $("#dvBodyModalAssessment")[0].innerHTML = strHTML
+    $("#dvFooterModalAssessment")[0].innerHTML = strHTML2
     
     fnChangeSizeSelect("slNameRates") //ปรับขนาด select
     
 }
 
 function fnGetDataSelect() {
-    var arrData = fnGetDataRates() // call function get data
+    // var arrData = fnGetDataRates() // call function get data
     var strHTML = ''
     var strHTML2 = ''
 
     // draw modal
+    strHTML += "<div class='container' > "
     strHTML += " <div class='row mt-2 mb-3'> "
     strHTML += " <div class='col-sm-3'> "
     strHTML += " <select class='form-select text-center' aria-label='Default select example'> "
@@ -175,25 +125,22 @@ function fnGetDataSelect() {
     strHTML += " <select class='form-select text-center' aria-label='Default select example'> "
     strHTML += " <option selected>สาขาที่ประเมิน</option> "
     strHTML += " </select> "
+    strHTML += " </div> "
     strHTML += " <div class='col-sm-3'> "
     strHTML += " <select class='form-select text-center' aria-label='Default select example'> "
     strHTML += " <option selected>ปี 2567</option> "
     strHTML += " </select> "
+    strHTML += " </div> "
     strHTML += " <div class='col-sm-3'> "
     strHTML += " <select class='form-select text-center' aria-label='Default select example'> "
     strHTML += " <option selected>สถานะ</option> "
     strHTML += " </select> "
     strHTML += " </div> "
     strHTML += " </div> "
+    strHTML += "</div> "  
 
-
-
-    strHTML2 += " <button type='button' class='btn btn-primary'>บันทึกข้อมูล</button> "
-    strHTML2 += " <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>ยกเลิก</button> "            
-
-    document.getElementById("dvHeadSelectAssessment").innerHTML = strHTML
-    
-    //fnChangeSizeSelect("slNameRates") //ปรับขนาด select
+    // document.getElementById("dvHeadSelectAssessment").innerHTML = strHTML
+    $("#dvHeadSelectAssessment")[0].innerHTML = strHTML
     
 }
 
@@ -278,6 +225,6 @@ function mergeColumn(){
     //             currentPage++;
     //         }
     //     });
-
-    
 }
+
+

@@ -44,7 +44,7 @@
     <div class="sidebar-menu">
       <ul>
         <li class="headMenuTitle"><span>หน้าหลัก</span></li>
-        <li><a href="#" class="nounderline active"><span class="las la-adjust"></span><span>Dashboard</span></a></li>
+        <li><a href="test3.php" class="nounderline active"><span class="las la-adjust"></span><span>Dashboard</span></a></li>
         <li class="headMenuTitle"><span>การตรวจสอบราชการ 4 สาขา</span></li>
         <li><a href="test4.php" class="nounderline"><span class="las la-video"></span><span>สาขากำลังพล</span></a></li>
         <li><a href="test5.php" class="nounderline"><span class="las la-chart-bar"></span><span>สาขายุทธการ</span></a></li>

@@ -62,3 +62,8 @@ function fnGetAllUrlParams(url) {
   
     return obj;
 }
+
+function convertToThaiNumerals(number) {
+    const thaiNumerals = ['๐', '๑', '๒', '๓', '๔', '๕', '๖', '๗', '๘', '๙'];
+    return number.toString().split('').map(digit => thaiNumerals[digit]).join('');
+}
