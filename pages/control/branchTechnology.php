@@ -77,7 +77,6 @@
                     <div class="table-responsive" id="dvContentTable">
                     
                     </div>
-                
             </div>
         </div>
 

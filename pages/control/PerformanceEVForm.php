@@ -43,7 +43,7 @@
             margin-top: 20px;
         }
         .dvSignature {
-            margin-top: 10px;
+            margin-top: 20px;
             display: flex;
             flex-direction: column;
             align-items: flex-end;
@@ -67,18 +67,13 @@
             padding: 5px;
             text-align: left;
         }
-        /* th {
-            border-top: 1px solid black;
-            border-bottom: 1px solid black;
+        th {
             background-color: #f2f2f2;
-            position: sticky;
-            top: 0;
-            z-index: 1;
-        } */
+        }
         thead th, thead tr {
             border-top: 1px solid black;
             border-bottom: 1px solid black;
-            background-color: #f2f2f2;
+       
             position: sticky;
         }
         .colspan-header th {
@@ -86,7 +81,7 @@
             z-index: 3; /* Ensure the z-index is higher for the header row with colspan */
         }
         .second-header th {
-            top: 36px; /* Adjust the top value to match the height of the first header row */
+            top: 37px; /*  Adjust the top value to match the height of the first header row */
             z-index: 2;
         }
         .hidden {
@@ -105,15 +100,272 @@
         textarea {
             margin-right: 5px;
         }
+
+        /* ส่วน table matrix */
+        .highlight {
+            border: 3px solid !important;
+            box-shadow: -5px 5px 20px 20px rgba(14, 1, 1, 0.17), -15px -11px 20px 5px rgba(14, 14, 14, 0.22) !important;
+            border-style: dashed !important;
+        }
+        .VH {
+            background-color: #f90909 !important;
+            font-weight: 550 !important;
+            text-align: center !important;
+        }
+        .H {
+            background-color: #f99d09 !important;
+            font-weight: 550 !important;
+            text-align: center !important;
+        }
+        .M {
+            background-color: #f9d909 !important;
+            height: 60px !important;
+            font-weight: 550 !important; 
+            text-align: center !important;
+        }
+        .L {
+            background-color: #4c7c04 !important;
+            font-weight: 550 !important;
+            text-align: center !important;
+        }
+        #rMatrix {
+            table-layout: fixed;
+            width: 100%;
+            vertical-align: middle !important;
+            text-align: center !important;
+            font-weight: 550 !important;
+        }
+
+        #rMatrix td, #rMatrix th {
+            width: 20%; /* แบ่งเป็น 5 คอลัมน์ที่เท่ากัน */
+            text-align: center;
+        }
+
+        .footerCell {
+            text-align: center !important;
+        }
+        .rotate-90 {
+            transform: rotate(270deg);
+            /* transform-origin: left top; */
+            display: inline-block;
+        }
+        #rHeader {
+            padding: 0 !important;
+            width: 1px;
+            white-space: nowrap;
+        }
+        .dvFooterForm {
+            width: 100%;
+            text-align: center;
+            margin-top: 5%;
+        }
     </style>
+
     <title>แบบ ปม.</title>
 </head>
 <body>
     <div id='dvFormAssessment'>
-   
-       
+       <!-- Content -->
     </div>
 
+    <!-- Modal ChanceRisk -->
+    <div class='modal fade' id='chanceRiskModal' tabindex='-1' aria-labelledby='chanceRiskModalLabel' aria-hidden='true'>
+    <div class='modal-dialog modal-lg'>
+        <div class='modal-content'>
+        <div class='modal-header'>
+            <h1 class='modal-title fs-5' id='chanceRiskModalLabel'>โอกาสที่เกิดความเสี่ยง</h1>
+            <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+        </div>
+        <div class='modal-body'>
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col" class='text-center'>โอกาส</th>
+                    <th scope="col" class='text-center'>ความถี่</th>
+                    <th scope="col" class='text-center'>คะแนน</th>
+            
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class='text-center' contenteditable="true">สูงมาก</td>
+                    <td class='text-center' contenteditable="true">มากกว่า 20 ครั้ง/ปี</td>
+                    <td class='text-center'>
+                        <input type="radio" name="rowSelect" value="5"> 5
+                    </td>
+                </tr>
+                <tr>
+                    <td class='text-center' contenteditable="true">สูง</td>
+                    <td class='text-center' contenteditable="true">11 - 20 ครั้ง/ปี</td>
+                    <td class='text-center'>
+                        <input type="radio" name="rowSelect" value="4"> 4
+                    </td>
+                </tr>
+                <tr>
+            
+                    <td class='text-center' contenteditable="true">ปานกลาง</td>
+                    <td class='text-center' contenteditable="true">6 - 10 ครั้ง/ปี</td>
+                    <td class='text-center'>
+                        <input type="radio" name="rowSelect" value="3"> 3
+                    </td>
+                </tr>
+                <tr>
+                    
+                    <td class='text-center' contenteditable="true">น้อย</td>
+                    <td class='text-center' contenteditable="true">3 - 5 ครั้ง/ปี</td>
+                    <td class='text-center'>
+                        <input type="radio" name="rowSelect" value="2"> 2
+                    </td>
+                </tr>
+                <tr>
+                    <td class='text-center' contenteditable="true">น้อยมาก</td>
+                    <td class='text-center' contenteditable="true">3 ครัั้ง/ปี</td>
+                    <td class='text-center'>
+                        <input type="radio" name="rowSelect" value="1"> 1
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+            </div>
+        <div class='modal-footer'>
+            <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>ยกเลิก</button>
+            <button type='button' class='btn btn-primary'>บันทึกข้อมูล</button>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Modal effectRisk -->
+    <div class='modal fade' id='effectRiskModal' tabindex='-1' aria-labelledby='effectRiskModalLabel' aria-hidden='true'>
+    <div class='modal-dialog modal-lg'>
+        <div class='modal-content'>
+        <div class='modal-header'>
+            <h1 class='modal-title fs-5' id='effectRiskModalLabel'>ผลกระทบความเสี่ยง</h1>
+            <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+        </div>
+        <div class='modal-body'>
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col" class='text-center'>ผลกระทบ</th>
+                    <th scope="col" class='text-center'>ความเสียหาย</th>
+                    <th scope="col" class='text-center'>คะแนน</th>
+            
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class='text-center'>สูงมาก</td>
+                    <td class='text-center' contenteditable="true">มากกว่า 10 ล้านบาท</td>
+                    <td class='text-center'>
+                        <input type="radio" name="rowSelect" value="5"> 5
+                    </td>
+                </tr>
+                <tr>
+                    <td class='text-center'>สูง</td>
+                    <td class='text-center' contenteditable="true">ระหว่าง 5 แสนบาท - 10 ล้าน</td>
+                    <td class='text-center'>
+                        <input type="radio" name="rowSelect" value="4"> 4
+                    </td>
+                </tr>
+                <tr>
+            
+                    <td class='text-center'>ปานกลาง</td>
+                    <td class='text-center' contenteditable="true">ระหว่าง 1 แสนบาท - 5 แสนบาท</td>
+                    <td class='text-center'>
+                        <input type="radio" name="rowSelect" value="3"> 3
+                    </td>
+                </tr>
+                <tr>
+                    
+                    <td class='text-center'>น้อย</td>
+                    <td class='text-center' contenteditable="true">ระหว่าง 1 หมื่นบาท - 1 แสนบาท</td>
+                    <td class='text-center'>
+                        <input type="radio" name="rowSelect" value="2"> 2
+                    </td>
+                </tr>
+                <tr>
+                    <td class='text-center'>น้อยมาก</td>
+                    <td class='text-center' contenteditable="true">น้อยกว่า 1 หมื่นบาท</td>
+                    <td class='text-center'>
+                        <input type="radio" name="rowSelect" value="1"> 1
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+            </div>
+        <div class='modal-footer'>
+            <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>ยกเลิก</button>
+            <button type='button' class='btn btn-primary'>บันทึกข้อมูล</button>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Modal Matrix - ChanceRisk And EffectRisk-->
+    <div class='modal fade' id='MatrixRankModal' tabindex='-1' aria-labelledby='MatrixRankModalLabel' aria-hidden='true'>
+    <div class='modal-dialog modal-lg'>
+        <div class='modal-content'>
+        <div class='modal-header'>
+            <h1 class='modal-title fs-5' id='MatrixRankModalLabel'>ระดับความเสี่ยง</h1>
+            <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+        </div>
+        <div class='modal-body'>
+        <table class="table table-bordered table-responsive" id="rMatrix">
+        <thead>
+        </thead>
+        <tbody>
+            <tr id="row5">
+                <td id="rHeader"  rowspan="6" style="text-align:center">
+                    <span class='rotate-90'>ผลกระทบความเสี่ยง</span>
+                </td>
+                <td id="col4" class="M">5</td>
+                <td id="col3" class="H">10</td>
+                <td id="col2" class="H">15</td>
+                <td id="col1" class="VH">20</td>
+                <td id="col0" class="VH">25</td>
+            </tr>
+            <tr id="row4">
+                <td id="col4_2" class="M">4</td>
+                <td id="col3_3" class="M">8</td>
+                <td id="col2_4" class="H">12</td>
+                <td id="col1_5" class="VH">16</td>
+                <td id="col0_6" class="VH">20</td>
+            </tr>
+            <tr id="row3">
+                <td id="col4_8" class="L">3</td>
+                <td id="col3_9" class="M">6</td>
+                <td id="col2_10" class="M">9</td>
+                <td id="col1_11" class="H">12</td>
+                <td id="col0_12" class="H">15</td>
+            </tr>
+            <tr id="row2">
+                <td id="col4_14" class="L">2</td>
+                <td id="col3_15" class="L">4</td>
+                <td id="col2_16" class="M">6</td>
+                <td id="col1_17" class="M">8</td>
+                <td id="col0_18" class="H">10</td>
+            </tr>
+            <tr id="row1">
+                <td id="col4_20" class="L">1</td>
+                <td id="col3_21" class="L">2</td>
+                <td id="col2_22" class="L">3</td>
+                <td id="col1_23" class="M">4</td>
+                <td id="col0_24" class="M">5</td>
+            </tr>
+            <tr id="footerRow">
+                <td colspan='6' id="footerCell">โอกาสที่เกิดความเสี่ยง</td>
+            </tr>
+        </tbody>
+    </table>
+            </div>
+        <div class='modal-footer'>
+            <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>ยกเลิก</button>
+            <button type='button' class='btn btn-primary'>บันทึกข้อมูล</button>
+        </div>
+        </div>
+    </div>
+    </div>
 </body>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -124,27 +376,36 @@
 <script>
     $(document).ready(function() {
         fnGetDataInternalControl()
+        fnDrawTableMatrix() 
 });
 
     function fnGetDataInternalControl() {
         const data = [ // ความเสี่ยง
             {
                 id: '101' ,
+                mainControl: 'ด้านการข่าว',
+                enControl:'news' , 
                 headRisk: 'เครื่องมือและอุปกรณ์ที่ใช้งานด้านการข่าว', 
                 objRisk: 'เพื่อให้มีความมั่นใจว่ามีเครื่องมือ/อุปกรณ์ที่มีประสิทธิภาพเพียงพอต่อการปฏิบัติงานด้านการข่าว',
                 risking:'เครื่องมือ/อุปกรณ์ในการรวบรวมข้อมูลด้านการข่าวยังมีความไม่ทันสมัยและมีประสิทธิภาพไม่เพียงพอต่อการปฏิบัติงาน',
-                activityControl: ''
-                improvement:'จัดหาเครื่องมือ/อุปกรณ์เพิ่มเติม เพื่อให้การดำเนินการรวบรวมข้อมูลด้านการข่าวมีประสิทธิภาพเพียงพอต่อการปกิบัติงาน'
+                activityControl: '',
+                chanceRisk: 3,
+                effectRisk: 3,
+                rankRisk: 9,
+                improvement:'จัดหาเครื่องมือ/อุปกรณ์เพิ่มเติม เพื่อให้การดำเนินการรวบรวมข้อมูลด้านการข่าวมีประสิทธิภาพเพียงพอต่อการปฏิบัติงาน'
 
             },
             {
                 id: '102' ,
+                mainControl: 'ด้านการข่าว',
                 headRisk: 'การปฏิบัติงานด้านการข่าว', 
                 objRisk: 'เพื่อให้มีความมั่นใจว่าเจ้าหน้าที่ข่าวทุกนายมีความรู้ ความชำนาญและประสบการณ์ในการวิเคราะห์ข่าวสาร',
-                risking:'เครื่องมือ/อุปกรณ์ในการรวบรวมข้อมูลด้านการข่าวยังมีความไม่ทันสมัยและมีประสิทธิภาพไม่เพียงพอต่อการปฏิบัติงาน',
-                activityControl: ''
-                improvement:'จัดหาเครื่องมือ/อุปกรณ์เพิ่มเติม เพื่อให้การดำเนินการรวบรวมข้อมูลด้านการข่าวมีประสิทธิภาพเพียงพอต่อการปกิบัติงาน'
-
+                risking:'นักวิเคราะห์ข่าวของชุดปฏิบัติการข่าวยังขาดความรู้ ความชำนาญ และประสบการณ์ ในการวิเคราะห์ข่าวสาร',
+                activityControl: '',
+                chanceRisk: 5,
+                effectRisk: 4,
+                rankRisk: 20,
+                improvement:'จัดการฝึกอบรมเชิงปฏิบัติการ (Workshop)ให้กับเจ้าหน้าที่ข่าวโดยเน้นให้ผู้เข้ารับการอบรมฝึกปฏิบัติเพื่อเพิ่มทักษะในการวิเคราะห์ข่าวให้มีประสิทธิภาพเกิดความชำนาญในการปฏิบัติงาน ทุก ๆ ๖ เดือนโดยใช้ งป.ของหน่วย'
             },
         ]
 
@@ -165,6 +426,24 @@
         // call data 
         fnDrawTableForm(valAccess, data)
         return data
-    }      
+    }
+    
+    function fnDrawTableMatrix() {
+        var rowIndex = 1; // Example index, change as needed
+        var columnIndex = 1; // Example index, change as needed
+        try {
+            if (rowIndex !== undefined && columnIndex !== undefined) {
+                var cell = $('#col0'); // Modify the selector as needed
+                if(cell.length) {
+                    $(cell).addClass('highlight');
+                    console.log('Cell found and highlighted:', cell);
+                } else {
+                    console.warn('Cell not found');
+                }
+            }
+        } catch(ex) {
+            console.error('Error:', ex);
+        }
+    }
 </script>
 </html>

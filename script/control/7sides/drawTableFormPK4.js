@@ -1,7 +1,7 @@
 function fnSetHeader(dataHeader){
     var strHTML = ''
-    strHTML += "<th class='text-center textHeadTable' style='width: 50%;'>จุดที่ควรประเมิน</th>"
-    strHTML += "<th class='text-center textHeadTable' style='width: 50%;'>ความเห็น/คำอธิบาย</th>"
+    strHTML += "<th class='text-center textHeadTable' style='width: 50%;'>องค์ประกอบการควบคุมภายใน</th>"
+    strHTML += "<th class='text-center textHeadTable' style='width: 50%;'>ผลการประเมิน/ข้อสรุป</th>"
     return strHTML
 }
 function fnDrawTableForm(access,objData) {
@@ -11,15 +11,16 @@ function fnDrawTableForm(access,objData) {
      // Get data selete before create table 
     var strHTML = ''
     var data = objData
-    var NameUnit = 'สตน.ทร.'
+    var NameUnit = 'สตน.ทร'
     var currentYear = new Date().getFullYear();
     var currentThaiYear = currentYear + 543;
     var DateFix = 'ณ วันที่ ๓๐ เดือน กันยายน ' + convertToThaiNumerals(currentThaiYear)
+    strHTML += " <div class='text-end'>แบบ ปค.๔</div> "
     strHTML += " <div class='title'>หน่วยงาน......." + NameUnit +  ".......</div> "
-    strHTML += " <div class='title'>แบบประเมินองค์ประกอบของการควบคุมภายใน" + objData[0].mainControl + "</div> "
-    strHTML += " <div class='title'>" + DateFix + "</div> "
+    strHTML += " <div class='title'>รายงานการประเมินองค์ประกอบการควบคุมภายใน</div> "
+    strHTML += " <div class='title'>สำหรับระยะเวลาดำเนินงานสิ้นสุด" + DateFix + "</div> "
     strHTML += " <div class='a4-size'> "
-    strHTML += "<table id='tb_" + objData[0].engName + "'>"
+    strHTML += "<table id='tb_PK4'>"
     strHTML += "<thead>"
     strHTML += "<tr>"
     strHTML += fnSetHeader(data) 
@@ -29,9 +30,7 @@ function fnDrawTableForm(access,objData) {
     strHTML += fnDrawTableAssessmentForm()
     strHTML += "</tbody>"
     strHTML += "</table>"
-    strHTML += " <div class='textSum'><b>ผลการประเมินโดยรวม</b></div> "
-    strHTML += " <div> "
-    strHTML += " <span> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;สตน.ทร. มีการควบคุมภายในครบทั้ง๕ องค์ประกอบ ๑๗ หลักการ โดยแต่ละองค์ประกอบมีกิจกรรมการควบคุมภายในอยู่หลายประเภท ตามลักษณะกิจกรรมที่มีความเสี่ยงที่อาจจะเกิดขึ้น โดย สตน.ทร.ได้กำหนดวิธีการจัดการและควบคุมความเลี่ยงไว้อย่างเหมาะสม ครอบคลุมทุกกิจกรรมตามแผนปฏิบัติงานของหน่วย และเป็นไปตามหลักเกณฑ์กระทรวงการคลังว่าด้วยมาตรฐานและหลักเกณฑ์ปฏิบัติการควบคุมภายใน สำหรับหน่วยงานของรัฐ พ.ศ.๒๕๖๑</span> "
+    strHTML += fnDrawDivEvaluation()
     strHTML += " <div class='dvSignature'> "
     strHTML += " <div>ผู้ประเมิน..............................................</div> "
     strHTML += " <div>ตำแหน่ง................................................</div> "
@@ -46,25 +45,8 @@ function fnDrawTableForm(access,objData) {
 
    // strHTML += "<button id='checkButton'>เช็คสถานะ</button>"
 
-    $("#dvFormAssessment")[0].innerHTML = strHTML
+    $("#dvFormReportAssessment")[0].innerHTML = strHTML
 }
-
-function createCheckboxAndTextArea(id) {
-    if (id == 503) {
-        return "<div style='display:flex;'>" +
-        "<input type='checkbox' id='horns_" + id + "' name='horns_" + id + "' style='display:none'/>" +
-        // "<textarea id='story_" + id + "' name='story_" + id + "' rows='1' cols='25' style='display:none'></textarea>" +
-        "<span id='descript_" + id + "' name='descript_" + id + "' style='text-align: justify;'>- เครื่องมือ/อุปกรณ์ในการรวบรวมข้อมูลด้านการข่าวยังมีความทันสมัยและมีประสิทธิภาพไม่เพียงพอต่อการปฏิบัติงาน</span>" +
-        "</div>";
-    } else {
-        return "<div class='text-center' style='display:flex;'>" +
-        "<input type='checkbox' id='horns_" + id + "' name='horns_" + id + "' style='margin: 5px 10px 0px 10px;'/><span>(NA)</span> " +
-        // "<textarea id='story_" + id + "' name='story_" + id + "' rows='1' cols='25' style='display:none'></textarea>" +
-        "</div>";
-    }
-
-}
-
 
 function fnDrawTableAssessmentForm() { /* ด้านการข่าว */
     var strHTML = "";
@@ -135,7 +117,7 @@ function fnDrawTableAssessmentForm() { /* ด้านการข่าว */
                 if (result[i].description) {
                     strHTML += "<tr style='width: 50%;'><td>" + result[i].text + "<br>&emsp;&emsp;&emsp;&emsp;" + (result[i].description || '') + "</td><td></td></tr>";
                 } else {
-                    strHTML += "<tr style='width: 50%;'><td>&emsp;&emsp;&emsp;&emsp;" + result[i].text + "</td><td>" + createTextAreaAndButton(result[i].id) + "</td></tr>";
+                    strHTML += "<tr style='width: 50%;'><td>&emsp;&emsp;&emsp;&emsp;" + result[i].text + "</td><td>" + fnCreateTextAreaAndButton(result[i].id) + "</td></tr>";
                 }
             }
         }
@@ -145,21 +127,55 @@ function fnDrawTableAssessmentForm() { /* ด้านการข่าว */
     /* $("#dvTableReportAssessment")[0].innerHTML = strHTML; */
 }
 
-
-function createTextAreaAndButton(id) {
+function fnCreateTextAreaAndButton(id) {
     return "<div style='display:flex;'>" +
     "<textarea id='comment_" + id + "' name='comment_" + id + "' rows='1' cols='30'></textarea>" +
-    "<button class='btn btn-secondary' type='submit' id='submitButton" + id + "' onclick='submitText(" + id + ")'>ยืนยัน</button>" +
+    "<button class='btn btn-secondary' type='submit' id='submitButton" + id + "' onclick='fnSubmitText(" + id + ")'>ยืนยัน</button>" +
     "<p class='text-left' id='displayText" + id + "'></p>" +
     "</div>"
 }
 
 /* ฟังก์ชันสำหรับการยืนยันข้อความ */
-function submitText(id) {
+function fnSubmitText(id) {
     var textarea = document.getElementById('comment_' + id);
     var button = document.getElementById('submitButton' + id);
     var displayText = document.getElementById('displayText' + id);
     var tab = '&emsp;&emsp;&emsp;&emsp;'
+
+    if (textarea.value) {
+        displayText.innerHTML = tab + textarea.value;
+
+        /* ซ่อน textarea และปุ่ม */
+        textarea.style.display = 'none';
+        button.style.display = 'none';  
+    } else {
+        alert('กรุณากรอกข้อมูล')
+    }
+
+}
+
+function fnDrawDivEvaluation() {
+    var strHTML = ''
+    strHTML += " <div class='dvEvaluation'>ผลการประเมินโดยรวม</div> "
+    strHTML += " <div> "
+    strHTML += " <textarea id='commentEvaluation' name='commentEvaluation' rows='5' cols='83'></textarea> "
+    strHTML += " </div> "
+    strHTML += " <div class='text-end'> "
+    strHTML += " <button class='btn btn-secondary' type='submit' id='submitButtonCommentEvaluation' onclick='fnSubmitTextCommentEvaluation()' style='width: 100px;'>ยืนยัน</button> "
+    strHTML += " </div> "
+    strHTML += " <div class='text-start'> "
+    strHTML += " <span id='displayTextCommentEvaluation'></span> "
+    strHTML += " </div> "
+    // strHTML += " <span id='spanResultEvaluation'> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;สตน.ทร. มีการควบคุมภายในครบทั้ง ๕ องค์ประกอบ ๑๗ หลักการ โดยแต่ละองค์ประกอบมีกิจกรรมการควบคุมภายในอยู่หลายประเภท ตามลักษณะกิจกรรมที่มีความเสี่ยงที่อาจจะเกิดขึ้น โดย สตน.ทร.ได้กำหนดวิธีการจัดการและควบคุมความเลี่ยงไว้อย่างเหมาะสม ครอบคลุมทุกกิจกรรมตามแผนปฏิบัติงานของหน่วย และเป็นไปตามหลักเกณฑ์กระทรวงการคลังว่าด้วยมาตรฐานและหลักเกณฑ์ปฏิบัติการควบคุมภายใน สำหรับหน่วยงานของรัฐ พ.ศ.๒๕๖๑</span> "
+    
+    return strHTML
+}
+
+function fnSubmitTextCommentEvaluation(id) {
+    var textarea = document.getElementById('commentEvaluation');
+    var button = document.getElementById('submitButtonCommentEvaluation');
+    var displayText = document.getElementById('displayTextCommentEvaluation');
+    var tab = '&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;'
 
     if (textarea.value) {
         displayText.innerHTML = tab + textarea.value;

@@ -49,12 +49,8 @@ function fnSetSidebarMenuConTrol(namePages){
 
 function fnCreateBtnTabForm (namePages) {
     var strHTML = ""
-    var menuItemsMain = [
-        { page: 'Questionnaire', text: 'แบบสอบถาม'},
-        { page: 'AssessmentForm', text: 'แบบประเมิน'},
-        { page: 'PerformanceEVForm', text: 'แบบ ปม.'}
-    ];
-    if (namePages == 'Appointment'  || namePages == 'reportAssessment') {
+    var menuItems = []
+    if (namePages == 'Appointment') {
         strHTML += " <button type='button' class='btn btn-primary' onclick='fnGetDataModal()' data-bs-toggle='modal' data-bs-target='#AssessmentModal' > "
         strHTML += " <span class='las la-plus'></span> "
         strHTML += " นำเข้าข้อมูล "
@@ -66,9 +62,21 @@ function fnCreateBtnTabForm (namePages) {
         strHTML += " สร้างแบบฟอร์ม "
         strHTML += " </button> "
         strHTML += " <ul class='dropdown-menu'> "
-
-        for (var i = 0; i < menuItemsMain.length; i++) {
-            var menuItemA = menuItemsMain[i];
+        if (namePages == 'reportAssessment') { // เอกสารปลายน้ำ
+            menuItems = [
+                { page: 'Questionnaire', text: 'แบบสอบถาม'},
+                { page: 'AssessmentForm', text: 'แบบประเมิน'},
+                { page: 'PerformanceEVForm', text: 'แบบ ปม.'}
+            ];
+        } else { // เอกสารต้นน้ำ
+            menuItems = [
+                { page: 'Questionnaire', text: 'แบบสอบถาม'},
+                { page: 'AssessmentForm', text: 'แบบประเมิน'},
+                { page: 'PerformanceEVForm', text: 'แบบ ปม.'}
+            ];
+        }
+        for (var i = 0; i < menuItems.length; i++) {
+            var menuItemA = menuItems[i];
             // var isActive = (namePages === menuItemA.page) ? ' active' : '';
             strHTML += `<li><a class='dropdown-item text-center' href='${menuItemA.page}.php' target='_blank'>${menuItemA.text}</a></li>`        
         }

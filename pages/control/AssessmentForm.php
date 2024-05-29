@@ -91,6 +91,11 @@ table p {
 textarea {
     margin-right: 5px;
 }
+.dvFooterForm {
+    width: 100%;
+    text-align: center;
+    margin-top: 5%;
+}
     </style>
     <title>แบบฟอร์มประเมิน</title>
 </head>

@@ -23,10 +23,13 @@ function fnDrawTableForm(access,objData,engName) {
      // Get data selete before create table 
     var strHTML = ''
     var data = objData
-    var NameUnit = 'ขว.บก.ทรภ.๒'
+    var NameUnit = 'สตน.ทร.'
+    var currentYear = new Date().getFullYear();
+    var currentThaiYear = currentYear + 543;
+    var DateFix = 'ณ วันที่ ๓๐ เดือน กันยายน ' + convertToThaiNumerals(currentThaiYear)
     strHTML += " <div class='title'>หน่วยงาน......." + NameUnit +  ".......</div> "
-    strHTML += " <div class='title'>แบบประเมินการควบคุมภายใน</div> "
-    strHTML += " <div class='title'>ภารภิจ/โครงการ/กิจกรรม/กระบวนงาน......." + objData[0].mainControl + ".......</div> "
+    strHTML += " <div class='title'>รายงานการประเมินผลการควบคุมภายใน</div> "
+    strHTML += " <div class='title'>สำหรับระยะเวลาดำเนินงานสิ้นสุด" + DateFix + " </div> "
     strHTML += " <div class='a4-size'> "
     strHTML += "<table id='tb_" + objData[0].enControl + "'>"
     strHTML += "<thead>"

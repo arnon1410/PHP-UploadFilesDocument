@@ -13,7 +13,7 @@
     <script src='../../script/bootstarp/js/popper.min.js'></script>
     <script src='../../script/bootstarp/js/bootstrap.min.js'></script> 
     <style>
-    body {
+        body {
     font-family: 'Sarabun', sans-serif;
     display: grid;
     justify-content: center;
@@ -38,12 +38,13 @@
     font-size: 18px;
     margin-bottom: 10px;
 }
-.textSum {
+.dvEvaluation {
+    font-weight: bold;
     font-size: 18px;
     margin-top: 20px;
 }
 .dvSignature {
-    margin-top: 10px;
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -74,99 +75,29 @@ th {
     top: 0;
     z-index: 1;
 }
-.hidden {
-    display: none;
-}
-p {
-    margin-bottom: 0 !important; 
-}
 .dvFooterForm {
-    width: 100%;
-    text-align: center;
-    margin-top: 5%;
-}
-</style>
-    <title>แบบสอบถาม</title>
+            width: 100%;
+            text-align: center;
+            margin-top: 5%;
+        }
+    </style>
+    <title>รายงานการประเมินผล</title>
 </head>
 <body>
-    <div id='dvFormReport'>
-        <!-- Content -->
+    <div id='dvFormReportAssessment'>
+       
     </div>
-
 </body>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src='../../script/jquery/jquery-3.7.1.js'></script>
     <script src='../../script/bootstarp/js/bootstrap.min.js'></script>
     <script src='../../script/centerFile.js'></script>
-    <script src='../../script/control/7sides/drawTableFormNews.js'></script>
+    <script src='../../script/control/7sides/drawTableFormPK4.js'></script>
 <script>
     $(document).ready(function() {
         fnGetDataInternalControl()
-
-            /* input checkbox*/
-    // $('input[type="checkbox"]').on('click', function() {
-    //     var checkbox = $(this);
-    //     var label = $('label[for="' + checkbox.attr('id') + '"]');
-
-    //     var checkboxes = $(this).closest('tr').find('input[type="checkbox"]');
-
-    //     checkboxes.each(function() {
-    //             if ($(this).prop('checked') && this !== event.target) {
-    //                 $(this).prop('checked', false);
-    //             }
-    //         });
-    //     });
-        
-        // if (checkbox.is(':checked')) {
-        //     checkbox.addClass('hidden');
-        //     label.removeClass('hidden');
-        // } else {
-        //     checkbox.removeClass('hidden');
-        //     label.addClass('hidden');
-        // }
-
-    $('input[type="checkbox"]').click(function(event) {
-        var checkboxes = $(this).closest('tr').find('input[type="checkbox"]');
-        //เช็คเพิ่ม กรณีของสรุป
-        checkboxes.not(this).prop('checked', false); // ยกเลิก Checkbox อื่นทั้งหมดในแถวเดียวกัน
     });
-    $('#checkButton').click(function() {
-        var checkedColumns = [];
-
-        var rows = $('table tr').slice(1); // ไม่นับแถวหัวข้อ
-        
-        var uncheckedRows = [];
-        rows.each(function() {
-            var checkboxes = $(this).find('input[type="checkbox"]');
-            var isChecked = false;
-            
-            checkboxes.each(function() {
-                if ($(this).prop('checked')) {
-                    isChecked = true;
-                    return false; // ออกจากการวน loop ของ checkboxes
-                }
-            });
-            
-            if (!isChecked) {
-                uncheckedRows.push($(this).index() + 1); // เก็บหมายเลขแถวที่ไม่ได้เช็ค
-            }
-        });
-            
-        if (uncheckedRows.length > 0) {
-            alert('กรุณาเลือก checkbox ในแถวที่: ' + uncheckedRows.join(', '));
-        } else { // ติ้กถูกหมดแล้ว
-            $('input[type="checkbox"]:checked').each(function() {
-                $(this).hide(); // ซ่อน input ที่ถูกกด
-                $(this).siblings('label').show(); // แสดง label ในช่องนั้น
-            });
-            var uncheckedCheckboxes = $('input[type="checkbox"]:not(:checked)');
-            
-        }
-    });
-});
-
-
 
     /* input Modal*/
     $('input[type=radio][name=flexRadioDefault]').change(function() {
@@ -179,9 +110,9 @@ p {
 
     function fnGetDataInternalControl() {
         const data = [
-            {id: '1' , mainControl: 'ด้านการข่าว', listControl: 'แบบสอบถาม' , enControl:'news'},
-            {id: '2' , mainControl: 'ด้านการข่าว', listControl: 'แบบประเมินฯ', enControl:'news'},
-            {id: '3' , mainControl: 'ด้านการข่าว', listControl: 'แบบ ปม.', enControl:'news'}
+            {id: '1' , mainControl: 'รายงานการประเมินผล', listControl: 'แบบ ปค.๔'},
+            {id: '2' , mainControl: 'รายงานการประเมินผล', listControl: 'แบบ ปค.๕'},
+            {id: '3' , mainControl: 'รายงานการประเมินผล', listControl: 'แบบติดตาม ปค.๕'}
         ]
 
         /* start ส่วนของสิทธิผู้ใช้งาน */
@@ -199,7 +130,7 @@ p {
         }
        
         // call data 
-        fnDrawTableForm(valAccess, data, data[0].enControl)
+        fnDrawTableForm(valAccess, data)
         return data
     }      
 </script>

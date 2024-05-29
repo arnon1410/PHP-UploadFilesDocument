@@ -33,6 +33,16 @@
             text-align: center !important;
             font-weight: 550 !important;
         }
+        .rotate-90 {
+            transform: rotate(270deg);
+            /* transform-origin: left top; */
+            display: inline-block;
+        }
+        #rHeader {
+            padding: 0 !important;
+            width: 1px;
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body>
@@ -40,14 +50,16 @@
 <div class="container">
     <table class="table table-bordered table-responsive" id="rMatrix">
         <thead>
-            <tr id="headerRow">
+            <!-- <tr id="headerRow">
                 <th id="headerCell"></th>
                 <th id="headerColspan"></th>
-            </tr>
+            </tr> -->
         </thead>
         <tbody>
             <tr id="row5">
-                <td id="rHeader" rowspan="5" style="text-align:center">LIKELIHOOD OF EVENT HAPPENING</td>
+                <td id="rHeader"  rowspan="6" style="text-align:center">
+                    <span class='rotate-90'>ผลกระทบความเสี่ยง</span>
+                </td>
                 <!-- <td id="col5" style="min-width:50px">5</td> -->
                 <td id="col4" class="M">5</td>
                 <td id="col3" class="H">10</td>
@@ -88,8 +100,8 @@
                 <td id="col0_24" class="M">5</td>
             </tr>
             <tr id="footerRow">
-                <td id="footerCell"></td>
-                <td id="footer"></td>
+                <td colspan='6' id="footerCell" style='text-align: center;'>โอกาสที่เกิดความเสี่ยง</td>
+                <!-- <td id="footer"></td> -->
             </tr>
         </tbody>
     </table>
