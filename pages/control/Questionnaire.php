@@ -6,6 +6,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
     <link href='https://fonts.googleapis.com/css2?family=Sarabun&display=swap' rel='stylesheet'>
     <link rel='stylesheet' href='../../css/control/formReport.css' />
+    <link rel="stylesheet" href="../../css/sweetalert2/sweetalert2.min.css" >
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css'>
 
     <!-- Bootstrap CSS -->
@@ -61,8 +62,8 @@ table {
 th, td {
     border-left: 1px solid black;
     border-right: 1px solid black;
-    border-top: 1px solid black; /*ลบออก */
-    border-bottom: 1px solid black; /*ลบออก */
+   /* border-top: 1px solid black; ลบออก */
+    /*border-bottom: 1px solid black; ลบออก */
     padding: 5px;
     text-align: left;
 }
@@ -79,6 +80,22 @@ th {
 }
 p {
     margin-bottom: 0 !important; 
+}
+.dvEvaluation {
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+.dvSignature {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 16px;
+}
+.dvSignature > div {
+    width: 250px; /* ปรับขนาดของ div เพื่อให้จุดเท่ากัน */   
 }
 .dvFooterForm {
     width: 100%;
@@ -98,6 +115,7 @@ p {
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src='../../script/jquery/jquery-3.7.1.js'></script>
     <script src='../../script/bootstarp/js/bootstrap.min.js'></script>
+    <script src='../../script/sweetalert2/sweetalert2.all.min.js'></script>
     <script src='../../script/centerFile.js'></script>
     <script src='../../script/control/7sides/drawTableFormNews.js'></script>
 <script>

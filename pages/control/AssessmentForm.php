@@ -91,6 +91,27 @@ table p {
 textarea {
     margin-right: 5px;
 }
+.dvEvaluation {
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+.dvSignature {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 16px;
+}
+.dvSignature > div {
+    width: 250px; /* ปรับขนาดของ div เพื่อให้จุดเท่ากัน */   
+}
+.dvFooterForm {
+    width: 100%;
+    text-align: center;
+    margin-top: 5%;
+}
 .dvFooterForm {
     width: 100%;
     text-align: center;

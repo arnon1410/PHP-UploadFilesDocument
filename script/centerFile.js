@@ -63,7 +63,17 @@ function fnGetAllUrlParams(url) {
     return obj;
 }
 
-function convertToThaiNumerals(number) {
+function fnStringToInt(str) {
+    return parseInt(str, 10);
+}
+
+function fnConvertToThaiNumerals(number) {
     const thaiNumerals = ['๐', '๑', '๒', '๓', '๔', '๕', '๖', '๗', '๘', '๙'];
     return number.toString().split('').map(digit => thaiNumerals[digit]).join('');
+}
+
+function fnConvertToArabicNumerals(thaiNumber) {
+    const arabicNumerals = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    const thaiNumerals = ['๐', '๑', '๒', '๓', '๔', '๕', '๖', '๗', '๘', '๙'];
+    return thaiNumber.split('').map(digit => arabicNumerals[thaiNumerals.indexOf(digit)]).join('');
 }

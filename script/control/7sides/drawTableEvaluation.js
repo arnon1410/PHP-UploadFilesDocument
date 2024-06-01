@@ -14,7 +14,7 @@ function fnDrawTableForm(access,objData) {
     var NameUnit = 'สตน.ทร.'
     var currentYear = new Date().getFullYear();
     var currentThaiYear = currentYear + 543;
-    var DateFix = 'ณ วันที่ ๓๐ เดือน กันยายน ' + convertToThaiNumerals(currentThaiYear)
+    var DateFix = 'ณ วันที่ ๓๐ เดือน กันยายน ' + fnConvertToThaiNumerals(currentThaiYear)
     strHTML += " <div class='title'>หน่วยงาน......." + NameUnit +  ".......</div> "
     strHTML += " <div class='title'>แบบประเมินองค์ประกอบของการควบคุมภายใน" + objData[0].mainControl + "</div> "
     strHTML += " <div class='title'>" + DateFix + "</div> "
@@ -29,9 +29,7 @@ function fnDrawTableForm(access,objData) {
     strHTML += fnDrawTableAssessmentForm()
     strHTML += "</tbody>"
     strHTML += "</table>"
-    strHTML += " <div class='textSum'><b>ผลการประเมินโดยรวม</b></div> "
-    strHTML += " <div> "
-    strHTML += " <span> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;สตน.ทร. มีการควบคุมภายในครบทั้ง๕ องค์ประกอบ ๑๗ หลักการ โดยแต่ละองค์ประกอบมีกิจกรรมการควบคุมภายในอยู่หลายประเภท ตามลักษณะกิจกรรมที่มีความเสี่ยงที่อาจจะเกิดขึ้น โดย สตน.ทร.ได้กำหนดวิธีการจัดการและควบคุมความเลี่ยงไว้อย่างเหมาะสม ครอบคลุมทุกกิจกรรมตามแผนปฏิบัติงานของหน่วย และเป็นไปตามหลักเกณฑ์กระทรวงการคลังว่าด้วยมาตรฐานและหลักเกณฑ์ปฏิบัติการควบคุมภายใน สำหรับหน่วยงานของรัฐ พ.ศ.๒๕๖๑</span> "
+    strHTML += fnDrawCommentDivEvaluation()
     strHTML += " <div class='dvSignature'> "
     strHTML += " <div>ผู้ประเมิน..............................................</div> "
     strHTML += " <div>ตำแหน่ง................................................</div> "
@@ -40,8 +38,8 @@ function fnDrawTableForm(access,objData) {
     strHTML += " </div> "
 
     strHTML += " <div class='dvFooterForm'> "
-    strHTML += "    <button type='button' class='btn btn-primary' id='btnSaveData'>บันทึกฉบับร่าง</button>"
-    strHTML += "    <button type='button' class='btn btn-success' id='btnExportPDF'>Export PDF</button>"
+    strHTML += "    <button type='button' class='btn btn-primary' id='btnSaveData' onclick='fnSaveDraftDocument()'>บันทึกฉบับร่าง</button>"
+    strHTML += "    <button type='button' class='btn btn-success' id='btnExportPDF' onclick='fnExportDocument()'>Export PDF</button>"
     strHTML += " </div> "
 
    // strHTML += "<button id='checkButton'>เช็คสถานะ</button>"
@@ -168,7 +166,92 @@ function submitText(id) {
         textarea.style.display = 'none';
         button.style.display = 'none';  
     } else {
-        alert('กรุณากรอกข้อมูล')
+        Swal.fire({
+            title: "",
+            text: "กรุณากรอกข้อมูลให้ครบถ้วน",
+            icon: "warning"
+        });
     }
 
+}
+
+function fnDrawCommentDivEvaluation() {
+    var strHTML = ''
+    strHTML += " <div class='dvEvaluation'>ผลการประเมินโดยรวม</div> "
+    strHTML += " <div> "
+    strHTML += " <textarea id='commentEvaluation' name='commentEvaluation' rows='5' cols='83'></textarea> "
+    strHTML += " </div> "
+    strHTML += " <div class='text-end'> "
+    strHTML += " <button class='btn btn-secondary' type='submit' id='submitButtonCommentEvaluation' onclick='fnSubmitTextCommentEvaluation()' style='width: 100px;'>ยืนยัน</button> "
+    strHTML += " </div> "
+    strHTML += " <div class='text-start'> "
+    strHTML += " <span id='displayTextCommentEvaluation'></span> "
+    strHTML += " </div> "
+    // strHTML += " <span id='spanResultEvaluation'> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;สตน.ทร. มีการควบคุมภายในครบทั้ง๕ องค์ประกอบ ๑๗ หลักการ โดยแต่ละองค์ประกอบมีกิจกรรมการควบคุมภายในอยู่หลายประเภท ตามลักษณะกิจกรรมที่มีความเสี่ยงที่อาจจะเกิดขึ้น โดย สตน.ทร.ได้กำหนดวิธีการจัดการและควบคุมความเลี่ยงไว้อย่างเหมาะสม ครอบคลุมทุกกิจกรรมตามแผนปฏิบัติงานของหน่วย และเป็นไปตามหลักเกณฑ์กระทรวงการคลังว่าด้วยมาตรฐานและหลักเกณฑ์ปฏิบัติการควบคุมภายใน สำหรับหน่วยงานของรัฐ พ.ศ.๒๕๖๑</div></span> "
+    
+    return strHTML
+}
+
+function fnSubmitTextCommentEvaluation(id) {
+    var textarea = document.getElementById('commentEvaluation');
+    var button = document.getElementById('submitButtonCommentEvaluation');
+    var displayText = document.getElementById('displayTextCommentEvaluation');
+    var tab = '&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;'
+
+    if (textarea.value) {
+        displayText.innerHTML = tab + textarea.value;
+
+        /* ซ่อน textarea และปุ่ม */
+        textarea.style.display = 'none';
+        button.style.display = 'none';  
+    } else {
+        Swal.fire({
+            title: "",
+            text: "กรุณากรอกข้อมูลให้ครบถ้วน",
+            icon: "warning"
+        });
+    }
+
+}
+
+function fnSaveDraftDocument() {
+    Swal.fire({
+        title: "",
+        text: "คุณต้องการบันทึกฉบับร่างใช่หรือไม่?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "บันทึกข้อมูล",
+        cancelButtonText: "ยกเลิก"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: "",
+            text: "บันทึกข้อมูลสำเร็จ",
+            icon: "success"
+          });
+        }
+      });
+}
+
+function fnExportDocument() {
+    Swal.fire({
+        title: "",
+        text: "คุณต้องการ Export เอกสารใช่หรือไม่?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "บันทึกข้อมูล",
+        cancelButtonText: "ยกเลิก"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: "",
+            text: "บันทึกข้อมูลสำเร็จ",
+            icon: "success"
+          });
+        }
+      });
 }

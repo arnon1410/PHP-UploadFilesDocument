@@ -6,6 +6,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
     <link href='https://fonts.googleapis.com/css2?family=Sarabun&display=swap' rel='stylesheet'>
     <link rel='stylesheet' href='../../css/control/formReport.css' />
+    <link rel="stylesheet" href="../../css/sweetalert2/sweetalert2.min.css" >
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css'>
 
     <!-- Bootstrap CSS -->
@@ -159,6 +160,9 @@
             text-align: center;
             margin-top: 5%;
         }
+        textarea {
+            margin-right: 0px !important;
+        }
     </style>
 
     <title>แบบ ปม.</title>
@@ -177,6 +181,7 @@
             <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
         </div>
         <div class='modal-body'>
+        <input type="hidden" id="InputChanceRiskHide" value=''>
         <table class="table table-bordered">
             <thead class="table-dark">
                 <tr>
@@ -191,14 +196,14 @@
                     <td class='text-center' contenteditable="true">สูงมาก</td>
                     <td class='text-center' contenteditable="true">มากกว่า 20 ครั้ง/ปี</td>
                     <td class='text-center'>
-                        <input type="radio" name="rowSelect" value="5"> 5
+                        <input type="radio" id="inputValChanceRisk5" name="inputValChanceRisk" value="5"> 5
                     </td>
                 </tr>
                 <tr>
                     <td class='text-center' contenteditable="true">สูง</td>
                     <td class='text-center' contenteditable="true">11 - 20 ครั้ง/ปี</td>
                     <td class='text-center'>
-                        <input type="radio" name="rowSelect" value="4"> 4
+                        <input type="radio" id="inputValChanceRisk4" name="inputValChanceRisk" value="4"> 4
                     </td>
                 </tr>
                 <tr>
@@ -206,7 +211,7 @@
                     <td class='text-center' contenteditable="true">ปานกลาง</td>
                     <td class='text-center' contenteditable="true">6 - 10 ครั้ง/ปี</td>
                     <td class='text-center'>
-                        <input type="radio" name="rowSelect" value="3"> 3
+                        <input type="radio" id="inputValChanceRisk3" name="inputValChanceRisk" value="3"> 3
                     </td>
                 </tr>
                 <tr>
@@ -214,14 +219,14 @@
                     <td class='text-center' contenteditable="true">น้อย</td>
                     <td class='text-center' contenteditable="true">3 - 5 ครั้ง/ปี</td>
                     <td class='text-center'>
-                        <input type="radio" name="rowSelect" value="2"> 2
+                        <input type="radio" id="inputValChanceRisk2" name="inputValChanceRisk" value="2"> 2
                     </td>
                 </tr>
                 <tr>
                     <td class='text-center' contenteditable="true">น้อยมาก</td>
                     <td class='text-center' contenteditable="true">3 ครัั้ง/ปี</td>
                     <td class='text-center'>
-                        <input type="radio" name="rowSelect" value="1"> 1
+                        <input type="radio" id="inputValChanceRisk1" name="inputValChanceRisk" value="1"> 1
                     </td>
                 </tr>
             </tbody>
@@ -229,7 +234,7 @@
             </div>
         <div class='modal-footer'>
             <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>ยกเลิก</button>
-            <button type='button' class='btn btn-primary'>บันทึกข้อมูล</button>
+            <button type='button' class='btn btn-primary' onclick='fnSaveChanceRiskModal(this)'>บันทึกข้อมูล</button>
         </div>
         </div>
     </div>
@@ -244,6 +249,7 @@
             <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
         </div>
         <div class='modal-body'>
+        <input type="hidden" id="InputEffectRiskHide">
         <table class="table table-bordered">
             <thead class="table-dark">
                 <tr>
@@ -258,14 +264,14 @@
                     <td class='text-center'>สูงมาก</td>
                     <td class='text-center' contenteditable="true">มากกว่า 10 ล้านบาท</td>
                     <td class='text-center'>
-                        <input type="radio" name="rowSelect" value="5"> 5
+                        <input type="radio" id="inputValEffectRisk5" name="inputValEffectRisk" value="5"> 5
                     </td>
                 </tr>
                 <tr>
                     <td class='text-center'>สูง</td>
                     <td class='text-center' contenteditable="true">ระหว่าง 5 แสนบาท - 10 ล้าน</td>
                     <td class='text-center'>
-                        <input type="radio" name="rowSelect" value="4"> 4
+                        <input type="radio" id="inputValEffectRisk4" name="inputValEffectRisk" value="4"> 4
                     </td>
                 </tr>
                 <tr>
@@ -273,7 +279,7 @@
                     <td class='text-center'>ปานกลาง</td>
                     <td class='text-center' contenteditable="true">ระหว่าง 1 แสนบาท - 5 แสนบาท</td>
                     <td class='text-center'>
-                        <input type="radio" name="rowSelect" value="3"> 3
+                        <input type="radio" id="inputValEffectRisk3" name="inputValEffectRisk" value="3"> 3
                     </td>
                 </tr>
                 <tr>
@@ -281,14 +287,14 @@
                     <td class='text-center'>น้อย</td>
                     <td class='text-center' contenteditable="true">ระหว่าง 1 หมื่นบาท - 1 แสนบาท</td>
                     <td class='text-center'>
-                        <input type="radio" name="rowSelect" value="2"> 2
+                        <input type="radio" id="inputValEffectRisk2" name="inputValEffectRisk" value="2"> 2
                     </td>
                 </tr>
                 <tr>
                     <td class='text-center'>น้อยมาก</td>
                     <td class='text-center' contenteditable="true">น้อยกว่า 1 หมื่นบาท</td>
                     <td class='text-center'>
-                        <input type="radio" name="rowSelect" value="1"> 1
+                        <input type="radio" id="inputValEffectRisk1" name="inputValEffectRisk" value="1"> 1
                     </td>
                 </tr>
             </tbody>
@@ -296,7 +302,7 @@
             </div>
         <div class='modal-footer'>
             <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>ยกเลิก</button>
-            <button type='button' class='btn btn-primary'>บันทึกข้อมูล</button>
+            <button type='button' class='btn btn-primary' onclick='fnSaveEffectRiskModal(this)'>บันทึกข้อมูล</button>
         </div>
         </div>
     </div>
@@ -311,6 +317,14 @@
             <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
         </div>
         <div class='modal-body'>
+        <!-- เก็บค่า ระดับความเสี่ยง -->
+        <input type="hidden" id="InputValueChanceRisk1">
+        <input type="hidden" id="InputValueEffectRisk1">
+        <input type="hidden" id="InputValueChanceRisk2">
+        <input type="hidden" id="InputValueEffectRisk2">
+        <input type="hidden" id="InputValueChanceRisk3">
+        <input type="hidden" id="InputValueEffectRisk3">
+
         <table class="table table-bordered table-responsive" id="rMatrix">
         <thead>
         </thead>
@@ -319,39 +333,39 @@
                 <td id="rHeader"  rowspan="6" style="text-align:center">
                     <span class='rotate-90'>ผลกระทบความเสี่ยง</span>
                 </td>
-                <td id="col4" class="M">5</td>
-                <td id="col3" class="H">10</td>
-                <td id="col2" class="H">15</td>
-                <td id="col1" class="VH">20</td>
-                <td id="col0" class="VH">25</td>
+                <td id="col1" class="M">5</td>
+                <td id="col2" class="H">10</td>
+                <td id="col3" class="H">15</td>
+                <td id="col4" class="VH">20</td>
+                <td id="col5" class="VH">25</td>
             </tr>
             <tr id="row4">
-                <td id="col4_2" class="M">4</td>
-                <td id="col3_3" class="M">8</td>
-                <td id="col2_4" class="H">12</td>
-                <td id="col1_5" class="VH">16</td>
-                <td id="col0_6" class="VH">20</td>
+                <td id="col1" class="M">4</td>
+                <td id="col2" class="M">8</td>
+                <td id="col3" class="H">12</td>
+                <td id="col4" class="VH">16</td>
+                <td id="col5" class="VH">20</td>
             </tr>
             <tr id="row3">
-                <td id="col4_8" class="L">3</td>
-                <td id="col3_9" class="M">6</td>
-                <td id="col2_10" class="M">9</td>
-                <td id="col1_11" class="H">12</td>
-                <td id="col0_12" class="H">15</td>
+                <td id="col1" class="L">3</td>
+                <td id="col2" class="M">6</td>
+                <td id="col3" class="M">9</td>
+                <td id="col4" class="H">12</td>
+                <td id="col5" class="H">15</td>
             </tr>
             <tr id="row2">
-                <td id="col4_14" class="L">2</td>
-                <td id="col3_15" class="L">4</td>
-                <td id="col2_16" class="M">6</td>
-                <td id="col1_17" class="M">8</td>
-                <td id="col0_18" class="H">10</td>
+                <td id="col1" class="L">2</td>
+                <td id="col2" class="L">4</td>
+                <td id="col3" class="M">6</td>
+                <td id="col4" class="M">8</td>
+                <td id="col5" class="H">10</td>
             </tr>
             <tr id="row1">
-                <td id="col4_20" class="L">1</td>
-                <td id="col3_21" class="L">2</td>
-                <td id="col2_22" class="L">3</td>
-                <td id="col1_23" class="M">4</td>
-                <td id="col0_24" class="M">5</td>
+                <td id="col1" class="L">1</td>
+                <td id="col2" class="L">2</td>
+                <td id="col3" class="L">3</td>
+                <td id="col4" class="M">4</td>
+                <td id="col5" class="M">5</td>
             </tr>
             <tr id="footerRow">
                 <td colspan='6' id="footerCell">โอกาสที่เกิดความเสี่ยง</td>
@@ -371,12 +385,21 @@
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src='../../script/jquery/jquery-3.7.1.js'></script>
     <script src='../../script/bootstarp/js/bootstrap.min.js'></script>
+    <script src='../../script/sweetalert2/sweetalert2.all.min.js'></script>
     <script src='../../script/centerFile.js'></script>
     <script src='../../script/control/7sides/drawTablePerformanceNews.js'></script>
 <script>
     $(document).ready(function() {
         fnGetDataInternalControl()
-        fnDrawTableMatrix() 
+        fnDrawTableMatrix()
+        
+        $('#launchModalButton').click(function() {
+            var testValue = 'test';
+            // Set the value to the hidden input
+            $('#hiddenValueInput').val(testValue);
+            // Display the value in the modal
+            $('#modalValueDisplay').text('The value is: ' + testValue);
+        });
 });
 
     function fnGetDataInternalControl() {
@@ -389,9 +412,9 @@
                 objRisk: 'เพื่อให้มีความมั่นใจว่ามีเครื่องมือ/อุปกรณ์ที่มีประสิทธิภาพเพียงพอต่อการปฏิบัติงานด้านการข่าว',
                 risking:'เครื่องมือ/อุปกรณ์ในการรวบรวมข้อมูลด้านการข่าวยังมีความไม่ทันสมัยและมีประสิทธิภาพไม่เพียงพอต่อการปฏิบัติงาน',
                 activityControl: '',
-                chanceRisk: 3,
-                effectRisk: 3,
-                rankRisk: 9,
+                chanceRisk: '', //3
+                effectRisk: '', //3
+                rankRisk: '', //9
                 improvement:'จัดหาเครื่องมือ/อุปกรณ์เพิ่มเติม เพื่อให้การดำเนินการรวบรวมข้อมูลด้านการข่าวมีประสิทธิภาพเพียงพอต่อการปฏิบัติงาน'
 
             },
@@ -402,9 +425,9 @@
                 objRisk: 'เพื่อให้มีความมั่นใจว่าเจ้าหน้าที่ข่าวทุกนายมีความรู้ ความชำนาญและประสบการณ์ในการวิเคราะห์ข่าวสาร',
                 risking:'นักวิเคราะห์ข่าวของชุดปฏิบัติการข่าวยังขาดความรู้ ความชำนาญ และประสบการณ์ ในการวิเคราะห์ข่าวสาร',
                 activityControl: '',
-                chanceRisk: 5,
-                effectRisk: 4,
-                rankRisk: 20,
+                chanceRisk: '', //5
+                effectRisk: '', //4
+                rankRisk: '', //20
                 improvement:'จัดการฝึกอบรมเชิงปฏิบัติการ (Workshop)ให้กับเจ้าหน้าที่ข่าวโดยเน้นให้ผู้เข้ารับการอบรมฝึกปฏิบัติเพื่อเพิ่มทักษะในการวิเคราะห์ข่าวให้มีประสิทธิภาพเกิดความชำนาญในการปฏิบัติงาน ทุก ๆ ๖ เดือนโดยใช้ งป.ของหน่วย'
             },
         ]
@@ -428,22 +451,6 @@
         return data
     }
     
-    function fnDrawTableMatrix() {
-        var rowIndex = 1; // Example index, change as needed
-        var columnIndex = 1; // Example index, change as needed
-        try {
-            if (rowIndex !== undefined && columnIndex !== undefined) {
-                var cell = $('#col0'); // Modify the selector as needed
-                if(cell.length) {
-                    $(cell).addClass('highlight');
-                    console.log('Cell found and highlighted:', cell);
-                } else {
-                    console.warn('Cell not found');
-                }
-            }
-        } catch(ex) {
-            console.error('Error:', ex);
-        }
-    }
+
 </script>
 </html>

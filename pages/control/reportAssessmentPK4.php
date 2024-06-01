@@ -51,9 +51,7 @@
     font-size: 16px;
 }
 .dvSignature > div {
-    width: 250px; /* ปรับขนาดของ div เพื่อให้จุดเท่ากัน */
-    
-    
+    width: 250px; /* ปรับขนาดของ div เพื่อให้จุดเท่ากัน */   
 }
 table {
     width: 100%;

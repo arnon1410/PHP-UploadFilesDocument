@@ -159,9 +159,13 @@
             text-align: center;
             margin-top: 5%;
         }
+        textarea {
+            margin-right: 0px !important;
+        }
+        
     </style>
 
-    <title>แบบ ปค.๕</title>
+    <title>แบบติดตาม ปค.๕</title>
 </head>
 <body>
     <div id='dvFormAssessment'>
@@ -174,7 +178,7 @@
     <script src='../../script/jquery/jquery-3.7.1.js'></script>
     <script src='../../script/bootstarp/js/bootstrap.min.js'></script>
     <script src='../../script/centerFile.js'></script>
-    <script src='../../script/control/7sides/drawTableFormPK5.js'></script>
+    <script src='../../script/control/7sides/drawTableFormFollowPK5.js'></script>
 <script>
     $(document).ready(function() {
         fnGetDataInternalControl()
