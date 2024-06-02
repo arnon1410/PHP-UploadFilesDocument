@@ -11,7 +11,7 @@
         if (empty($email)) {
             $_SESSION['error'] = 'กรุณากรอกอีเมล';
             header("location: signin.php");
-        } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        } else if (!`filter_var`($email, FILTER_VALIDATE_EMAIL)) {
             $_SESSION['error'] = 'รูปแบบอีเมลไม่ถูกต้อง';
             header("location: signin.php");
         } else if (empty($password)) {

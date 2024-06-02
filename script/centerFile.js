@@ -77,3 +77,33 @@ function fnConvertToArabicNumerals(thaiNumber) {
     const thaiNumerals = ['๐', '๑', '๒', '๓', '๔', '๕', '๖', '๗', '๘', '๙'];
     return thaiNumber.split('').map(digit => arabicNumerals[thaiNumerals.indexOf(digit)]).join('');
 }
+
+function fnGetParameterByName(name) {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(window.location.href);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+function fnCheckUserAuthen(authen) {
+    /* start ส่วนของสิทธิผู้ใช้งาน */
+    var valAccess = authen || ''
+    var strAccess = ''
+    var strName = ''
+  
+    if (valAccess)  {
+        if (valAccess == 'admin') {
+            strAccess = " หน่วยตรวจสอบ<span class='las la-chart-line'></span>"
+            strName = "กรมจเรทหารเรือ"
+        } else {
+            strAccess = " หน่วยรับตรวจ<span class='las la-chart-line'></span>"
+            strName = "สำนักงานตรวจสอบภายในทหารเรือ"
+        }
+        document.getElementById("textStatusUser").innerHTML = strAccess
+        document.getElementById("textName").innerHTML = strName
+        /* end ส่วนของสิทธิผู้ใช้งาน */
+    }
+
+}

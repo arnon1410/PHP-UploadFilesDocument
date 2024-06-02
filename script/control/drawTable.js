@@ -33,8 +33,15 @@ function fnDrawTable(access,objData) {
     strHTML += "<td id='No" + data[i].short + (i + 1) + "' class='text-center align-middle' style='width: 5%;'>" + (i + 1) + "<input type='hidden' id='idQuota" + data[i].short + (i + 1) + "' value='"+ data[i].tqsc_id +"'/></td>"
     strHTML += "<td id='mainControl" + data[i].short + (i + 1) + "'  class='text-center align-middle' style='width: 55%;white-space: pre-wrap;'>" + (data[i].mainControl ? (data[i].mainControl) : '-') + "</td>"
     strHTML += "<td id='listControl" + data[i].short + (i + 1) + "'  class='text-center align-middle' style='width: 55%;white-space: pre-wrap;'>" + (data[i].listControl ? (data[i].listControl) : '-') + "</td>"
-    // strHTML += "<td id='status" + data[i].short + (i + 1) + "'  class='text-center align-middle'style='width: 10%; align-middle'>" + (data[i].id ? "<div class='colorCircle'><span class='circle' style='background-color: green;'></span></div>" : '-') + "</td>"
-    strHTML += "<td id='status" + data[i].short + (i + 1) + "'  class='text-center align-middle'style='width: 10%; align-middle'>" + (data[i].id ? "<div class='colorCircle'><span class='badge bg-label-primary me-1'>Active</span></div>" : '-') + "</td>"
+    // 
+    if (data[i].status == 'success') {
+        strHTML += "<td id='status" + data[i].short + (i + 1) + "'  class='text-center align-middle'style='width: 10%; align-middle'>" + (data[i].id ? "<div class='colorCircle'><span class='badge bg-label-success me-1'>ตรวจเรียบร้อย</span></div>" : '-') + "</td>"
+    } else if (data[i].status == 'warning') {
+        strHTML += "<td id='status" + data[i].short + (i + 1) + "'  class='text-center align-middle'style='width: 10%; align-middle'>" + (data[i].id ? "<div class='colorCircle'><span class='badge bg-label-warning me-1'>ส่งใหม่อีกครั้ง</span></div>" : '-') + "</td>"
+    } else {
+        strHTML += "<td id='status" + data[i].short + (i + 1) + "'  class='text-center align-middle'style='width: 10%; align-middle'>" + (data[i].id ? "<div class='colorCircle'><span class='badge bg-label-notprocess me-1'>ยังไม่ดำเนินการ</span></div>" : '-') + "</td>"
+    }
+    // strHTML += "<td id='status" + data[i].short + (i + 1) + "'  class='text-center align-middle'style='width: 10%; align-middle'>" + (data[i].id ? "<div class='colorCircle'><span class='badge bg-label-primary me-1'>Active</span></div>" : '-') + "</td>"
     strHTML += "<td class='text-center align-middle'>"
     strHTML += "<button id='btnEdit" + data[i].short + (i + 1) + "' type='button' class='btn btn-warning'; onclick='fnEditConfig(\"" + team + "\",\"" + data[i].short + (i + 1) + "\")' style='margin-right: 10px;'>"
     strHTML += "<i class='las la-pen' aria-hidden=;'true'></i>"
@@ -56,14 +63,14 @@ strHTML += "</table>"
 }
 
 function fnGetDataModal() {
-    var arrData = fnGetDataRates() // call function get data
+    var arrData = fnGetDataInternalControl() // call function get data
     var strHTML = ''
     var strHTML2 = ''
 
     // draw modal
     strHTML += " <div class='mb-3'> "
     strHTML += " <label for='headCheckTopic' class='lableHead'>หัวข้อที่ตรวจสอบ</label> "
-    strHTML += " <input type='text' class='form-control' id='headCheckTopic' value='"+ arrData[0].MainRates +"' readonly> "
+    strHTML += " <input type='text' class='form-control' id='headCheckTopic' value='"+ arrData[0].mainControl +"' readonly> "
     strHTML += " </div> "
 
     strHTML += " <div class='mb-3'> "
@@ -71,7 +78,7 @@ function fnGetDataModal() {
     strHTML += " <select id='slNameRates' class='form-select' style='width: 466px;white-space: nowrap;'> "
     strHTML += " <option style='width: 100%;white-space: nowrap;' value=''>เลือกรายการที่ตรวจสอบ</option> "
     for (var i = 0; i < arrData.length; i++) {
-        strHTML += "<option style='width: 100%white-space: nowrap;' value='" + arrData[i].id +"'>"+ arrData[i].listRates  +"</option>"
+        strHTML += "<option style='width: 100%white-space: nowrap;' value='" + arrData[i].id +"'>"+ arrData[i].listControl  +"</option>"
     }
     strHTML += " </select> "
     strHTML += " </div> "

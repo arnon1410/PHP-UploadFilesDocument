@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="../../css/control/navbar4.css" />
+    <link rel="stylesheet" href="../../css/sweetalert2/sweetalert2.min.css" >
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css'>   
    
     <!-- Bootstrap CSS -->
@@ -106,7 +107,7 @@
     <script src="../../script/jquery/jquery-3.7.1.js"></script>
     <script src="../../script/bootstarp/js/bootstrap.min.js"></script> 
     <script src="../../script/bootstarp/js/bootstrap.js"></script>
-
+    <script src='../../script/sweetalert2/sweetalert2.all.min.js'></script>
 
     <script src="../../script/centerFile.js"></script>
     <script src="../../script/control/drawTable.js"></script>
@@ -130,9 +131,9 @@
 
     function fnGetDataInternalControl() {
         const data = [
-            {id: '1' , mainControl: 'ด้านกำลังพล', listControl: 'แบบสอบถาม'},
-            {id: '2' , mainControl: 'ด้านกำลังพล', listControl: 'แบบประเมินฯ'},
-            {id: '3' , mainControl: 'ด้านกำลังพล', listControl: 'แบบ ปม.'}
+            {id: '1' , mainControl: 'ด้านกำลังพล', listControl: 'แบบสอบถาม', status:'notImplement'},
+            {id: '2' , mainControl: 'ด้านกำลังพล', listControl: 'แบบประเมินฯ', status:'notImplement'},
+            {id: '3' , mainControl: 'ด้านกำลังพล', listControl: 'แบบ ปม.', status:'notImplement'}
             // {id: '5' , MainRates: 'สาขากำลังพล', headRates: 'สาขากำลังพล', listRates: 'คู่มือปฏิบัติงานประจำตัวประจำตำแหน่ง'},
             // {id: '6' , MainRates: 'สาขากำลังพล', headRates: 'สาขากำลังพล', listRates: 'คำสั่งแต่งตั้งกรรมการพิจารณาบำเหน็จ'},
             // {id: '7' , MainRates: 'สาขากำลังพล', headRates: 'สาขากำลังพล', listRates: 'การทดสอบสมรรถภาพร่างกายประจำปี'},

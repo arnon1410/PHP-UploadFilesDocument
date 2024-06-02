@@ -6,11 +6,11 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css");
 
 :root {
-  --color-main: #8576FF;
-  --main-accent: #A3FFD6;
-  --bg: #7BC9FF;
-  --bg-2: #7BC9FF;
-  --main: #292c6d;
+  --color-main: #35155D;
+  --main-accent: #8CABFF;
+  --bg: #4477CE;
+  --bg-2: #8CABFF;
+  --main: #512B81;
     --shadow: rgba(17, 17, 26, 0.1) 2px 0px 16px;
   }
 * {

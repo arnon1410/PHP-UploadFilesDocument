@@ -6,6 +6,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
     <link href='https://fonts.googleapis.com/css2?family=Sarabun&display=swap' rel='stylesheet'>
     <link rel='stylesheet' href='../../css/control/formReport.css' />
+    <link rel="stylesheet" href="../../css/sweetalert2/sweetalert2.min.css" >
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css'>
 
     <!-- Bootstrap CSS -->
@@ -97,9 +98,9 @@
             word-wrap: break-word; /* หรือคุณสามารถใช้ word-break: break-all; */
             white-space: normal;
         }
-        textarea {
+        /* textarea {
             margin-right: 5px;
-        }
+        } */
 
         /* ส่วน table matrix */
         .highlight {
@@ -173,6 +174,7 @@
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src='../../script/jquery/jquery-3.7.1.js'></script>
     <script src='../../script/bootstarp/js/bootstrap.min.js'></script>
+    <script src='../../script/sweetalert2/sweetalert2.all.min.js'></script>
     <script src='../../script/centerFile.js'></script>
     <script src='../../script/control/7sides/drawTableFormPK5.js'></script>
 <script>
@@ -190,9 +192,9 @@
                 objRisk: 'เพื่อให้มีความมั่นใจว่ามีเครื่องมือ/อุปกรณ์ที่มีประสิทธิภาพเพียงพอต่อการปฏิบัติงานด้านการข่าว',
                 risking:'เครื่องมือ/อุปกรณ์ในการรวบรวมข้อมูลด้านการข่าวยังมีความไม่ทันสมัยและมีประสิทธิภาพไม่เพียงพอต่อการปฏิบัติงาน',
                 activityControl: '',
-                chanceRisk: 3,
-                effectRisk: 3,
-                rankRisk: 9,
+                chanceRisk: '',
+                effectRisk: '',
+                rankRisk: '',
                 improvement:'จัดหาเครื่องมือ/อุปกรณ์เพิ่มเติม เพื่อให้การดำเนินการรวบรวมข้อมูลด้านการข่าวมีประสิทธิภาพเพียงพอต่อการปฏิบัติงาน'
 
             },
@@ -203,9 +205,9 @@
                 objRisk: 'เพื่อให้มีความมั่นใจว่าเจ้าหน้าที่ข่าวทุกนายมีความรู้ ความชำนาญและประสบการณ์ในการวิเคราะห์ข่าวสาร',
                 risking:'นักวิเคราะห์ข่าวของชุดปฏิบัติการข่าวยังขาดความรู้ ความชำนาญ และประสบการณ์ ในการวิเคราะห์ข่าวสาร',
                 activityControl: '',
-                chanceRisk: 5,
-                effectRisk: 4,
-                rankRisk: 20,
+                chanceRisk: '',
+                effectRisk: '',
+                rankRisk: '',
                 improvement:'จัดการฝึกอบรมเชิงปฏิบัติการ (Workshop)ให้กับเจ้าหน้าที่ข่าวโดยเน้นให้ผู้เข้ารับการอบรมฝึกปฏิบัติเพื่อเพิ่มทักษะในการวิเคราะห์ข่าวให้มีประสิทธิภาพเกิดความชำนาญในการปฏิบัติงาน ทุก ๆ ๖ เดือนโดยใช้ งป.ของหน่วย'
             },
         ]

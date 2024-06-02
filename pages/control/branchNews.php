@@ -1,3 +1,12 @@
+<?php 
+
+    session_start();
+    require_once '../../config/db.php';
+    if (!isset($_SESSION['user_login'])) {
+        header('Location: ../../pages/main/signin.php');
+    }
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +14,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="../../css/control/navbar4.css" />
+    <link rel="stylesheet" href="../../css/sweetalert2/sweetalert2.min.css" >
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css'>   
    
     <!-- Bootstrap CSS -->
@@ -31,8 +41,8 @@
         <img src="https://media-exp1.licdn.com/dms/image/C4D03AQF9R2lxnH4fOw/profile-displayphoto-shrink_800_800/0/1639841285929?e=1654128000&v=beta&t=QvocDiNfivbaAzHjsX9fnl9eFa1ZSo4SBHeH4jZANEk" alt="avatar">
       </div>
       <div class="avatar-info">
-        <div class="avatar-text">
-          <h5>กรมจเรทหารเรือ</h5>
+        <div class="avatar-text" style="text-align: center;">
+          <h6 id='textName'></h6>
           <small>28-04-67</small>
         </div>
         <!-- <span class="las la-angle-double-right"></span> -->
@@ -99,6 +109,10 @@
             </div>
         </div>
   </main>
+
+  <div class="header-action" id="btnAddData">
+        <!-- Content -->
+    </div>
 </div>
 </body>
     <!-- Optional JavaScript -->
@@ -106,7 +120,7 @@
     <script src="../../script/jquery/jquery-3.7.1.js"></script>
     <script src="../../script/bootstarp/js/bootstrap.min.js"></script> 
     <script src="../../script/bootstarp/js/bootstrap.js"></script>
-
+    <script src='../../script/sweetalert2/sweetalert2.all.min.js'></script>
 
     <script src="../../script/centerFile.js"></script>
     <script src="../../script/control/drawTable.js"></script>
@@ -117,6 +131,40 @@
         fnSetSidebarMenuConTrol('branchNews')
         fnCreateBtnTabForm('branchNews')
         fnGetDataInternalControl()
+
+        // ดึงค่าจาก URL parameters หรือจาก sessionStorage ถ้ามีการรีเฟรช
+        var authen = fnGetParameterByName('authen') || sessionStorage.getItem('authen');
+        
+        // ถ้ามีค่า authen จาก URL parameters, เก็บค่าไว้ใน sessionStorage
+        if (fnGetParameterByName('authen')) {
+            sessionStorage.setItem('authen', authen);
+        }
+
+        fnCheckUserAuthen(authen)
+
+        var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+        window.history.pushState({ path: newUrl }, '', newUrl);
+
+        $('#logout').on('click', function(e) {
+            e.preventDefault(); // ป้องกันการเปลี่ยนเส้นทางปกติ
+            
+            Swal.fire({
+                title: '',
+                text: "คุณต้องการออกจากระบบใช่มั้ย?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ยันยืน',
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // เปลี่ยนเส้นทางไปยัง logout.php
+                    sessionStorage.clear();
+                    window.location.href = '../../pages/main/logout.php';
+                }
+            });
+        });
     });
 
     /* input Modal*/
@@ -130,24 +178,12 @@
 
     function fnGetDataInternalControl() {
         const data = [
-            {id: '1' , mainControl: 'ด้านการข่าว', listControl: 'แบบสอบถาม'},
-            {id: '2' , mainControl: 'ด้านการข่าว', listControl: 'แบบประเมินฯ'},
-            {id: '3' , mainControl: 'ด้านการข่าว', listControl: 'แบบ ปม.'}
+            {id: '1' , mainControl: 'ด้านการข่าว', listControl: 'แบบสอบถาม' , status:'notprocess'},
+            {id: '2' , mainControl: 'ด้านการข่าว', listControl: 'แบบประเมินฯ', status:'notprocess'},
+            {id: '3' , mainControl: 'ด้านการข่าว', listControl: 'แบบ ปม.', status:'notprocess'}
         ]
 
-        /* start ส่วนของสิทธิผู้ใช้งาน */
-        var valAccess = fnGetAllUrlParams().authen
-        var strAccess = ''
-        if (valAccess) {
-          if (valAccess == 'user') {
-            strAccess = " หน่วยรับตรวจ<span class='las la-chart-line'></span>"
-        } else {
-            strAccess = " หน่วยตรวจสอบ<span class='las la-chart-line'></span>"
-        }
-
-        document.getElementById("textStatusUser").innerHTML = strAccess
-        /* end ส่วนของสิทธิผู้ใช้งาน */
-        }
+        var valAccess = sessionStorage.getItem('authen') || ''; 
        
         // call data 
             fnDrawTable(valAccess, data)

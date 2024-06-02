@@ -24,7 +24,7 @@ function fnDrawTableForm(access,objData,engName) {
     strHTML += " <div class='text-end'>แบบ ปค.๕</div> "
     strHTML += " <div class='title'>หน่วยงาน......." + NameUnit +  ".......</div> "
     strHTML += " <div class='title'>รายงานการประเมินผลการควบคุมภายใน</div> "
-    strHTML += " <div class='title'>สำหรับระยะเวลาดำเนินงานสิ้นสุด" + DateFix + " </div> "
+    strHTML += " <div class='title'>สำหรับระยะเวลาดำเนินงานสิ้นสุด " + DateFix + " </div> "
     strHTML += " <div class='a4-size'> "
     strHTML += "<table id='tb_" + objData[0].enControl + "'>"
     strHTML += "<thead>"
@@ -56,13 +56,62 @@ function fnDrawTablePerformance(objData) { /* ด้านการข่าว 
     var strHTML = "";
     var team = "test"
     var data = objData
+    // ด้านภารกิจหลัก
+    strHTML += "<tr>"
+    strHTML += "<td id='main1'  class='text-left align-middle' style='width: 30%;white-space: pre-wrap;'>ด้านภารกิจหลัก</td>"
+    strHTML += "<td></td><td></td><td></td><td></td><td></td><td></td>"
+    strHTML += "</tr>"
+    // วัตถุประสงค์
+    strHTML += "<tr>"
+    strHTML += "<td id='mainObjective1'  class='text-left align-middle' style='width: 30%;'>"
+    strHTML += "<div style='text-align: center;'>"
+    strHTML += "    <textarea id='textMainObjective1' name='textMainObjective1' rows='4' cols='30'></textarea> "
+    strHTML += "</div> "
+    strHTML += "<div class='text-end'>"
+    strHTML += "    <button class='btn btn-secondary' type='submit' id='submitButton1' onclick='fnSubmitText()'>ยืนยัน</button>"
+    strHTML += "</div>"
+    strHTML += "<div class='text-start'>"
+    strHTML += "    <span style='white-space: pre-wrap;' id='displayText1'></span>"
+    strHTML += "</div>"
+    strHTML += " </td>"
+    strHTML += "<td></td><td></td><td></td><td></td><td></td><td></td>"
+    strHTML += "</tr>"
+
+    // ด้านภารกิจหลัก
+    strHTML += "<tr>"
+    strHTML += "<td id='policy1'  class='text-left align-middle' style='width: 30%;white-space: pre-wrap;'>ด้านนโยบายสำคัญ</td>"
+    strHTML += "<td></td><td></td><td></td><td></td><td></td><td></td>"
+    strHTML += "</tr>"
+    // วัตถุประสงค์
+    strHTML += "<tr>"
+    strHTML += "<td id='importantPolicy1'  class='text-left align-middle' style='width: 30%;'>"
+    strHTML += "<div style='text-align: center;'>"
+    strHTML += "    <textarea id='textImportantPolicy1' name='textMainObjective1'  rows='4' cols='30'></textarea> "
+    strHTML += "</div> "
+    strHTML += "<div class='text-end'>"
+    strHTML += "    <button class='btn btn-secondary' type='submit' id='submitButton2' onclick='fnSubmitText()'>ยืนยัน</button>"
+    strHTML += "</div>"
+    strHTML += "<div class='text-start'>"
+    strHTML += "    <span style='white-space: pre-wrap;' id='displayText2'></span>"
+    strHTML += "</div>"
+    strHTML += " </td>"
+    strHTML += "<td></td><td></td><td></td><td></td><td></td><td></td>"
+    strHTML += "</tr>"
+
+    // ด้านภารกิจหลัก
+    strHTML += "<tr>"
+    strHTML += "<td id='policy1'  class='text-left align-middle' style='width: 30%;white-space: pre-wrap;'>ด้านภารกิจสนับสนุน</td>"
+    strHTML += "<td></td><td></td><td></td><td></td><td></td><td></td>"
+    strHTML += "</tr>"
+
+     // ด้านภารกิจหลัก
     for (var i = 0; i < data.length; i++) {
         strHTML += "<tr>"
         strHTML += "<td id='headRisk" + (i + 1) + "'  class='text-left align-middle' style='width: 25%;white-space: pre-wrap;'>" + (data[i].headRisk ? (data[i].headRisk) : '-') + "</td>"
         strHTML += "<td id='objRisk" + (i + 1) + "'  class='text-left align-middle' style='width: 20%;white-space: pre-wrap;'>" + (data[i].objRisk ? (data[i].objRisk) : '-') + "</td>"
         strHTML += "<td id='headRisk" + (i + 1) + "'  class='text-left align-middle' style='width: 25%;white-space: pre-wrap;'>" + (data[i].headRisk ? (data[i].headRisk) : '-') + "</td>"
         strHTML += "<td id='objRisk" + (i + 1) + "'  class='text-left align-middle' style='width: 20%;white-space: pre-wrap;'>" + (data[i].objRisk ? (data[i].objRisk) : '-') + "</td>"
-        strHTML += "<td id='headRisk" + (i + 1) + "'  class='text-left align-middle' style='width: 25%;white-space: pre-wrap;'>" + (data[i].headRisk ? (data[i].headRisk) : '-') + "</td>"
+        strHTML += "<td id='headRisk" + (i + 1) + "'  class='text-left align-middle' style='width: 20%;white-space: pre-wrap;'>" + (data[i].headRisk ? (data[i].headRisk) : '-') + "</td>"
         strHTML += "<td id='objRisk" + (i + 1) + "'  class='text-left align-middle' style='width: 20%;white-space: pre-wrap;'>" + (data[i].objRisk ? (data[i].objRisk) : '-') + "</td>"
         strHTML += "<td id='improvement" + (i + 1) + "'  class='text-left align-middle' style='width: 20%;white-space: pre-wrap;'>" + (data[i].improvement ? (data[i].improvement) : '-') + "</td>"
         strHTML += "</tr>"

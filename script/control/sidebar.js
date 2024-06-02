@@ -40,7 +40,7 @@ function fnSetSidebarMenuConTrol(namePages){
     
     strHTML += " <hr class='border-2 border-top border-primary' /> "
     strHTML += " <li class='lineEndTitle'></li> "
-    strHTML += " <li><a href='#' class='nounderline'><span class='las la-sign-out-alt'></span><span>ออกจากระบบ</span></a></li> "
+    strHTML += " <li><a id='logout' href='#' class='nounderline'><span class='las la-sign-out-alt'></span><span>ออกจากระบบ</span></a></li> "
     strHTML += " </ul> "
 
     $("#dvUlSidebarMenu")[0].innerHTML = strHTML
@@ -64,9 +64,9 @@ function fnCreateBtnTabForm (namePages) {
         strHTML += " <ul class='dropdown-menu'> "
         if (namePages == 'reportAssessment') { // เอกสารปลายน้ำ
             menuItems = [
-                { page: 'Questionnaire', text: 'แบบสอบถาม'},
-                { page: 'AssessmentForm', text: 'แบบประเมิน'},
-                { page: 'PerformanceEVForm', text: 'แบบ ปม.'}
+                { page: 'reportAssessmentPK4', text: 'แบบ ปค.๔'},
+                { page: 'reportAssessmentPK5', text: 'แบบ ปค.๕'},
+                { page: 'reportAssessmentFollowPK5', text: 'แบบติดตาม ปค.๕'}
             ];
         } else { // เอกสารต้นน้ำ
             menuItems = [
