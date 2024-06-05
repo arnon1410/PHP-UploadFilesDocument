@@ -11,7 +11,7 @@ function fnDrawTableForm(access,objData) {
      // Get data selete before create table 
     var strHTML = ''
     var data = objData
-    var NameUnit = 'สตน.ทร'
+    var NameUnit = 'จร.ทร'
     var currentYear = new Date().getFullYear();
     var currentThaiYear = currentYear + 543;
     var DateFix = 'ณ วันที่ ๓๐ เดือน กันยายน ' + fnConvertToThaiNumerals(currentThaiYear)
@@ -131,7 +131,7 @@ function fnCreateTextAreaAndButton(id) {
     return "<div style='display:flex;'>" +
     "<textarea id='comment_" + id + "' name='comment_" + id + "' rows='1' cols='30'></textarea>" +
     "<button class='btn btn-secondary' type='submit' id='submitButton" + id + "' onclick='fnSubmitText(" + id + ")'>ยืนยัน</button>" +
-    "<p class='text-left' id='displayText" + id + "'></p>" +
+    "<span class='text-left spanDisplay' id='displayText" + id + "'></span>" +
     "</div>"
 }
 
@@ -140,10 +140,12 @@ function fnSubmitText(id) {
     var textarea = document.getElementById('comment_' + id);
     var button = document.getElementById('submitButton' + id);
     var displayText = document.getElementById('displayText' + id);
-    var tab = '&emsp;&emsp;&emsp;&emsp;'
+    var formattedText = ''
+    var tab = '&emsp;&emsp;'
 
     if (textarea.value) {
-        displayText.innerHTML = tab + textarea.value;
+        formattedText = textarea.value.replace(/\n/g, "<br>");
+        displayText.innerHTML = tab + formattedText;
 
         /* ซ่อน textarea และปุ่ม */
         textarea.style.display = 'none';
@@ -170,7 +172,7 @@ function fnDrawCommentDivEvaluation() {
     strHTML += " <div class='text-start'> "
     strHTML += " <span id='displayTextCommentEvaluation'></span> "
     strHTML += " </div> "
-    // strHTML += " <span id='spanResultEvaluation'> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;สตน.ทร. มีการควบคุมภายในครบทั้ง ๕ องค์ประกอบ ๑๗ หลักการ โดยแต่ละองค์ประกอบมีกิจกรรมการควบคุมภายในอยู่หลายประเภท ตามลักษณะกิจกรรมที่มีความเสี่ยงที่อาจจะเกิดขึ้น โดย สตน.ทร.ได้กำหนดวิธีการจัดการและควบคุมความเลี่ยงไว้อย่างเหมาะสม ครอบคลุมทุกกิจกรรมตามแผนปฏิบัติงานของหน่วย และเป็นไปตามหลักเกณฑ์กระทรวงการคลังว่าด้วยมาตรฐานและหลักเกณฑ์ปฏิบัติการควบคุมภายใน สำหรับหน่วยงานของรัฐ พ.ศ.๒๕๖๑</span> "
+    // strHTML += " <span id='spanResultEvaluation'> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;จร.ทร. มีการควบคุมภายในครบทั้ง ๕ องค์ประกอบ ๑๗ หลักการ โดยแต่ละองค์ประกอบมีกิจกรรมการควบคุมภายในอยู่หลายประเภท ตามลักษณะกิจกรรมที่มีความเสี่ยงที่อาจจะเกิดขึ้น โดย จร.ทร.ได้กำหนดวิธีการจัดการและควบคุมความเลี่ยงไว้อย่างเหมาะสม ครอบคลุมทุกกิจกรรมตามแผนปฏิบัติงานของหน่วย และเป็นไปตามหลักเกณฑ์กระทรวงการคลังว่าด้วยมาตรฐานและหลักเกณฑ์ปฏิบัติการควบคุมภายใน สำหรับหน่วยงานของรัฐ พ.ศ.๒๕๖๑</span> "
     
     return strHTML
 }

@@ -11,7 +11,7 @@ function fnDrawTableForm(access,objData) {
      // Get data selete before create table 
     var strHTML = ''
     var data = objData
-    var NameUnit = 'สตน.ทร.'
+    var NameUnit = 'จร.ทร.'
     var currentYear = new Date().getFullYear();
     var currentThaiYear = currentYear + 543;
     var DateFix = 'ณ วันที่ ๓๐ เดือน กันยายน ' + fnConvertToThaiNumerals(currentThaiYear)
@@ -189,7 +189,7 @@ function fnDrawCommentDivEvaluation() {
     strHTML += " <div class='text-start'> "
     strHTML += " <span  id='displayTextCommentEvaluation'></span> "
     strHTML += " </div> "
-    // strHTML += " <span id='spanResultEvaluation'> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;สตน.ทร. มีการควบคุมภายในครบทั้ง๕ องค์ประกอบ ๑๗ หลักการ โดยแต่ละองค์ประกอบมีกิจกรรมการควบคุมภายในอยู่หลายประเภท ตามลักษณะกิจกรรมที่มีความเสี่ยงที่อาจจะเกิดขึ้น โดย สตน.ทร.ได้กำหนดวิธีการจัดการและควบคุมความเลี่ยงไว้อย่างเหมาะสม ครอบคลุมทุกกิจกรรมตามแผนปฏิบัติงานของหน่วย และเป็นไปตามหลักเกณฑ์กระทรวงการคลังว่าด้วยมาตรฐานและหลักเกณฑ์ปฏิบัติการควบคุมภายใน สำหรับหน่วยงานของรัฐ พ.ศ.๒๕๖๑</div></span> "
+    // strHTML += " <span id='spanResultEvaluation'> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;จร.ทร. มีการควบคุมภายในครบทั้ง๕ องค์ประกอบ ๑๗ หลักการ โดยแต่ละองค์ประกอบมีกิจกรรมการควบคุมภายในอยู่หลายประเภท ตามลักษณะกิจกรรมที่มีความเสี่ยงที่อาจจะเกิดขึ้น โดย จร.ทร.ได้กำหนดวิธีการจัดการและควบคุมความเลี่ยงไว้อย่างเหมาะสม ครอบคลุมทุกกิจกรรมตามแผนปฏิบัติงานของหน่วย และเป็นไปตามหลักเกณฑ์กระทรวงการคลังว่าด้วยมาตรฐานและหลักเกณฑ์ปฏิบัติการควบคุมภายใน สำหรับหน่วยงานของรัฐ พ.ศ.๒๕๖๑</div></span> "
     
     return strHTML
 }

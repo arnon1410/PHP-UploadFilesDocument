@@ -16,7 +16,7 @@ function fnDrawTableForm(access,objData,engName) {
      // Get data selete before create table 
     var strHTML = ''
     var data = objData
-    var NameUnit = 'สตน.ทร.'
+    var NameUnit = 'จร.ทร.'
     var currentYear = new Date().getFullYear();
     var currentThaiYear = currentYear + 543;
     // var DateFix = 'ณ วันที่ ๓๐ เดือน กันยายน ' + fnConvertToThaiNumerals(currentThaiYear)

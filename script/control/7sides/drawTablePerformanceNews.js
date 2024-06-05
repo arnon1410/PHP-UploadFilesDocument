@@ -23,7 +23,7 @@ function fnDrawTableForm(access,objData,engName) {
      // Get data selete before create table 
     var strHTML = ''
     var data = objData
-    var NameUnit = 'สตน.ทร'
+    var NameUnit = 'จร.ทร'
     strHTML += " <div class='title'>หน่วยงาน......." + NameUnit +  ".......</div> "
     strHTML += " <div class='title'>แบบประเมินการควบคุมภายใน</div> "
     strHTML += " <div class='title'>ภารภิจ/โครงการ/กิจกรรม/กระบวนงาน......." + objData[0].mainControl + ".......</div> "
@@ -172,10 +172,12 @@ function fnSubmitText(id) {
     var textarea = document.getElementById('comment_' + id);
     var button = document.getElementById('submitButton' + id);
     var displayText = document.getElementById('displayText' + id);
-    // var tab = '&emsp;&emsp;&emsp;&emsp;'
+    var formattedText = ''
+    var tab = ''
 
     if (textarea.value) {
-        displayText.innerHTML = textarea.value;
+        formattedText = textarea.value.replace(/\n/g, "<br>");
+        displayText.innerHTML = tab + formattedText;
 
         /* ซ่อน textarea และปุ่ม */
         textarea.style.display = 'none';

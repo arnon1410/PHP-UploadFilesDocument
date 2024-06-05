@@ -79,8 +79,11 @@ th {
             text-align: center;
             margin-top: 5%;
         }
+        .spanDisplay{
+            white-space: pre-wrap;
+        }
     </style>
-    <title>รายงานการประเมินผล</title>
+    <title>แบบ ปค.๔</title>
 </head>
 <body>
     <div id='dvFormReportAssessment'>
