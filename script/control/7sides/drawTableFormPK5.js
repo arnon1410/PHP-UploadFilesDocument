@@ -130,7 +130,6 @@ function fnDrawDataInTable(data) {
         const id_sides = (index + 1).toString();
         const foundRisks = data.filter(risk => risk.id_sides === id_sides);
         if (foundRisks.length > 0) {
-            // let headRiskContent = `${side} ${id_sides}:`;
             let headRisksContent = new Set();
             let riskingContent = '';
             let existingControlsContent = '';
@@ -149,11 +148,21 @@ function fnDrawDataInTable(data) {
                     existingControlsContent += `- ${risk.existingControls}<br>`;
                 }
                 if (risk.existingControls) {
-                    rateRiskContent += `- ${risk.rateRisk}<br>`;
+                    rateRiskContent += `- ${risk.existingControls}<br>`;
                 }
-                existingRiskContent += `- ${risk.existingRisk}<br>`;
-                improvementControlContent += `- ${risk.improvementControl}<br>`;
-                responsibleAgencyContent += `- ${risk.responsibleAgency}<br>`;
+                if (risk.existingControls) {
+                    rateRiskContent += `- ${risk.existingControls}<br>`;
+                }
+                if (risk.improvementControl) {
+                    improvementControlContent += `- ${risk.improvementControl}<br>`;
+                }
+                if (risk.responsibleAgencyContent) {
+                    responsibleAgencyContent += `- ${risk.responsibleAgency}<br>`;
+                }
+                if (risk.existingRiskContent) {
+                    responsibleAgencyContent += `- ${risk.existingRisk}<br>`;
+                }
+                
             });
 
             const headRisks = Array.from(headRisksContent).join(', ');
@@ -184,7 +193,7 @@ function fnDrawDataInTable(data) {
             strHTML += " </div> "
             strHTML += "</td>";
 
-            if (riskingContent[0] !== "") {
+            if (riskingContent) {
                 strHTML += "<td class='text-left align-top' style='width: 12%;'>"
                 strHTML += " <div> "
                 strHTML += " <span id='spanRisking" + index + "'>" + riskingContent + "</span> "
@@ -198,7 +207,7 @@ function fnDrawDataInTable(data) {
                 strHTML += " </td>"
             }
 
-            if (existingControlsContent[0] !== "") {
+            if (existingControlsContent) {
                 strHTML += "<td class='text-left align-top' style='width: 12%;>"
                 strHTML += " <div> "
                 strHTML += " <span id='spanExistingControls" + index + "'>" + existingControlsContent + "</span> "
@@ -212,7 +221,7 @@ function fnDrawDataInTable(data) {
                 strHTML += " </td>"
             }
 
-            if (rateRiskContent[0] !== "") {
+            if (rateRiskContent) {
                 strHTML += "<td class='text-left align-top' style='width: 12%;>"
                 strHTML += " <div> "
                 strHTML += " <span id='spanRateRiskContent" + index + "'>" + rateRiskContent + "</span> "
@@ -232,7 +241,7 @@ function fnDrawDataInTable(data) {
                 strHTML += " </td>"
             }
 
-            if (existingRiskContent[0] !== "") {
+            if (existingRiskContent) {
                 strHTML += "<td class='text-left align-top' style='width: 12%;>"
                 strHTML += " <div> "
                 strHTML += " <span id='spanExistingRisk" + index + "'>" + existingRiskContent + "</span> "
@@ -252,7 +261,7 @@ function fnDrawDataInTable(data) {
                 strHTML += " </td>"
             }
 
-            if (improvementControlContent[0] !== "") {
+            if (improvementControlContent) {
                 strHTML += "<td class='text-left align-top' style='width: 12%;>"
                 strHTML += " <div> "
                 strHTML += " <span id='spanImprovementControl" + index + "'>" + improvementControlContent + "</span> "
@@ -265,8 +274,7 @@ function fnDrawDataInTable(data) {
                 strHTML += " </div> "
                 strHTML += " </td>"
             }
-            console.log(responsibleAgencyContent)
-            if (responsibleAgencyContent[0] !== "") {
+            if (responsibleAgencyContent) {
                 strHTML += "<td class='text-left align-top' style='width: 12%;>"
                 strHTML += " <div> "
                 strHTML += " <span id='spanResponsibleAgency" + index + "'>" + responsibleAgencyContent + "</span> "

@@ -118,6 +118,9 @@ textarea {
     text-align: center;
     margin-top: 5%;
 }
+#displayTextCommentEvaluation {
+    white-space: pre-wrap;
+}
     </style>
     <title>แบบฟอร์มประเมิน</title>
 </head>
