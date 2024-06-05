@@ -1,38 +1,105 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Risk Level Calculator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Example</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
-    <label for="input1">Input 1:</label>
-    <input type="number" id="input1" min="1" max="5">
-    <label for="input2">Input 2:</label>
-    <input type="number" id="input2" min="1" max="5">
-    <button onclick="calculateRisk()">Calculate Risk Level</button>
-
-    <p id="result"></p>
+    <table>
+        <thead>
+            <tr>
+                <th>id_sides & HeadRisk</th>
+                <th>Detail</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- ข้อมูลจะถูกแทรกที่นี่ -->
+        </tbody>
+    </table>
 
     <script>
-        const riskMatrix = [
-            ['ต่ำ', 'ต่ำ', 'ต่ำ', 'ปานกลาง', 'ปานกลาง'],
-            ['ต่ำ', 'ต่ำ', 'ปานกลาง', 'ปานกลาง', 'สูง'],
-            ['ต่ำ', 'ปานกลาง', 'ปานกลาง', 'สูง', 'สูง'],
-            ['ปานกลาง', 'ปานกลาง', 'สูง', 'สูงมาก', 'สูงมาก'],
-            ['ปานกลาง', 'สูง', 'สูง', 'สูงมาก', 'สูงมาก']
+        const data = [
+            {
+                id: '101',
+                id_sides: '3',
+                headRisk: 'เครื่องมือและอุปกรณ์ที่ใช้งานด้านการข่าว',
+                detail: 'x1'
+            },
+            {
+                id: '102',
+                id_sides: '6',
+                headRisk: 'การปฏิบัติงานด้านการข่าว',
+                detail: 'x2'
+            },
+            {
+                id: '103',
+                id_sides: '8',
+                headRisk: 'การประเมินความเสี่ยงด้านการข่าว',
+                detail: 'x3'
+            },
+            {
+                id: '104',
+                id_sides: '8',
+                headRisk: 'การประเมินความเสี่ยงด้านการข่าว',
+                detail: 'x4'
+            }
         ];
 
-        function calculateRisk() {
-            const input1 = parseInt(document.getElementById('input1').value);
-            const input2 = parseInt(document.getElementById('input2').value);
+        const sides = [
+            'ด้านA', 
+            'ด้านB', 
+            'ด้านC', 
+            'ด้านD', 
+            'ด้านE', 
+            'ด้านF', 
+            'ด้านG', 
+            'ด้านH', 
+            'ด้านI', 
+            'ด้านJ'
+        ];
 
-            if (isNaN(input1) || isNaN(input2) || input1 < 1 || input1 > 5 || input2 < 1 || input2 > 5) {
-                document.getElementById('result').innerText = 'กรุณาใส่ค่าที่อยู่ระหว่าง 1 ถึง 5 สำหรับ Input ทั้งสอง';
-                return;
+        let tableHTML = '';
+
+        sides.forEach((side, index) => {
+            const id_sides = (index + 1).toString();
+            const foundRisks = data.filter(risk => risk.id_sides === id_sides);
+
+            if (foundRisks.length > 0) {
+                let headRiskSet = new Set();
+                let detailLines = '';
+
+                foundRisks.forEach(risk => {
+                    headRiskSet.add(risk.headRisk);
+                    detailLines += `- ${risk.detail}<br>`;
+                });
+
+                const headRisks = Array.from(headRiskSet).join(', ');
+
+                tableHTML += '<tr>';
+                tableHTML += `<td>${side} ${id_sides}<br>- ${headRisks}</td>`;
+                tableHTML += `<td>${detailLines}</td>`;
+                tableHTML += '</tr>';
             }
+        });
 
-            const riskLevel = riskMatrix[input2 - 1][input1 - 1];
-            document.getElementById('result').innerText = `ระดับความเสี่ยงคือ: ${riskLevel}`;
-        }
+        document.querySelector('tbody').innerHTML = tableHTML;
     </script>
 </body>
 </html>

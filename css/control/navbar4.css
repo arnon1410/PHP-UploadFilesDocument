@@ -17,7 +17,8 @@
   padding: 0;
   margin: 0;
   text-decoration: none;
-  font-family: "Poppins", sans-serif;
+  /* font-family: "Poppins", sans-serif; */
+  font-family: 'Sarabun', sans-serif;
   list-style-type: none;
   box-sizing: border-box;
 }
@@ -30,7 +31,6 @@ body {
 }
 
 .textHeadTable{
-    font-size: 1.2rem;
     font-weight: bold;
 }
 
@@ -259,11 +259,11 @@ hr {
   display: flex;
   align-items: center;
 }
-.btn span {
+/* .btn span {
   font-size: 1.2rem;
   display: inline-block;
   margin-right: 0.7rem;
-}
+} */
 .btn-block {
   display: block;
   width: 100%;

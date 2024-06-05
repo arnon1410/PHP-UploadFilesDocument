@@ -1,10 +1,10 @@
 function fnSetHeader(dataHeader){
     var strHTML = ''
-    strHTML += "<td class='text-center textHeadTable'>No.</td>"
-    strHTML += "<td class='text-center textHeadTable'>หัวข้อตรวจสอบ</td>"
-    strHTML += "<td class='text-center textHeadTable'>รายการ</td>"
-    strHTML += "<td class='text-center textHeadTable'>สถานะ</td>"
-    strHTML += "<td class='text-center textHeadTable'>Action</td>"
+    strHTML += "<td class='text-center textHeadTable' style='font-size: 18px;'>No.</td>"
+    strHTML += "<td class='text-center textHeadTable' style='font-size: 18px;'>หัวข้อตรวจสอบ</td>"
+    strHTML += "<td class='text-center textHeadTable' style='font-size: 18px;'>รายการ</td>"
+    strHTML += "<td class='text-center textHeadTable' style='font-size: 18px;'>สถานะ</td>"
+    strHTML += "<td class='text-center textHeadTable' style='font-size: 18px;'>Action</td>"
     return strHTML
 }
 function fnDrawTable(access,objData) {
@@ -40,23 +40,30 @@ function fnDrawTable(access,objData) {
         strHTML += "<td id='status" + data[i].short + (i + 1) + "'  class='text-center align-middle'style='width: 10%; align-middle'>" + (data[i].id ? "<div class='colorCircle'><span class='badge bg-label-warning me-1'>ส่งใหม่อีกครั้ง</span></div>" : '-') + "</td>"
     } else {
         strHTML += "<td id='status" + data[i].short + (i + 1) + "'  class='text-center align-middle'style='width: 10%; align-middle'>" + (data[i].id ? "<div class='colorCircle'><span class='badge bg-label-notprocess me-1'>ยังไม่ดำเนินการ</span></div>" : '-') + "</td>"
+        // if (i+1 == 1) {
+        //     strHTML += "<td id='status" + data[i].short + (i + 1) + "'  class='text-center align-middle'style='width: 10%; align-middle'>" + (data[i].id ? "<div class='colorCircle'><span class='badge bg-label-warning me-1'>รอดำเนินการ</span></div>" : '-') + "</td>"
+        // } else {
+        //     strHTML += "<td id='status" + data[i].short + (i + 1) + "'  class='text-center align-middle'style='width: 10%; align-middle'>" + (data[i].id ? "<div class='colorCircle'><span class='badge bg-label-notprocess me-1'>ยังไม่ดำเนินการ</span></div>" : '-') + "</td>"
+
+        // }
     }
     // strHTML += "<td id='status" + data[i].short + (i + 1) + "'  class='text-center align-middle'style='width: 10%; align-middle'>" + (data[i].id ? "<div class='colorCircle'><span class='badge bg-label-primary me-1'>Active</span></div>" : '-') + "</td>"
     strHTML += "<td class='text-center align-middle'>"
-    strHTML += "<button id='btnEdit" + data[i].short + (i + 1) + "' type='button' class='btn btn-warning'; onclick='fnEditConfig(\"" + team + "\",\"" + data[i].short + (i + 1) + "\")' style='margin-right: 10px;'>"
-    strHTML += "<i class='las la-pen' aria-hidden=;'true'></i>"
+    strHTML += "<button id='btnDelete" + data[i].short + (i + 1) + "' type='button' class='btn btn-success'; onclick='fnSaveEditConfig(\"" + team + "\",\"" + data[i].short + (i + 1) + "\")' style='margin-right: 10px;'>"
+    strHTML += "<i class='las la-comment-alt mr-1' aria-hidden=;'true' style='margin-right:5px'></i><span>ข้อคิดเห็น</span>"
     strHTML += "</button>"
-    strHTML += "<button id='btnDelete" + data[i].short + (i + 1) + "' type='button' class='btn btn-danger'; onclick='fnSaveEditConfig(\"" + team + "\",\"" + data[i].short + (i + 1) + "\")' style=''>"
-    strHTML += "<i class='las la-trash-alt' aria-hidden=;'true'></i>"
+    strHTML += "<button id='btnEdit" + data[i].short + (i + 1) + "' type='button' class='btn btn-warning'; onclick='fnEditConfig(\"" + team + "\",\"" + data[i].short + (i + 1) + "\")'>"
+    strHTML += "<i class='las la-pen mr-1' aria-hidden=;'true' style='margin-right:5px'></i><span>การแก้ไข<span>"
     strHTML += "</button>"
+
     strHTML += "</td>"
     strHTML += "</tr>"
 }
-
 strHTML += "</tbody>"
 strHTML += "</table>"
 
     $("#dvContentTable")[0].innerHTML = strHTML
+    $("#dvContentTable2")[0].innerHTML = strHTML
 
     //merge column
     mergeColumn()

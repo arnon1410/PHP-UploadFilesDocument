@@ -49,6 +49,7 @@ function fnSetSidebarMenuConTrol(namePages){
 
 function fnCreateBtnTabForm (namePages) {
     var strHTML = ""
+    var strHTML2 = ""
     var menuItems = []
     if (namePages == 'Appointment') {
         strHTML += " <button type='button' class='btn btn-primary' onclick='fnGetDataModal()' data-bs-toggle='modal' data-bs-target='#AssessmentModal' > "
@@ -59,7 +60,7 @@ function fnCreateBtnTabForm (namePages) {
     else {
         strHTML += " <div class='dropdown'> "
         strHTML += " <button class='btn btn-primary dropdown-toggle' type='button' data-bs-toggle='dropdown' aria-expanded='false'> "
-        strHTML += " สร้างแบบฟอร์ม "
+        strHTML += " กรอกแบบฟอร์ม "
         strHTML += " </button> "
         strHTML += " <ul class='dropdown-menu'> "
         if (namePages == 'reportAssessment') { // เอกสารปลายน้ำ
@@ -84,8 +85,15 @@ function fnCreateBtnTabForm (namePages) {
         strHTML += " </ul>"
         strHTML += " </div>"
     
-    } 
+    }
+    
+    strHTML2 += " <button type='button' class='btn btn-primary' onclick='fnGetDataModal()' data-bs-toggle='modal' data-bs-target='#AssessmentModal' > "
+    strHTML2 += " <span class='las la-plus'></span> "
+    strHTML2 += " นำเข้าข้อมูล "
+    strHTML2 += " </button> "
+
     $("#btnAddData")[0].innerHTML = strHTML
+    $("#btnAddData2")[0].innerHTML = strHTML2
 }
   
   

@@ -157,7 +157,7 @@ function submitText(id) {
     var textarea = document.getElementById('comment_' + id);
     var button = document.getElementById('submitButton' + id);
     var displayText = document.getElementById('displayText' + id);
-    var tab = '&emsp;&emsp;&emsp;&emsp;'
+    var tab = ''
 
     if (textarea.value) {
         displayText.innerHTML = tab + textarea.value;
@@ -196,7 +196,7 @@ function fnSubmitTextCommentEvaluation(id) {
     var textarea = document.getElementById('commentEvaluation');
     var button = document.getElementById('submitButtonCommentEvaluation');
     var displayText = document.getElementById('displayTextCommentEvaluation');
-    var tab = '&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;'
+    var tab = ''
 
     if (textarea.value) {
         displayText.innerHTML = tab + textarea.value;

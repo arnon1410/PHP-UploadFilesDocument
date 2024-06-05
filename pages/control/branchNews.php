@@ -15,6 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="../../css/control/navbar4.css" />
     <link rel="stylesheet" href="../../css/sweetalert2/sweetalert2.min.css" >
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Sarabun&display=swap' >
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css'>   
    
     <!-- Bootstrap CSS -->
@@ -31,7 +32,7 @@
 <div class="sidebar">
   <div class="sidebar-container">
     <div class="brand">
-      <h3>
+      <h3 style='font-family: "Poppins", sans-serif;'>
         <span class="lab la-staylinked"></span>
         NIGD
       </h3>
@@ -110,9 +111,33 @@
         </div>
   </main>
 
-  <div class="header-action" id="btnAddData">
+  <div class="header-action" id="btnAddData2" style="margin-top:50px; text-align:right;">
         <!-- Content -->
-    </div>
+      </div>
+
+      <main>
+    <section>
+      <div class="block-grid-test">
+        <div class="revenue-card">
+          <h3 class="section-head"></h3>
+          <div class="rev-content-test">
+    <section>
+    <main class="py-6 bgColorMain">
+        <div class="container-fluid">
+            <div class="card shadow border-0">
+                <div class="card-header">
+                    <!-- Start Selete Content -->
+                    <div class="container" id="dvHeadSelectAssessment2">
+
+                    </div>
+                    <!-- Start Table Content -->
+                    <div class="table-responsive" id="dvContentTable2">
+                    
+                    </div>
+                
+            </div>
+        </div>
+  </main>
 </div>
 </body>
     <!-- Optional JavaScript -->
