@@ -23,7 +23,7 @@
   <div class="sidebar-container">
     <div class="brand">
       <h3>
-        <span class="lab la-staylinked"></span>
+        <span class="las la-anchor"></span>
         NIGD
       </h3>
     </div>
@@ -116,16 +116,19 @@
         fnSetSidebarMenuConTrol('Appointment')
         fnCreateBtnTabForm('Appointment')
         fnGetDataInternalControl()
+
+        /* input Modal*/
+        $(document).on('change', 'input[type=radio][name=flexRadioDefault]', function() {
+            console.log('test');
+            if (this.value == 'havefile') {
+                $('#dvuploadfile').show();
+            } else if (this.value == 'notfile') {
+                $('#dvuploadfile').hide();
+            }
+        });
     });
 
-    /* input Modal*/
-    $('input[type=radio][name=flexRadioDefault]').change(function() {
-        if (this.value == 'havefile') {
-            $('#dvuploadfile').show()
-        } else if (this.value == 'notfile') {
-            $('#dvuploadfile').hide()
-        }
-    })
+
 
     function fnGetDataInternalControl() {
         const data = [

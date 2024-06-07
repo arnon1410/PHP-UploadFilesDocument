@@ -1,3 +1,12 @@
+<?php 
+
+    session_start();
+    require_once '../../config/db.php';
+    if (!isset($_SESSION['user_login'])) {
+        header('Location: ../../pages/main/signin.php');
+    }
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +23,42 @@
     <script src="../../script/bootstarp/js/bootstrap.min.js"></script> 
     
     <title>รายงานผลการประเมินผล</title>
+    <style>
+        th {
+
+        }
+        td {
+            border-top: 1px solid black; /* เพิ่มเส้นกรอบด้านบน */
+            border-bottom: 1px solid black; /* เพิ่มเส้นกรอบด้านล่าง */
+            padding: 8px; /* เพิ่ม padding เพื่อให้ข้อมูลในเซลล์มีพื้นที่ว่าง */
+        }
+        .textHeadTable {
+            /* border: 1px solid white; เพิ่มเส้นกรอบให้กับ th และ td */
+            /* padding: 8px; เพิ่ม padding เพื่อให้ข้อมูลในเซลล์มีพื้นที่ว่าง */
+        }
+        .fristTD {
+          border-left: 1px solid black;
+          border-right: 1px solid black;
+        }
+        .lastTD {
+          border-right: 1px solid black;
+        }
+        .gradient-btn {
+          background: linear-gradient(-135deg, #c850c0, #4158d0);
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 5px;
+          font-size: 1.2rem;
+          cursor: pointer;
+          transition: background 0.3s ease;
+        }
+        
+        .gradient-btn:hover {
+          background: linear-gradient(-135deg, #4158d0, #c850c0);
+          color: white;
+        }
+    </style>
 </head>
 <body>
 <input type="checkbox" name="" id="menu-toggle">
@@ -23,7 +68,7 @@
   <div class="sidebar-container">
     <div class="brand">
       <h3>
-        <span class="lab la-staylinked"></span>
+        <span class="las la-anchor"></span>
         NIGD
       </h3>
     </div>
@@ -33,7 +78,7 @@
       </div>
       <div class="avatar-info">
         <div class="avatar-text">
-          <h5>กรมจเรทหารเรือ</h5>
+        <h6 id='textName'></h6>
           <small>28-04-67</small>
         </div>
         <!-- <span class="las la-angle-double-right"></span> -->
@@ -117,16 +162,41 @@
         fnSetSidebarMenuConTrol('reportAssessment')
         fnCreateBtnTabForm('reportAssessment')
         fnGetDataInternalControl()
-    });
 
-    /* input Modal*/
-    $('input[type=radio][name=flexRadioDefault]').change(function() {
-        if (this.value == 'havefile') {
-            $('#dvuploadfile').show()
-        } else if (this.value == 'notfile') {
-            $('#dvuploadfile').hide()
+        // ดึงค่าจาก URL parameters หรือจาก sessionStorage ถ้ามีการรีเฟรช
+        var authen = fnGetParameterByName('authen') || sessionStorage.getItem('authen');
+        
+        // ถ้ามีค่า authen จาก URL parameters, เก็บค่าไว้ใน sessionStorage
+        if (fnGetParameterByName('authen')) {
+            sessionStorage.setItem('authen', authen);
         }
-    })
+
+        fnCheckUserAuthen(authen)
+
+        var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+        window.history.pushState({ path: newUrl }, '', newUrl);
+
+        $('#logout').on('click', function(e) {
+            e.preventDefault(); // ป้องกันการเปลี่ยนเส้นทางปกติ
+            
+            Swal.fire({
+                title: '',
+                text: "คุณต้องการออกจากระบบใช่มั้ย?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ยันยืน',
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // เปลี่ยนเส้นทางไปยัง logout.php
+                    sessionStorage.clear();
+                    window.location.href = '../../pages/main/logout.php';
+                }
+            });
+        });
+    });
 
     function fnGetDataInternalControl() {
         const data = [
@@ -134,21 +204,7 @@
             {id: '2' , mainControl: 'รายงานการประเมินผล', listControl: 'แบบ ปค.๕'},
             {id: '3' , mainControl: 'รายงานการประเมินผล', listControl: 'แบบติดตาม ปค.๕'}
         ]
-
-        /* start ส่วนของสิทธิผู้ใช้งาน */
-        var valAccess = fnGetAllUrlParams().authen
-        var strAccess = ''
-        if (valAccess) {
-            if (valAccess == 'user') {
-                strAccess = " หน่วยรับตรวจ<span class='las la-chart-line'></span>"
-            } else {
-                strAccess = " หน่วยตรวจสอบ<span class='las la-chart-line'></span>"
-            }
-
-            document.getElementById("textStatusUser").innerHTML = strAccess
-            /* end ส่วนของสิทธิผู้ใช้งาน */
-        }
-       
+        var valAccess = sessionStorage.getItem('authen') || ''; 
         // call data 
             fnDrawTable(valAccess, data)
         return data

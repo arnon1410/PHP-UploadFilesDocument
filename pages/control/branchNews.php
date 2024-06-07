@@ -24,6 +24,42 @@
     <script src="../../script/bootstarp/js/bootstrap.min.js"></script> 
 
     <title>ด้านการข่าว</title>
+    <style>
+        th {
+
+        }
+        td {
+            border-top: 1px solid black; /* เพิ่มเส้นกรอบด้านบน */
+            border-bottom: 1px solid black; /* เพิ่มเส้นกรอบด้านล่าง */
+            padding: 8px; /* เพิ่ม padding เพื่อให้ข้อมูลในเซลล์มีพื้นที่ว่าง */
+        }
+        .textHeadTable {
+            /* border: 1px solid white; เพิ่มเส้นกรอบให้กับ th และ td */
+            /* padding: 8px; เพิ่ม padding เพื่อให้ข้อมูลในเซลล์มีพื้นที่ว่าง */
+        }
+        .fristTD {
+          border-left: 1px solid black;
+          border-right: 1px solid black;
+        }
+        .lastTD {
+          border-right: 1px solid black;
+        }
+        .gradient-btn {
+          background: linear-gradient(-135deg, #c850c0, #4158d0);
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 5px;
+          font-size: 1.2rem;
+          cursor: pointer;
+          transition: background 0.3s ease;
+        }
+        
+        .gradient-btn:hover {
+          background: linear-gradient(-135deg, #4158d0, #c850c0);
+          color: white;
+        }
+    </style>
 </head>
 <body>
 <input type="checkbox" name="" id="menu-toggle">
@@ -33,7 +69,7 @@
   <div class="sidebar-container">
     <div class="brand">
       <h3 style='font-family: "Poppins", sans-serif;'>
-        <span class="lab la-staylinked"></span>
+        <span class="las la-anchor"></span>
         NIGD
       </h3>
     </div>
@@ -115,7 +151,7 @@
         <!-- Content -->
       </div>
 
-      <main>
+      <!-- <main>
     <section>
       <div class="block-grid-test">
         <div class="revenue-card">
@@ -126,18 +162,33 @@
         <div class="container-fluid">
             <div class="card shadow border-0">
                 <div class="card-header">
-                    <!-- Start Selete Content -->
                     <div class="container" id="dvHeadSelectAssessment2">
 
                     </div>
-                    <!-- Start Table Content -->
                     <div class="table-responsive" id="dvContentTable2">
                     
                     </div>
                 
             </div>
         </div>
-  </main>
+
+        <div class="modal fade" id="AssessmentModal2" tabindex="-1" aria-labelledby="AssessmentModalLabel2" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+              <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="textHeadModal">เพิ่มข้อมูลการประเมิน</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body" id="dvBodyModalAssessment2">
+                  
+              </div>
+              <div class="modal-footer" id="dvFooterModalAssessment2">
+
+              </div>
+              </div>
+          </div>
+      </div>
+  </main> -->
 </div>
 </body>
     <!-- Optional JavaScript -->
@@ -192,15 +243,6 @@
         });
     });
 
-    /* input Modal*/
-    $('input[type=radio][name=flexRadioDefault]').change(function() {
-        if (this.value == 'havefile') {
-            $('#dvuploadfile').show()
-        } else if (this.value == 'notfile') {
-            $('#dvuploadfile').hide()
-        }
-    })
-
     function fnGetDataInternalControl() {
         const data = [
             {id: '1' , mainControl: 'ด้านการข่าว', listControl: 'แบบสอบถาม' , status:'notprocess'},
@@ -213,7 +255,7 @@
         // call data 
             fnDrawTable(valAccess, data)
         return data
-    }      
+    }
 </script>
 </html>
 

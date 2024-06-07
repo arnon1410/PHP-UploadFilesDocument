@@ -23,7 +23,7 @@
   <div class="sidebar-container">
     <div class="brand">
       <h3>
-        <span class="lab la-staylinked"></span>
+        <span class="las la-anchor"></span>
         NIGD
       </h3>
     </div>

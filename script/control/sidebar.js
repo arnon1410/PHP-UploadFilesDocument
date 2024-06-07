@@ -52,14 +52,14 @@ function fnCreateBtnTabForm (namePages) {
     var strHTML2 = ""
     var menuItems = []
     if (namePages == 'Appointment') {
-        strHTML += " <button type='button' class='btn btn-primary' onclick='fnGetDataModal()' data-bs-toggle='modal' data-bs-target='#AssessmentModal' > "
+        strHTML += " <button type='button' class='btn gradient-btn' onclick='fnGetDataModal()'  data-bs-toggle='modal' data-bs-target='#AssessmentModal' style='margin-top: 20px;'> "
         strHTML += " <span class='las la-plus'></span> "
         strHTML += " นำเข้าข้อมูล "
         strHTML += " </button> "
     }
     else {
         strHTML += " <div class='dropdown'> "
-        strHTML += " <button class='btn btn-primary dropdown-toggle' type='button' data-bs-toggle='dropdown' aria-expanded='false'> "
+        strHTML += " <button class='btn dropdown-toggle gradient-btn' type='button' data-bs-toggle='dropdown' aria-expanded='false' style='margin-top: 20px;'> "
         strHTML += " กรอกแบบฟอร์ม "
         strHTML += " </button> "
         strHTML += " <ul class='dropdown-menu'> "
@@ -87,13 +87,16 @@ function fnCreateBtnTabForm (namePages) {
     
     }
     
-    strHTML2 += " <button type='button' class='btn btn-primary' onclick='fnGetDataModal()' data-bs-toggle='modal' data-bs-target='#AssessmentModal' > "
-    strHTML2 += " <span class='las la-plus'></span> "
-    strHTML2 += " นำเข้าข้อมูล "
-    strHTML2 += " </button> "
+    // strHTML2 += " <button type='button' class='btn btn-danger' onclick='fnGetDataModal2()' data-bs-toggle='modal' data-bs-target='#AssessmentModal2' > "
+    // strHTML2 += " <span class='las la-plus'></span> "
+    // strHTML2 += " นำเข้าข้อมูล "
+    // strHTML2 += " </button> "
 
     $("#btnAddData")[0].innerHTML = strHTML
-    $("#btnAddData2")[0].innerHTML = strHTML2
+
+    // if (namePages == 'branchNews') { // เอกสารปลายน้ำ
+    //     $("#btnAddData2")[0].innerHTML = strHTML2
+    // }
 }
   
   

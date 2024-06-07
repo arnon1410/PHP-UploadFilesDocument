@@ -5,8 +5,10 @@ function fnSetHeader(dataHeader){
     strHTML += "<td class='text-center textHeadTable' style='font-size: 18px;'>รายการ</td>"
     strHTML += "<td class='text-center textHeadTable' style='font-size: 18px;'>สถานะ</td>"
     strHTML += "<td class='text-center textHeadTable' style='font-size: 18px;'>Action</td>"
+    strHTML += "<td class='text-center textHeadTable' style='font-size: 18px;'>เอกสารที่เกี่ยวข้อง</td>"
     return strHTML
 }
+
 function fnDrawTable(access,objData) {
     
     if (access == 'admin') {
@@ -14,7 +16,6 @@ function fnDrawTable(access,objData) {
     }
      // Get data selete before create table 
     var strHTML = ''
-    var strHTML2 = ''
     var group = ['A','B'] //groups
     var team = 'A'
     var data = objData
@@ -22,7 +23,7 @@ function fnDrawTable(access,objData) {
     data.short = 'test' //make
     strHTML += "<table id='tb_" + group[0] + "' class='table table-hover table-nowrap' width: 100%;>"
     strHTML += "<thead class='table-light'>"
-    strHTML += "<tr>"
+    strHTML += "<tr class='table-dark'>"
     strHTML += fnSetHeader(data) 
     strHTML += "</tr>"
     strHTML += "</thead>"
@@ -30,32 +31,32 @@ function fnDrawTable(access,objData) {
 
     for (var i = 0; i < data.length; i++) {
     strHTML += "<tr>"
-    strHTML += "<td id='No" + data[i].short + (i + 1) + "' class='text-center align-middle' style='width: 5%;'>" + (i + 1) + "<input type='hidden' id='idQuota" + data[i].short + (i + 1) + "' value='"+ data[i].tqsc_id +"'/></td>"
-    strHTML += "<td id='mainControl" + data[i].short + (i + 1) + "'  class='text-center align-middle' style='width: 55%;white-space: pre-wrap;'>" + (data[i].mainControl ? (data[i].mainControl) : '-') + "</td>"
-    strHTML += "<td id='listControl" + data[i].short + (i + 1) + "'  class='text-center align-middle' style='width: 55%;white-space: pre-wrap;'>" + (data[i].listControl ? (data[i].listControl) : '-') + "</td>"
-    // 
-    if (data[i].status == 'success') {
-        strHTML += "<td id='status" + data[i].short + (i + 1) + "'  class='text-center align-middle'style='width: 10%; align-middle'>" + (data[i].id ? "<div class='colorCircle'><span class='badge bg-label-success me-1'>ตรวจเรียบร้อย</span></div>" : '-') + "</td>"
-    } else if (data[i].status == 'warning') {
-        strHTML += "<td id='status" + data[i].short + (i + 1) + "'  class='text-center align-middle'style='width: 10%; align-middle'>" + (data[i].id ? "<div class='colorCircle'><span class='badge bg-label-warning me-1'>ส่งใหม่อีกครั้ง</span></div>" : '-') + "</td>"
-    } else {
-        strHTML += "<td id='status" + data[i].short + (i + 1) + "'  class='text-center align-middle'style='width: 10%; align-middle'>" + (data[i].id ? "<div class='colorCircle'><span class='badge bg-label-notprocess me-1'>ยังไม่ดำเนินการ</span></div>" : '-') + "</td>"
-        // if (i+1 == 1) {
-        //     strHTML += "<td id='status" + data[i].short + (i + 1) + "'  class='text-center align-middle'style='width: 10%; align-middle'>" + (data[i].id ? "<div class='colorCircle'><span class='badge bg-label-warning me-1'>รอดำเนินการ</span></div>" : '-') + "</td>"
-        // } else {
-        //     strHTML += "<td id='status" + data[i].short + (i + 1) + "'  class='text-center align-middle'style='width: 10%; align-middle'>" + (data[i].id ? "<div class='colorCircle'><span class='badge bg-label-notprocess me-1'>ยังไม่ดำเนินการ</span></div>" : '-') + "</td>"
+    strHTML += "<td id='No" + (i + 1) + "' class='text-center align-middle fristTD' style='width: 5%;'>" + (i + 1) + "<input type='hidden' id='idQuota" + (i + 1) + "' value='"+ data[i].tqsc_id +"'/></td>"
+    strHTML += "<td id='mainControl" + (i + 1) + "'  class='text-center align-middle' style='width: 55%;white-space: pre-wrap;'>" + (data[i].mainControl ? (data[i].mainControl) : '-') + "</td>"
+    strHTML += "<td id='listControl" + (i + 1) + "'  class='text-center align-middle' style='width: 55%;white-space: pre-wrap;'>" + (data[i].listControl ? (data[i].listControl) : '-') + "</td>"
 
-        // }
+    if (data[i].status == 'success') {
+        strHTML += "<td id='status" + (i + 1) + "'  class='text-center align-middle'style='width: 10%; align-middle'>" + (data[i].id ? "<div class='colorCircle'><span class='badge bg-label-success me-1'>ตรวจเรียบร้อย</span></div>" : '-') + "</td>"
+    } else if (data[i].status == 'warning') {
+        strHTML += "<td id='status" + (i + 1) + "'  class='text-center align-middle'style='width: 10%; align-middle'>" + (data[i].id ? "<div class='colorCircle'><span class='badge bg-label-warning me-1'>ส่งใหม่อีกครั้ง</span></div>" : '-') + "</td>"
+    } else {
+        strHTML += "<td id='status" + (i + 1) + "'  class='text-center align-middle'style='width: 10%; align-middle'>" + (data[i].id ? "<div class='colorCircle'><span class='badge bg-label-notprocess me-1'>ยังไม่ดำเนินการ</span></div>" : '-') + "</td>"
     }
-    // strHTML += "<td id='status" + data[i].short + (i + 1) + "'  class='text-center align-middle'style='width: 10%; align-middle'>" + (data[i].id ? "<div class='colorCircle'><span class='badge bg-label-primary me-1'>Active</span></div>" : '-') + "</td>"
-    strHTML += "<td class='text-center align-middle'>"
-    strHTML += "<button id='btnDelete" + data[i].short + (i + 1) + "' type='button' class='btn btn-success'; onclick='fnSaveEditConfig(\"" + team + "\",\"" + data[i].short + (i + 1) + "\")' style='margin-right: 10px;'>"
+    strHTML += "<td class='text-center'>"
+    strHTML += "<button id='btnViewComment" + (i + 1) + "' type='button' class='btn btn-success'; onclick='fnViewCommentConfig(\"" + team + "\",\"" + (i + 1) + "\")' style='margin-right: 5px;'>"
     strHTML += "<i class='las la-comment-alt mr-1' aria-hidden=;'true' style='margin-right:5px'></i><span>ข้อคิดเห็น</span>"
     strHTML += "</button>"
-    strHTML += "<button id='btnEdit" + data[i].short + (i + 1) + "' type='button' class='btn btn-warning'; onclick='fnEditConfig(\"" + team + "\",\"" + data[i].short + (i + 1) + "\")'>"
+    strHTML += "<button id='btnEditDoc" + (i + 1) + "' type='button' class='btn btn-warning'; onclick='fnEditDocConfig(\"" + team + "\",\"" + (i + 1) + "\")' style='margin-right: 5px;'>"
     strHTML += "<i class='las la-pen mr-1' aria-hidden=;'true' style='margin-right:5px'></i><span>การแก้ไข<span>"
     strHTML += "</button>"
-
+    strHTML += "</td>"
+    strHTML += "<td class='text-center align-middle lastTD'>"
+    strHTML += "<button id='btnUploadDoc" + (i + 1) + "' type='button' class='btn btn-info'; onclick='fnUploadDocConfig(\"" + team + "\",\"" + (i + 1) + "\")' style='margin-right: 5px;'>"
+    strHTML += "<i class='las la-upload mr-1' aria-hidden=;'true' style='margin-left:5px'></i><span>อัปโหลด<span>"
+    strHTML += "</button>"
+    strHTML += "<button id='btnViewDoc" + (i + 1) + "' type='button' class='btn btn-primary'; onclick='fnViewDocConfig(\"" + team + "\",\"" + (i + 1) + "\")'>"
+    strHTML += "<i class='las la-file-pdf mr-1' aria-hidden=;'true' style='margin-left:5px'></i><span>ดูเอกสาร<span>"
+    strHTML += "</button>"
     strHTML += "</td>"
     strHTML += "</tr>"
 }
@@ -63,10 +64,9 @@ strHTML += "</tbody>"
 strHTML += "</table>"
 
     $("#dvContentTable")[0].innerHTML = strHTML
-    $("#dvContentTable2")[0].innerHTML = strHTML
 
     //merge column
-    mergeColumn()
+    fnMergeColumn('#tb_' + group[0], true);
 }
 
 function fnGetDataModal() {
@@ -91,7 +91,7 @@ function fnGetDataModal() {
     strHTML += " </div> "
 
     strHTML += " <div> "
-    strHTML += "     <label for='exampleInputPassword1' class='lableHead'>เอกสารที่แนบ</label> "
+    strHTML += "     <label for='InputDocument' class='lableHead'>เอกสารที่แนบ</label> "
     strHTML += " </div> "
     strHTML += " <div class='mb-3'> "
     strHTML += "     <div class='form-check form-check-inline'> "
@@ -113,14 +113,65 @@ function fnGetDataModal() {
     strHTML2 += " <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>ยกเลิก</button> "            
 
 
-    // document.getElementById("dvBodyModalAssessment").innerHTML = strHTML
-    // document.getElementById("dvFooterModalAssessment").innerHTML = strHTML2
     $("#dvBodyModalAssessment")[0].innerHTML = strHTML
     $("#dvFooterModalAssessment")[0].innerHTML = strHTML2
     
     fnChangeSizeSelect("slNameRates") //ปรับขนาด select
     
 }
+
+// function fnGetDataModal2() {
+//     var arrData = fnGetDataInternalControl2() // call function get data
+//     var strHTML = ''
+//     var strHTML2 = ''
+
+//     // draw modal
+//     strHTML += " <div class='mb-3'> "
+//     strHTML += " <label for='headCheckTopicSecond' class='lableHead'>หัวข้อที่ตรวจสอบ</label> "
+//     strHTML += " <input type='text' class='form-control' id='headCheckTopicSecond' value='"+ arrData[0].mainControl +"' readonly> "
+//     strHTML += " </div> "
+
+//     strHTML += " <div class='mb-3'> "
+//     strHTML += " <label for='nameMenuCheckSecond' class='lableHead'>ชื่อรายการที่ตรวจสอบ</label> "
+//     strHTML += " <select id='slNameRatesSecond' class='form-select' style='width: 466px;white-space: nowrap;'> "
+//     strHTML += " <option style='width: 100%;white-space: nowrap;' value=''>เลือกรายการที่ตรวจสอบ</option> "
+//     for (var i = 0; i < arrData.length; i++) {
+//         strHTML += "<option style='width: 100%white-space: nowrap;' value='" + arrData[i].id +"'>"+ arrData[i].listControl  +"</option>"
+//     }
+//     strHTML += " </select> "
+//     strHTML += " </div> "
+
+//     strHTML += " <div> "
+//     strHTML += "     <label for='InputDocumentSecond' class='lableHead'>เอกสารที่แนบ</label> "
+//     strHTML += " </div> "
+//     strHTML += " <div class='mb-3'> "
+//     strHTML += "     <div class='form-check form-check-inline'> "
+//     strHTML += "     <input class='form-check-input' type='radio' name='flexRadioDefaultSecond' id='radioHaveFileSecond' value='havefile' checked> "
+//     strHTML += "     <label class='lableInput' for='radioHaveFileSecond'>มีเอกสารที่แนบ</label> "
+//     strHTML += " </div> "
+//     strHTML += " <div class='form-check form-check-inline'> "
+//     strHTML += " <input class='form-check-input' type='radio' name='flexRadioDefaultSecond' id='radioNotFileSecond' value='notfile'> "
+//     strHTML += " <label class='lableInput' for='radioNotFileSecond'>ไม่มีเอกสารที่แนบ</label> "
+//     strHTML += " </div> "
+//     strHTML += " </div> "
+//     strHTML += " <div id='dvuploadfileSecond' class='mb-3'> "
+//     strHTML += " <label for='formFileSecond' class='lableHead'>ไฟล์ที่แนบ</label> "
+//     strHTML += " <input class='form-control form-control-sm' id='formFileSecond' type='file'> "
+//     strHTML += " </div> "
+
+
+//     strHTML2 += " <button type='button' class='btn btn-primary'>บันทึกข้อมูล</button> "
+//     strHTML2 += " <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>ยกเลิก</button> "            
+
+
+//     // document.getElementById("dvBodyModalAssessment").innerHTML = strHTML
+//     // document.getElementById("dvFooterModalAssessment").innerHTML = strHTML2
+//     $("#dvBodyModalAssessment2")[0].innerHTML = strHTML
+//     $("#dvFooterModalAssessment2")[0].innerHTML = strHTML2
+    
+//     fnChangeSizeSelect("slNameRatesSecond") //ปรับขนาด select
+    
+// }
 
 function fnGetDataSelect() {
     // var arrData = fnGetDataRates() // call function get data
@@ -173,72 +224,44 @@ function fnChangeSizeSelect(name) {
     }
 }
 
-function mergeColumn(){
-    var cellsInSecondColumn = $('table tr td:nth-child(2):not(:first-child)');
+function fnMergeColumn(tableSelector, data){
+    if (data) {
+        // เลือกเซลล์ในคอลัมน์ที่สองของตารางที่เจาะจง
+        var cellsInSecondColumn = $(tableSelector + ' tr td:nth-child(2):not(:first-child)');
 
-    // สร้างออบเจ็กต์เพื่อเก็บข้อมูลที่มีอยู่แล้วในคอลัมน์ที่สอง
-    var dataSeenInSecondColumn = {};
+        // สร้างออบเจ็กต์เพื่อเก็บข้อมูลที่มีอยู่แล้วในคอลัมน์ที่สอง
+        var dataSeenInSecondColumn = {};
 
-    // วนลูปผ่านเซลล์ในคอลัมน์ที่สอง
-    cellsInSecondColumn.each(function() {
-        var cellText = $(this).text();
-        // ตรวจสอบว่าข้อมูลในเซลล์มีอยู่ในออบเจ็กต์เราแล้วหรือไม่
-        if (dataSeenInSecondColumn.hasOwnProperty(cellText)) {
-            // หากมีอยู่แล้ว เพิ่มเนื้อหาของเซลล์นี้ไปยังเซลล์ที่มีข้อมูลเหมือนกัน
-            dataSeenInSecondColumn[cellText].rowspan++;
-            $(this).hide(); // ซ่อนเซลล์ที่รวมเข้าไป
-        } else {
-            // หากไม่มีอยู่ในออบเจ็กต์เรา สร้างใหม่และกำหนด rowspan เป็น 1
-            dataSeenInSecondColumn[cellText] = {
-                element: $(this),
-                rowspan: 1
-            };
-        }
-    });
+        // วนลูปผ่านเซลล์ในคอลัมน์ที่สอง
+        cellsInSecondColumn.each(function() {
+            var cellText = $(this).text();
+            // ตรวจสอบว่าข้อมูลในเซลล์มีอยู่ในออบเจ็กต์เราแล้วหรือไม่
+            if (dataSeenInSecondColumn.hasOwnProperty(cellText)) {
+                // หากมีอยู่แล้ว เพิ่มเนื้อหาของเซลล์นี้ไปยังเซลล์ที่มีข้อมูลเหมือนกัน
+                dataSeenInSecondColumn[cellText].rowspan++;
+                $(this).hide(); // ซ่อนเซลล์ที่รวมเข้าไป
+            } else {
+                // หากไม่มีอยู่ในออบเจ็กต์เรา สร้างใหม่และกำหนด rowspan เป็น 1
+                dataSeenInSecondColumn[cellText] = {
+                    element: $(this),
+                    rowspan: 1
+                };
+            }
+        });
 
-    // อัปเดตค่า rowspan สำหรับเซลล์ที่รวมไว้
-    $.each(dataSeenInSecondColumn, function(key, value) {
-        value.element.attr('rowspan', value.rowspan);
-        value.element.css('vertical-align', 'middle');
-    });
+        // อัปเดตค่า rowspan สำหรับเซลล์ที่รวมไว้
+        $.each(dataSeenInSecondColumn, function(key, value) {
+            value.element.attr('rowspan', value.rowspan);
+            value.element.css('vertical-align', 'middle');
+        });
 
-    // วนลูปผ่านเซลล์ในคอลัมน์ที่สองโดยไม่รวมเซลล์แรก
-    $('table tr td:nth-child(2)').each(function(index, element) {
-        if (index !== 0) {
-            $(element).css('border', '1px solid black');
-        }
-    });
-
-    // // ซ่อนทั้งหมดก่อน
-    //     $('table tr').hide();
-
-    //     // แสดงแค่ 10 รายการแรก
-    //     $('table tr:lt(10)').show();
-
-    //     // เพิ่มปุ่มเพื่อเปลี่ยนหน้า
-    //     var currentPage = 1;
-    //     var rowsPerPage = 10;
-    //     var totalPages = Math.ceil($('table tr').length / rowsPerPage);
-
-    //     // สร้างปุ่ม Previous
-    //     $('.card-footer').append('<button id="prevPage">Previous</button>');
-    //     $('#prevPage').click(function() {
-    //         if (currentPage > 1) {
-    //             $('table tr').hide();
-    //             $('table tr').slice((currentPage - 2) * rowsPerPage, (currentPage - 1) * rowsPerPage).show();
-    //             currentPage--;
-    //         }
-    //     });
-
-    //     // สร้างปุ่ม Next
-    //     $('.card-footer').append('<button id="nextPage">Next</button>');
-    //     $('#nextPage').click(function() {
-    //         if (currentPage < totalPages) {
-    //             $('table tr').hide();
-    //             $('table tr').slice(currentPage * rowsPerPage, (currentPage + 1) * rowsPerPage).show();
-    //             currentPage++;
-    //         }
-    //     });
+        // วนลูปผ่านเซลล์ในคอลัมน์ที่สองโดยไม่รวมเซลล์แรก
+        $(tableSelector + ' tr td:nth-child(2)').each(function(index, element) {
+            if (index !== 0) {
+                $(element).css('border', '1px solid black');
+            }
+        });
+    }
 }
 
 

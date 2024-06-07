@@ -72,7 +72,10 @@ function fnCreateInputRadioAndSpan(text, groups, validate) {
         strHTML += "<div style='display:flex;'>"
         strHTML += "<textarea id='commentSum" + groups + "_" + validate + "' name='commentSum" + groups + "_" + validate + "' rows='2' cols='33' style='display:none'></textarea>"
         strHTML += "<button class='btn btn-secondary btn-sm' type='submit' id='submitButtonSum" + groups + "_" + validate + "' onclick='fnSubmitTextSum(\"" + groups + "_" + validate + "\")' style='display:none'>ยืนยัน</button>"
+        strHTML += "</div>"
+        strHTML += "<div style='display:flex;'> "
         strHTML += "<p class='text-left pComment' id='displayTextSum" + groups + "_" + validate + "'></p>"
+        strHTML += "<i class='las la-pencil-alt' id='editIconSum" + groups + "_" + validate + "' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditTextSum(\"" + groups + "_" + validate + "\")'></i>"
         strHTML += "</div>"
        
     }
@@ -92,7 +95,7 @@ function fnDrawTableReportAssessment() { /* ด้านการข่าว */
             "</td>" +
             "<td style='width: 8%;' class='text-center'> " +
             "<input type='checkbox' id='nothaveData_" + id + "' name='nothaveData_" + id + "' onchange='fnToggleTextarea(\"comment_" + id + "\",\"submitButton" + id + "\", this, \"2 \",\"" + id + "\")' style='margin-right: 5px;'/>" +
-            "<label for='nothaveData_" + id + "' id='lablenothaveData_" + id + "' class='hidden'>&#10005;</label> " +
+            "<label for='notAppData_" + id + "' id='lablenotAppData_" + id + "' class='hidden'>&#10005;</label> " +
             "<input type='checkbox' id='notAppData_" + id + "' name='notAppData_" + id + "' onchange='fnToggleTextarea(\"comment_" + id + "\",\"submitButton" + id + "\", this, \"3 \",\"" + id + "\")'/>" +
             "</td>" +
             "<td style='width: 50%;'>"+ fncreateTextAreaAndButton(id) +"</td>" +
@@ -224,11 +227,17 @@ function fnDrawTableReportAssessment() { /* ด้านการข่าว */
 }
 
 function fncreateTextAreaAndButton(id) {
-    return "<div style='display:flex;'>" +
-    "<textarea id='comment_" + id + "' name='comment_" + id + "' rows='1' cols='19' style='display:none'></textarea>" +
-    "<button class='btn btn-secondary btn-sm' type='submit' id='submitButton" + id + "' onclick='fnSubmitText(" + id + ")' style='display:none'>ยืนยัน</button>" +
-    "<p class='text-left pComment' id='displayText" + id + "'></p>" +
-    "</div>"
+    return `
+        <div style='display:flex; align-items: center;'>
+            <textarea id='comment_${id}' name='comment_${id}' rows='1' cols='19' style='display:none'></textarea>
+            <button class='btn btn-secondary btn-sm' type='submit' id='submitButton${id}' onclick='fnSubmitText(${id})' style='display:none'>ยืนยัน</button>
+        </div>
+        <div style='display:flex; align-items: center;'>
+            <p class='text-left pComment' id='displayText${id}'></p>
+            <i class='las la-pencil-alt' id='editIcon${id}' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText(${id})'></i>
+        </div>
+        </div>
+    `;
 }
 
 
@@ -236,23 +245,33 @@ function fnToggleTextarea(textareaId,buttonsId ,checkbox, coloums, id) {
     const textarea = document.getElementById(textareaId);
     const buttons = document.getElementById(buttonsId);
     const displayText = document.getElementById('displayText' + id);
+    const editIcon = document.getElementById('editIcon' + id);
     if (coloums == 2) {
         if (textarea && buttons) {
             textarea.style.display = checkbox.checked ? 'block' : 'none';
+            textarea.value = '';
             buttons.style.display  = checkbox.checked ? 'block' : 'none';
             displayText.style.display = checkbox.checked ? 'block' : 'none';
-            displayText.innerHTML = '';
+            displayText.innerText = '';
+            editIcon.style.display = 'none';
+
+            
         }
     } else if (coloums == 3) {
-        textarea.style.display = 'none';
-        buttons.style.display  = 'none';
+        textarea.style.display = checkbox.checked ? 'block' : 'none';
+        textarea.value = '';
+        buttons.style.display  = checkbox.checked ? 'block' : 'none';
         displayText.style.display = checkbox.checked ? 'block' : 'none';
-        displayText.innerHTML = 'ไม่มีเรื่องที่เกี่ยวกับคำถาม <br> (ไม่มีภารกิจโดยตรง)';
+        displayText.innerText = '';
+        editIcon.style.display = 'none';
     } else { // col1
         textarea.style.display = 'none';
+        textarea.value = '';
         buttons.style.display  = 'none';
         displayText.style.display  = 'none';
         displayText.innerHTML = '';
+        editIcon.style.display = 'none';
+
     }
 
 
@@ -263,6 +282,7 @@ function fnToggleTextSum(val, val2) {
     var displayText = '';
     var strInput = val
     var newVal = (val2.value == 1 ? strInput.substring(0, strInput.length - 1) + '0' : val)
+    var editIcon = document.getElementById('editIconSum' + newVal);
 
     textarea = document.getElementById('commentSum' + newVal);
     button = document.getElementById('submitButtonSum' + newVal);
@@ -273,11 +293,13 @@ function fnToggleTextSum(val, val2) {
         button.style.display  = 'none';
         displayText.style.display  = 'none';
         displayText.innerHTML = '';
+        editIcon.style.display = 'none';
     } else {
         textarea.style.display = 'block';
         button.style.display  = 'block';
         displayText.style.display  = 'block';
         displayText.innerHTML = '';
+        editIcon.style.display = 'none';
     }
 }
 
@@ -286,14 +308,18 @@ function fnSubmitText(id) {
     const textarea = document.getElementById('comment_' + id);
     const button = document.getElementById('submitButton' + id);
     const displayText = document.getElementById('displayText' + id);
-    const tab = '&emsp;&emsp;&emsp;&emsp;'
+    const editIcon = document.getElementById('editIcon' + id);
+    const tab = '&emsp;&emsp;&emsp;&emsp;';
 
     if (textarea.value) {
         displayText.innerHTML = tab + textarea.value;
 
         /* ซ่อน textarea และปุ่ม */
         textarea.style.display = 'none';
-        button.style.display = 'none';  
+        button.style.display = 'none';
+        editIcon.style.display = 'inline';
+        /* แสดงไอคอนแก้ไข */
+        
     } else {
         Swal.fire({
             title: "",
@@ -301,7 +327,6 @@ function fnSubmitText(id) {
             icon: "warning"
         });
     }
-
 }
 
 /* ฟังก์ชันสำหรับการยืนยันข้อความ */
@@ -310,8 +335,8 @@ function fnSubmitTextSum(val) {
     const textarea = document.getElementById('commentSum' + val);
     const button = document.getElementById('submitButtonSum' + val);
     const displayText = document.getElementById('displayTextSum' + val);
-    const tab = '&emsp;&emsp;&emsp;&emsp;&emsp;'
-    console.log('commentSum' + val)
+    const editIcon = document.getElementById('editIconSum' + val);
+    const tab = '&emsp;&emsp;&emsp;&emsp;'
     // console.log(textarea)
     if (textarea.value) {
         displayText.innerHTML = tab + textarea.value;
@@ -319,6 +344,7 @@ function fnSubmitTextSum(val) {
         /* ซ่อน textarea และปุ่ม */
         textarea.style.display = 'none';
         button.style.display = 'none';  
+        editIcon.style.display = 'inline';
     } else {
         Swal.fire({
             title: "",
@@ -328,6 +354,40 @@ function fnSubmitTextSum(val) {
     }
 
 }
+
+/* ฟังก์ชันสำหรับการแก้ไขข้อความ */
+function fnEditText(id) {
+    const textarea = document.getElementById('comment_' + id);
+    const button = document.getElementById('submitButton' + id);
+    const editIcon = document.getElementById('editIcon' + id);
+
+    /* แสดง textarea และปุ่ม */
+    textarea.style.display = 'inline';
+    button.style.display = 'inline';
+
+    /* ซ่อนไอคอนแก้ไข */
+    editIcon.style.display = 'none';
+
+    /* เติมข้อความที่จะแก้ไขใน textarea */
+    textarea.value = document.getElementById('displayText' + id).innerText.trim();
+}
+
+function fnEditTextSum(val) {
+    const textarea = document.getElementById('commentSum' + val);
+    const button = document.getElementById('submitButtonSum' + val);
+    const editIcon = document.getElementById('editIconSum' + val);
+
+    /* แสดง textarea และปุ่ม */
+    textarea.style.display = 'inline';
+    button.style.display = 'inline';
+
+    /* ซ่อนไอคอนแก้ไข */
+    editIcon.style.display = 'none';
+
+    /* เติมข้อความที่จะแก้ไขใน textarea */
+    textarea.value = document.getElementById('displayTextSum' + val).innerText.trim();
+}
+
 
 function fnDrawCommentDivEvaluation(side) {
     var strHTML = ''
@@ -340,24 +400,29 @@ function fnDrawCommentDivEvaluation(side) {
     strHTML += " </div> "
     strHTML += " <div class='text-start'> "
     strHTML += " <span id='displayTextCommentEvaluation'></span> "
+    strHTML += " <i class='las la-pencil-alt' id='editIconCommentEvaluation' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditTextCommentEvaluation()'></i> "
     strHTML += " </div> "
     // strHTML += " <span id='spanResultEvaluation'> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;ทรภ.๒ มีการควบคุมภายในด้านการข่าว ที่เพียงพอและเหม่าะสม.มีการรักษาความปลอดภัยเกี่ยวกับสถานที่และการปฏิบัติการด้านการข่าว รวมทั้งข้อมูลข่าวสารลับมีประสิทธิภาพเพียงพอต่อการรักษาความปลอดภัยเกี่ยวกับบุคคล มีแนวทางการบริหารจัดการเพียงพอให้การปฏิบัติงานด้านการข่าว กำลังพลมีเพียงพอที่จะปฏิบัติงานด้านการข่าว มีความรู้ความชำนาญในการวิเคราะห์ข่าวและปฏิบัติตามกฎระเบียบข้อบังคับหรือมาตรการเกี่ยวกับการรักษา ความปลอดภัยโดยเคร่งครัด ทั้งนี้ ในส่วนของเครื่องมือและอุปกรณ์ที่ใช้ในงาน ด้านการข่าว พบว่า.เครื่องมือ/อุปกรณ์ในการรวบรวมข้อมูลด้านการข่าวยังมีความไม่ทันสมัยและมีประสิทธิภาพไม่เพียงพอต่อการปฏิบัติงาน. จำเป็นต้องปรับปรุงการควบคุมภายในให้ดีขึ้น โดยการจัดหาเครื่องมือ/อุปกรณ์เพิ่มเติม เพื่อให้การดำเนินการรวบรวมข้อมูลด้านการข่าวมีประสิทธิภาพเพียงพอต่อการปฏิบัติงาน</div></span> "
     
     return strHTML
 }
 
-function fnSubmitTextCommentEvaluation(id) {
+function fnSubmitTextCommentEvaluation() {
     var textarea = document.getElementById('commentEvaluation');
     var button = document.getElementById('submitButtonCommentEvaluation');
     var displayText = document.getElementById('displayTextCommentEvaluation');
-    var tab = '&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;'
+    var tab = '&emsp;&emsp;&emsp;&emsp;'
+    var editIcon = document.getElementById('editIconCommentEvaluation');
 
     if (textarea.value) {
         displayText.innerHTML = tab + textarea.value;
 
         /* ซ่อน textarea และปุ่ม */
         textarea.style.display = 'none';
-        button.style.display = 'none';  
+        button.style.display = 'none'; 
+        
+        /* ซ่อนไอคอนแก้ไข */
+        editIcon.style.display = 'inline';
     } else {
         Swal.fire({
             title: "",
@@ -366,6 +431,22 @@ function fnSubmitTextCommentEvaluation(id) {
         });
     }
 
+}
+
+function fnEditTextCommentEvaluation() {
+    const textarea = document.getElementById('commentEvaluation');
+    const button = document.getElementById('submitButtonCommentEvaluation');
+    const editIcon = document.getElementById('editIconCommentEvaluation');
+
+    /* แสดง textarea และปุ่ม */
+    textarea.style.display = 'inline';
+    button.style.display = 'inline';
+
+    /* ซ่อนไอคอนแก้ไข */
+    editIcon.style.display = 'none';
+
+    /* เติมข้อความที่จะแก้ไขใน textarea */
+    textarea.value = document.getElementById('displayTextCommentEvaluation').innerText.trim();
 }
 
 function fnSaveDraftDocument() {

@@ -205,13 +205,15 @@ function fnOpenModalAndSetEffectRisk(val) {
 }
 
 function fnDrawTableMatrix(rowIndexs, columnIndexs) {
-    var rowIndex = rowIndexs; // Example index, change as needed
-    var columnIndex = columnIndexs; // Example index, change as needed
+    let rowIndex = ''
+    let columnIndex = ''
+    let cell = ''
     try {
+            rowIndex = rowIndexs; // Example index, change as needed
+            columnIndex = columnIndexs; // Example index, change as needed
         if (rowIndex !== undefined && columnIndex !== undefined) {
             //var cell = $('#col0'); // Modify the selector as needed
-            var cell = $('#row' + rowIndex + ' #col' + columnIndex);
-            console.log('#row' + rowIndex + ' #col' + columnIndex)
+            cell = $('#row' + rowIndex + ' #col' + columnIndex);
             if(cell.length) {
                 $(cell).addClass('highlight');
                 console.log('Cell found and highlighted:', cell);
@@ -225,28 +227,32 @@ function fnDrawTableMatrix(rowIndexs, columnIndexs) {
 }
 
 function fnOpenModalAndSetRankRisk(index) {
-    var inputChanceRisk = $('#InputValueChanceRisk' + index).val() || ''
-    var inputEffectRisk = $('#InputValueEffectRisk' + index).val() || ''
-
-    if (inputChanceRisk && inputEffectRisk) {
-        fnDrawTableMatrix(inputChanceRisk, inputEffectRisk)
-        $('#MatrixRankModal').modal('show');  
-    } else {
-        if (!inputChanceRisk) {
-            Swal.fire({
-                title: "",
-                text: "กรุณาเลือกโอกาสความเสี่ยงที่เหลืออยู่",
-                icon: "warning"
-            });
-        } else if (!inputEffectRisk) {
-            Swal.fire({
-                title: "",
-                text: "กรุณาเลือกผลกระทบความเสี่ยงที่เหลืออยู่",
-                icon: "warning"
-            });
+    var inputChanceRisk = ''
+    var inputEffectRisk = ''
+    if (index) {
+        inputChanceRisk = $('#InputValueChanceRisk' + index).val()
+        inputEffectRisk = $('#InputValueEffectRisk' + index).val()
+        
+        if (inputChanceRisk && inputEffectRisk) {
+            fnDrawTableMatrix(inputChanceRisk, inputEffectRisk, index)
+            $('#MatrixRankModal').modal('show');  
+        } else {
+            if (!inputChanceRisk) {
+                Swal.fire({
+                    title: "",
+                    text: "กรุณาเลือกโอกาสความเสี่ยงที่เหลืออยู่",
+                    icon: "warning"
+                });
+            } else if (!inputEffectRisk) {
+                Swal.fire({
+                    title: "",
+                    text: "กรุณาเลือกผลกระทบความเสี่ยงที่เหลืออยู่",
+                    icon: "warning"
+                });
+            }
         }
-
     }
+   
     
     
 }
@@ -415,7 +421,47 @@ function fnSetRankRiskTable (index) {
 
     return strHTML
 }
+function fnSaveDraftDocument() {
+    Swal.fire({
+        title: "",
+        text: "คุณต้องการบันทึกฉบับร่างใช่หรือไม่?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "บันทึกข้อมูล",
+        cancelButtonText: "ยกเลิก"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: "",
+            text: "บันทึกข้อมูลสำเร็จ",
+            icon: "success"
+          });
+        }
+      });
+}
 
+function fnExportDocument() {
+    Swal.fire({
+        title: "",
+        text: "คุณต้องการ Export เอกสารใช่หรือไม่?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "บันทึกข้อมูล",
+        cancelButtonText: "ยกเลิก"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: "",
+            text: "บันทึกข้อมูลสำเร็จ",
+            icon: "success"
+          });
+        }
+      });
+}
 
 
 

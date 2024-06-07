@@ -121,37 +121,44 @@ function fnDrawTablePerformance(objData) { /* ด้านการข่าว 
 }
 
 function fnDrawDataInTable(data) {
-    var strHTML = ''
-    var tab = '&emsp;&emsp;&emsp;&emsp;'
-    const sides = ['ด้านการกำลังพล', 'ด้านยุทธการ', 'ด้านการข่าว', 'ด้านการส่งกำลังบำรุง', 'ด้านการสื่อสาร', 'ด้านระบบเทคโนโลยีสารสนเทศในการบริหารจัดการ', 'ด้านกิจการพลเรือน', 'ด้านการงบประมาณ', 'ด้านการเงินและการบัญชี', 'ด้านพัสดุและทรัพย์สิน'];
+    var strHTML = '';
+    var tab = '&emsp;&emsp;&emsp;&emsp;';
+    const sides = [
+        'ด้านการกำลังพล', 'ด้านยุทธการ', 'ด้านการข่าว', 
+        'ด้านการส่งกำลังบำรุง', 'ด้านการสื่อสาร', 
+        'ด้านระบบเทคโนโลยีสารสนเทศในการบริหารจัดการ', 
+        'ด้านกิจการพลเรือน', 'ด้านการงบประมาณ', 
+        'ด้านการเงินและการบัญชี', 'ด้านพัสดุและทรัพย์สิน'
+    ];
+
     // สร้างผลลัพธ์ตามที่ต้องการ
     sides.forEach((side, index) => {
-        
         const id_sides = (index + 1).toString();
         const foundRisks = data.filter(risk => risk.id_sides === id_sides);
+
         if (foundRisks.length > 0) {
-            let headRisksContent = new Set();
+            let headRisksContent = [];
             let riskingContent = '';
             let existingControlsContent = '';
             let rateRiskContent = '';
             let existingRiskContent = '';
-            let improvementControlContent = ''
-            let responsibleAgencyContent = ''
+            let improvementControlContent = '';
+            let responsibleAgencyContent = '';
             const strObjRisk = foundRisks[0].objRisk;
 
             foundRisks.forEach(risk => {
-                headRisksContent.add(risk.headRisk);
+                if (!headRisksContent.includes(risk.headRisk)) {
+                    headRisksContent.push(risk.headRisk);
+                }
+
                 if (risk.risking) {
                     riskingContent += `- ${risk.risking}<br>`;
                 }
                 if (risk.existingControls) {
                     existingControlsContent += `- ${risk.existingControls}<br>`;
                 }
-                if (risk.existingControls) {
-                    rateRiskContent += `- ${risk.existingControls}<br>`;
-                }
-                if (risk.existingControls) {
-                    rateRiskContent += `- ${risk.existingControls}<br>`;
+                if (risk.existingRisk) {
+                    rateRiskContent += `- ${risk.existingRisk}<br>`;
                 }
                 if (risk.improvementControl) {
                     improvementControlContent += `- ${risk.improvementControl}<br>`;
@@ -162,35 +169,28 @@ function fnDrawDataInTable(data) {
                 if (risk.existingRiskContent) {
                     responsibleAgencyContent += `- ${risk.existingRisk}<br>`;
                 }
-                
             });
 
-            const headRisks = Array.from(headRisksContent).join(', ');
-            // const risking = Array.from(riskingContent).join(', ');
-            // const existingControls = Array.from(existingControlsContent).join(', ');
-            // const rateRisk = Array.from(rateRiskContent).join(', ');
-            // const existingRisk = Array.from(existingRiskContent).join(', ');
-            // const improvementControl = Array.from(improvementControlContent).join(', ');
-            // const responsibleAgency = Array.from(responsibleAgencyContent).join(', ');
-    
-            strHTML += "<tr>"
-            strHTML += "<td id='headRisk" + index + "' class='text-left align-top' style='width: 30%;'> "
-            strHTML += " <div> "
-            strHTML += " <span id='spanHeadRisk" + index + "' style='font-weight: bold;'>"+ fnConvertToThaiNumerals(id_sides) + ". " + side + "</span> "
-            strHTML += " </div> "
-            strHTML += " <div> "
-            strHTML += " <span id='spanHeadRisk" + index + "' style='font-weight: bold;'>"+ tab + "วัตถุประสงค์</span> "
-            strHTML += " </div> "
-            strHTML += " <div> "
-            strHTML += " <span id='spanHeadRisk" + index + "' class='text-left align-top'>" + tab + strObjRisk + "</span> "
-            strHTML += " </div> "
-            strHTML += " <div> "
-            strHTML += " <span id='spanHeadRisk" + index + "' style='font-weight: bold;'>"+ tab + "กิจกรรม</span> "
-            strHTML += " </div> "
-            strHTML += " <div> "
-            strHTML += " <div class='tab'> "
-            strHTML += " <span id='spanHeadRisk" + index + "'>"+ headRisks + "</span> "
-            strHTML += " </div> "
+            const headRisks = Array.from(headRisksContent).join('<br>- ');
+
+            strHTML += "<tr>";
+            strHTML += "<td id='headRisk" + index + "' class='text-left align-top' style='width: 30%;'> ";
+            strHTML += " <div> ";
+            strHTML += " <span id='spanHeadRisk" + index + "' style='font-weight: bold;'>" + fnConvertToThaiNumerals(id_sides) + ". " + side + "</span> ";
+            strHTML += " </div> ";
+            strHTML += " <div> ";
+            strHTML += " <span id='spanHeadRisk" + index + "' style='font-weight: bold;'>" + tab + "วัตถุประสงค์</span> ";
+            strHTML += " </div> ";
+            strHTML += " <div> ";
+            strHTML += " <span id='spanHeadRisk" + index + "' class='text-left align-top'>" + tab + strObjRisk + "</span> ";
+            strHTML += " </div> ";
+            strHTML += " <div> ";
+            strHTML += " <span id='spanHeadRisk" + index + "' style='font-weight: bold;'>" + tab + "กิจกรรม</span> ";
+            strHTML += " </div> ";
+            strHTML += " <div> ";
+            strHTML += " <div class='tab'> ";
+            strHTML += " <span id='spanHeadRisk" + index + "'>- " + headRisks + "</span> ";
+            strHTML += " </div> ";
             strHTML += "</td>";
 
             if (riskingContent) {
@@ -199,12 +199,6 @@ function fnDrawDataInTable(data) {
                 strHTML += " <span id='spanRisking" + index + "'>" + riskingContent + "</span> "
                 strHTML += " </div> "
                 strHTML += " </td>"      
-            } else {
-                strHTML += "<td class='text-center align-center' style='width: 12%;>"
-                strHTML += " <div> "
-                strHTML += " <span id='spanRisking" + index + "'>-</span> "
-                strHTML += " </div> "
-                strHTML += " </td>"
             }
 
             if (existingControlsContent) {
@@ -213,13 +207,7 @@ function fnDrawDataInTable(data) {
                 strHTML += " <span id='spanExistingControls" + index + "'>" + existingControlsContent + "</span> "
                 strHTML += " </div> "
                 strHTML += " </td>"    
-            } else {
-                strHTML += "<td class='text-center align-center' style='width: 12%;>"
-                strHTML += " <div> "
-                strHTML += " <span id='spanExistingControls" + index + "'>-</span> "
-                strHTML += " </div> "
-                strHTML += " </td>"
-            }
+            } 
 
             if (rateRiskContent) {
                 strHTML += "<td class='text-left align-top' style='width: 12%;>"
@@ -267,13 +255,8 @@ function fnDrawDataInTable(data) {
                 strHTML += " <span id='spanImprovementControl" + index + "'>" + improvementControlContent + "</span> "
                 strHTML += " </div> "
                 strHTML += " </td>"
-            } else {
-                strHTML += "<td class='text-center align-center' style='width: 12%;>"
-                strHTML += " <div> "
-                strHTML += " <span id='spanImprovementControl" + index + "'>-</span> "
-                strHTML += " </div> "
-                strHTML += " </td>"
-            }
+            } 
+
             if (responsibleAgencyContent) {
                 strHTML += "<td class='text-left align-top' style='width: 12%;>"
                 strHTML += " <div> "
@@ -296,14 +279,7 @@ function fnDrawDataInTable(data) {
 
             
             strHTML += "</tr>"
-        } /* else {
-            // console.log(`${id_sides}. ${side} : ไม่มีข้อมูลในอาร์เรย์`);
-            strHTML += "<tr>"
-            strHTML += "<td id='headRisk" + index + "' class='text-left align-top' style='width: 30%; white-space: pre-wrap;' ><span id='spanHeadRisk" + index + "' style='font-weight: bold;'>"+ fnConvertToThaiNumerals(id_sides) + ". " + side + "</span></td>";
-            strHTML += "<td id='objRisk" + index + "'  class='text-center align-top' style='width: 12%; white-space: pre-wrap;'>ไม่พบความเสี่ยงที่มีนัยสำคัญ</td>"
-            strHTML += "<td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td>"
-            strHTML += "</tr>"
-        }*/
+        }
     });
     return strHTML;
 }

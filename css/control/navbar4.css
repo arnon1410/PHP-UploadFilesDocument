@@ -151,7 +151,8 @@ Sidebar
   width: 100%;
   background-color: #fff;
   border-radius: 20px;
-  box-shadow: var(--shadow);
+  /* box-shadow: var(--shadow); */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
   padding: 1.2rem;
   overflow-y: auto;
 }
@@ -173,7 +174,9 @@ Sidebar
   justify-content: center;
 }
 .brand h3 {
-  color: #444;
+  background: linear-gradient(-135deg, #c850c0, #4158d0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   font-size: 3rem;
 }
 .brand h3 span {
@@ -298,11 +301,11 @@ header {
   cursor: pointer;
 }
 .header-title h1 {
-  color: var(--main-text);
+  color: black;
   font-weight: 600;
 }
 .header-title p {
-  color: #666;
+  color: white;
   font-size: 0.9rem;
 }
 .header-title p span {
