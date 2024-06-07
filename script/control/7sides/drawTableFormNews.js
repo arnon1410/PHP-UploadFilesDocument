@@ -309,7 +309,7 @@ function fnSubmitText(id) {
     const button = document.getElementById('submitButton' + id);
     const displayText = document.getElementById('displayText' + id);
     const editIcon = document.getElementById('editIcon' + id);
-    const tab = '&emsp;&emsp;&emsp;&emsp;';
+    const tab = '&emsp;';
 
     if (textarea.value) {
         displayText.innerHTML = tab + textarea.value;
