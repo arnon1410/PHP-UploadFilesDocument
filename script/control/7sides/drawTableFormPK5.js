@@ -1,6 +1,6 @@
 function fnSetHeader(dataHeader){
     var strHTML = ''
-    strHTML += "<th class='text-center textHeadTable'>ภารกิจตามกฎหมายที่จัดตั้งหน่วยงานของรัฐหรือภารกิจตามแผนการหรือภารกิจอื่น ๆ ที่สำคัญของหน่วยงานของรัฐ/วัตถุประสงค์</th>"
+    strHTML += "<th class='text-center textHeadTable'>ภารกิจตามกฎหมายที่จัดตั้งหน่วยงานของรัฐหรือภารกิจตามแผนการหรือภารกิจอื่น ๆ ที่สำคัญของหน่วยงานของภาครัฐ/วัตถุประสงค์</th>"
     strHTML += "<th class='text-center textHeadTable'>ความเสี่ยง</th>"
     strHTML += "<th class='text-center textHeadTable'>การควบคุมภายในที่มีอยู่</th>"
     strHTML += "<th class='text-center textHeadTable'>การประเมินผลการควบคุมภายใน</th>"
@@ -42,6 +42,10 @@ function fnDrawTableForm(access,objData,engName) {
     strHTML += " <div>ตำแหน่ง.........................................................................</div> "
     strHTML += " <div>วันที่...............................................................................</div> "
     
+    strHTML += "<button id='btnEditSignature' type='button' class='btn btn-warning'; onclick='fnEditSignature()' style='margin: 5px 5px 0px 0px;'>"
+    strHTML += "<i class='las la-pen mr-1' aria-hidden=;'true' style='margin-right:5px'></i><span>กรอกข้อมูลผู้รายงาน<span>"
+    strHTML += "</button>"
+
     strHTML += " </div> "
 
     strHTML += " <div class='dvFooterForm'> "
@@ -56,50 +60,6 @@ function fnDrawTablePerformance(objData) { /* ด้านการข่าว 
     var strHTML = "";
     var team = "test"
     var data = objData
-    // // ด้านภารกิจหลัก
-    // strHTML += "<tr>"
-    // strHTML += "<td id='main1'  class='text-left align-middle' colspan='7' style='width: 30%;white-space: pre-wrap; '><span id='spanHeadRisk1' style='font-weight: bold;'>ด้านภารกิจหลัก</span></td>"
-    // strHTML += "</tr>"
-    // // วัตถุประสงค์
-    // strHTML += "<tr>"
-    // strHTML += "<td id='mainObjective1'  class='text-left align-middle' style='width: 30%;'>"
-    // strHTML += "<div style='text-align: center;'>"
-    // strHTML += "    <textarea id='textMainObjective1' name='textMainObjective1' rows='4' cols='30'></textarea> "
-    // strHTML += "</div> "
-    // strHTML += "<div class='text-end'>"
-    // strHTML += "    <button class='btn btn-secondary' type='submit' id='submitButton1' onclick='fnSubmitText(\"mainObjective\")'>ยืนยัน</button>"
-    // strHTML += "</div>"
-    // strHTML += "<div class='text-start'>"
-    // strHTML += "    <span style='white-space: pre-wrap;' id='displayText1'></span>"
-    // strHTML += "</div>"
-    // strHTML += " </td>"
-    // strHTML += "<td></td><td></td><td></td><td></td><td></td><td></td>"
-    // strHTML += "</tr>"
-
-    // // ด้านนโยบายสำคัญ
-    // strHTML += "<tr>"
-    // strHTML += "<td id='policy1'  class='text-left align-middle' colspan='7' style='width: 30%;white-space: pre-wrap;'><span id='spanHeadRisk1' style='font-weight: bold;'>ด้านนโยบายสำคัญ</span></td>"
-    // strHTML += "</tr>"
-    // // วัตถุประสงค์
-    // strHTML += "<tr>"
-    // strHTML += "<td id='importantPolicy1'  class='text-left align-middle' style='width: 30%;'>"
-    // strHTML += "<div style='text-align: center;'>"
-    // strHTML += "    <textarea id='textImportantPolicy1' name='textMainObjective1'  rows='4' cols='30'></textarea> "
-    // strHTML += "</div> "
-    // strHTML += "<div class='text-end'>"
-    // strHTML += "    <button class='btn btn-secondary' type='submit' id='submitButton2' onclick='fnSubmitText(\"importantPolicy\")'>ยืนยัน</button>"
-    // strHTML += "</div>"
-    // strHTML += "<div class='text-start'>"
-    // strHTML += "    <span style='white-space: pre-wrap;' id='displayText2'></span>"
-    // strHTML += "</div>"
-    // strHTML += " </td>"
-    // strHTML += "<td></td><td></td><td></td><td></td><td></td><td></td>"
-    // strHTML += "</tr>"
-
-    // // ด้านภารกิจสนับสนุน
-    // strHTML += "<tr>"
-    // strHTML += "<td id='policy1'  class='text-left align-middle middle' colspan='7' style='width: 30%;white-space: pre-wrap;'>ด้านภารกิจสนับสนุน</td>"
-    // strHTML += "</tr>"
 
      // ด้านภารกิจหลัก
     strHTML +=  fnDrawDataInTable(data)
@@ -174,7 +134,7 @@ function fnDrawDataInTable(data) {
             const headRisks = Array.from(headRisksContent).join('<br>- ');
 
             strHTML += "<tr>";
-            strHTML += "<td id='headRisk" + index + "' class='text-left align-top' style='width: 30%;'> ";
+            strHTML += "<td id='headRisk" + index + "' class='text-left align-top' style='width: 25%;'> ";
             strHTML += " <div> ";
             strHTML += " <span id='spanHeadRisk" + index + "' style='font-weight: bold;'>" + fnConvertToThaiNumerals(id_sides) + ". " + side + "</span> ";
             strHTML += " </div> ";
@@ -195,7 +155,7 @@ function fnDrawDataInTable(data) {
 
             if (riskingContent) {
                 strHTML += "<td class='text-left align-top' style='width: 12%;'>"
-                strHTML += " <div> "
+                strHTML += " <div class='word-wrap'> "
                 strHTML += " <span id='spanRisking" + index + "'>" + riskingContent + "</span> "
                 strHTML += " </div> "
                 strHTML += " </td>"      
@@ -216,15 +176,16 @@ function fnDrawDataInTable(data) {
                 strHTML += " </div> "
                 strHTML += " </td>"
             } else {
-                strHTML += "<td id='rateRisk1'  class='text-left align-top' style='width: 12%;'>"
+                strHTML += "<td id='rateRisk" + index + "'  class='text-left align-top' style='width: 12%;'>"
                 strHTML += "<div style='text-align: center;'>"
-                strHTML += "    <textarea id='textRateRisk1' name='textRateRisk1'  rows='6' cols='10'></textarea> "
+                strHTML += "    <textarea id='textRateRisk" + index + "' name='textRateRisk" + index + "'  rows='6' cols='10'></textarea> "
                 strHTML += "</div> "
                 strHTML += "<div class='text-end'>"
-                strHTML += "    <button class='btn btn-secondary' type='submit' id='submitButton3' onclick='fnSubmitText(\"rateRisk\")'>ยืนยัน</button>"
+                strHTML += "    <button class='btn btn-secondary' type='submit' id='submitRateRisk" + index + "' onclick='fnSubmitText(\"" + index + "\", \"rateRisk\")'>ยืนยัน</button>";
                 strHTML += "</div>"
                 strHTML += "<div class='text-start'>"
-                strHTML += "    <span style='white-space: pre-wrap;' id='displayText3'></span>"
+                strHTML += "    <span style='white-space: pre-wrap;' id='displayTextRateRisk" + index + "'></span>"
+                strHTML += "    <i class='las la-pencil-alt' id='editIconRateRisk" + index + "' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText(\"" + index + "\", \"rateRisk\")'></i> "
                 strHTML += "</div>"
                 strHTML += " </td>"
             }
@@ -236,15 +197,16 @@ function fnDrawDataInTable(data) {
                 strHTML += " </div> "
                 strHTML += " </td>"
             } else {
-                strHTML += "<td id='rateRisk1'  class='text-left align-top' style='width: 12%;'>"
+                strHTML += "<td id='rateRisk" + index + "'  class='text-left align-top' style='width: 12%;'>"
                 strHTML += "<div style='text-align: center;'>"
-                strHTML += "    <textarea id='textExistingRisk1' name='textExistingRisk1'  rows='6' cols='10'></textarea> "
+                strHTML += "    <textarea id='textExistingRisk" + index + "' name='textExistingRisk" + index + "'  rows='6' cols='10'></textarea> "
                 strHTML += "</div> "
                 strHTML += "<div class='text-end'>"
-                strHTML += "    <button class='btn btn-secondary' type='submit' id='submitButton4' onclick='fnSubmitText(\"existingRisk\")'>ยืนยัน</button>"
+                strHTML += "    <button class='btn btn-secondary' type='submit' id='submitExistingRisk" + index + "' onclick='fnSubmitText(\"" + index + "\", \"existingRisk\")'>ยืนยัน</button>"
                 strHTML += "</div>"
                 strHTML += "<div class='text-start'>"
-                strHTML += "    <span style='white-space: pre-wrap;' id='displayText4'></span>"
+                strHTML += "    <span style='white-space: pre-wrap;' id='displayTextExistingRisk" + index + "''></span>"
+                strHTML += "    <i class='las la-pencil-alt' id='editIconExistingRisk" + index + "' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText(\"" + index + "\", \"existingRisk\")'></i> "
                 strHTML += "</div>"
                 strHTML += " </td>"
             }
@@ -264,20 +226,20 @@ function fnDrawDataInTable(data) {
                 strHTML += " </div> "
                 strHTML += " </td>"
             } else {
-                strHTML += "<td id='responsibleAgency1'  class='text-left align-top' style='width: 12%;'>"
+                strHTML += "<td id='responsibleAgency" + index + "'  class='text-left align-top' style='width: 12%;'>"
                 strHTML += "<div style='text-align: center;'>"
-                strHTML += "    <textarea id='textResponsibleAgency1' name='textResponsibleAgency1'  rows='6' cols='10'></textarea> "
+                strHTML += "    <textarea id='textResponsibleAgency" + index + "' name='textResponsibleAgency" + index + "'  rows='6' cols='10'></textarea> "
                 strHTML += "</div> "
                 strHTML += "<div class='text-end'>"
-                strHTML += "    <button class='btn btn-secondary' type='submit' id='submitButton5' onclick='fnSubmitText(\"responsibleAgency\")'>ยืนยัน</button>"
+                strHTML += "    <button class='btn btn-secondary' type='submit' id='submitResponsibleAgency" + index + "' onclick='fnSubmitText(\"" + index + "\", \"responsibleAgency\")'>ยืนยัน</button>"
                 strHTML += "</div>"
                 strHTML += "<div class='text-start'>"
-                strHTML += "    <span style='white-space: pre-wrap;' id='displayText5'></span>"
+                strHTML += "    <span style='white-space: pre-wrap;' id='displayTextResponsibleAgency" + index + "'></span>"
+                strHTML += "    <i class='las la-pencil-alt' id='editIconResponsibleAgency" + index + "' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText(\"" + index + "\", \"responsibleAgency\")'></i> "
                 strHTML += "</div>"
                 strHTML += " </td>"
             }
 
-            
             strHTML += "</tr>"
         }
     });
@@ -309,33 +271,29 @@ function fnDrawChanceRiskModal() {
 }
 
 /* ฟังก์ชันสำหรับการยืนยันข้อความ */
-function fnSubmitText(sides) {
+function fnSubmitText(index, sides) {
     var textarea = ''
     var button = ''
     var displayText = ''
-    if (sides == 'mainObjective') { //ด้านภารกิจหลัก
-        textarea = document.getElementById('textMainObjective1');
-        button = document.getElementById('submitButton1');
-        displayText = document.getElementById('displayText1');
-    } else if (sides == 'importantPolicy') { //ด้านนโยบายสำคัญ
-        textarea = document.getElementById('textImportantPolicy1');
-        button = document.getElementById('submitButton2');
-        displayText = document.getElementById('displayText2');
-    } else if (sides == 'rateRisk') {
-        textarea = document.getElementById('textRateRisk1');
-        button = document.getElementById('submitButton3');
-        displayText = document.getElementById('displayText3');
-    } else if (sides == 'existingRisk') {
-        textarea = document.getElementById('textExistingRisk1');
-        button = document.getElementById('submitButton4');
-        displayText = document.getElementById('displayText4')
-    } else {
-        textarea = document.getElementById('textResponsibleAgency1');
-        button = document.getElementById('submitButton5');
-        displayText = document.getElementById('displayText5');  
-    }
+    var editIcon = ''
+    var tab = '&emsp;'
 
-    var tab = '&emsp;&emsp;&emsp;&emsp;'
+    if (sides == 'rateRisk') {
+        textarea = document.getElementById('textRateRisk' + index);
+        button = document.getElementById('submitRateRisk' + index);
+        displayText = document.getElementById('displayTextRateRisk' + index);
+        editIcon = document.getElementById('editIconRateRisk'+ index);
+    } else if (sides == 'existingRisk') {
+        textarea = document.getElementById('textExistingRisk' + index);
+        button = document.getElementById('submitExistingRisk' + index);
+        displayText = document.getElementById('displayTextExistingRisk' + index)
+        editIcon = document.getElementById('editIconExistingRisk'+ index);
+    } else {
+        textarea = document.getElementById('textResponsibleAgency' + index);
+        button = document.getElementById('submitResponsibleAgency' + index);
+        displayText = document.getElementById('displayTextResponsibleAgency' + index); 
+        editIcon = document.getElementById('editIconResponsibleAgency'+ index); 
+    }
 
     if (textarea.value) {
         displayText.innerHTML = tab + textarea.value;
@@ -343,6 +301,7 @@ function fnSubmitText(sides) {
         /* ซ่อน textarea และปุ่ม */
         textarea.style.display = 'none';
         button.style.display = 'none';  
+        editIcon.style.display = 'inline';
     } else {
         Swal.fire({
             title: "",
@@ -350,7 +309,43 @@ function fnSubmitText(sides) {
             icon: "warning"
         });
     }
+}
 
+/* ฟังก์ชันสำหรับการแก้ไขข้อความ */
+function fnEditText(index, sides) {
+    var textarea = ''
+    var button = ''
+    var editIcon = ''
+    var displayText = ''
+
+    if (sides == 'rateRisk') {
+        console.log(1111)
+        textarea = document.getElementById('textRateRisk' + index);
+        button = document.getElementById('submitRateRisk' + index);
+        displayText = document.getElementById('displayTextRateRisk' + index);
+        editIcon = document.getElementById('editIconRateRisk'+ index);
+    } else if (sides == 'existingRisk') {
+        console.log(2222)
+        textarea = document.getElementById('textExistingRisk' + index);
+        button = document.getElementById('submitExistingRisk' + index);
+        displayText = document.getElementById('displayTextExistingRisk' + index)
+        editIcon = document.getElementById('editIconExistingRisk'+ index);
+    } else {
+        console.log(3333)
+        textarea = document.getElementById('textResponsibleAgency' + index);
+        button = document.getElementById('submitResponsibleAgency' + index);
+        displayText = document.getElementById('displayTextResponsibleAgency' + index); 
+        editIcon = document.getElementById('editIconResponsibleAgency'+ index); 
+    }
+    /* แสดง textarea และปุ่ม */
+    textarea.style.display = 'inline';
+    button.style.display = 'inline';
+
+    /* ซ่อนไอคอนแก้ไข */
+    editIcon.style.display = 'none';
+
+    /* เติมข้อความที่จะแก้ไขใน textarea */
+    textarea.value = displayText.innerText.trim();
 }
 
 function fnSaveDraftDocument() {

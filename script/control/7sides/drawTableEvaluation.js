@@ -34,6 +34,10 @@ function fnDrawTableForm(access,objData) {
     strHTML += " <div>ผู้ประเมิน..............................................</div> "
     strHTML += " <div>ตำแหน่ง................................................</div> "
     strHTML += " <div>วันที่...........เดือน..............พ.ศ...............</div> "
+
+    strHTML += "<button id='btnEditSignature' type='button' class='btn btn-warning'; onclick='fnEditSignature()' style='margin: 5px 5px 0px 0px;'>"
+    strHTML += "<i class='las la-pen mr-1' aria-hidden=;'true' style='margin-right:5px'></i><span>กรอกข้อมูลผู้ประเมิน<span>"
+    strHTML += "</button>"
     
     strHTML += " </div> "
 
@@ -148,7 +152,10 @@ function createTextAreaAndButton(id) {
     return "<div style='display:flex;'>" +
     "<textarea id='comment_" + id + "' name='comment_" + id + "' rows='1' cols='30'></textarea>" +
     "<button class='btn btn-secondary' type='submit' id='submitButton" + id + "' onclick='submitText(" + id + ")'>ยืนยัน</button>" +
+    "</div>"+
+    "<div style='display:flex;'>" +
     "<span class='text-left' id='displayText" + id + "'></span>" +
+    "<i class='las la-pencil-alt' id='editIcon" + id + "' style='display:none; cursor:pointer; margin-left: 10px;margin-top: 5px;' onclick='fnEditText(\"" + id + "\")'></i>" +
     "</div>"
 }
 
@@ -157,6 +164,7 @@ function submitText(id) {
     var textarea = document.getElementById('comment_' + id);
     var button = document.getElementById('submitButton' + id);
     var displayText = document.getElementById('displayText' + id);
+    var editIcon = document.getElementById('editIcon' + id);
     var formattedText = ''
     var tab = '&emsp;&emsp;'
 
@@ -167,6 +175,7 @@ function submitText(id) {
         /* ซ่อน textarea และปุ่ม */
         textarea.style.display = 'none';
         button.style.display = 'none';  
+        editIcon.style.display = 'inline';
     } else {
         Swal.fire({
             title: "",
@@ -174,7 +183,23 @@ function submitText(id) {
             icon: "warning"
         });
     }
+}
 
+/* ฟังก์ชันสำหรับการแก้ไขข้อความ */
+function fnEditText(id) {
+    const textarea = document.getElementById('comment_' + id);
+    const button = document.getElementById('submitButton' + id);
+    const editIcon = document.getElementById('editIcon' + id);
+
+    /* แสดง textarea และปุ่ม */
+    textarea.style.display = 'inline';
+    button.style.display = 'inline';
+
+    /* ซ่อนไอคอนแก้ไข */
+    editIcon.style.display = 'none';
+
+    /* เติมข้อความที่จะแก้ไขใน textarea */
+    textarea.value = document.getElementById('displayText' + id).innerText.trim();
 }
 
 function fnDrawCommentDivEvaluation() {
@@ -187,27 +212,30 @@ function fnDrawCommentDivEvaluation() {
     strHTML += " <button class='btn btn-secondary' type='submit' id='submitButtonCommentEvaluation' onclick='fnSubmitTextCommentEvaluation()' style='width: 100px;'>ยืนยัน</button> "
     strHTML += " </div> "
     strHTML += " <div class='text-start'> "
-    strHTML += " <span  id='displayTextCommentEvaluation'></span> "
+    strHTML += " <span id='displayTextCommentEvaluation'></span> "
+    strHTML += " <i class='las la-pencil-alt' id='editIconCommentEvaluation' style='display:none; cursor:pointer; margin-left: 10px;margin-top: 5px;' onclick='fnEditTextCommentEvaluation()'></i> "
     strHTML += " </div> "
-    // strHTML += " <span id='spanResultEvaluation'> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;จร.ทร. มีการควบคุมภายในครบทั้ง๕ องค์ประกอบ ๑๗ หลักการ โดยแต่ละองค์ประกอบมีกิจกรรมการควบคุมภายในอยู่หลายประเภท ตามลักษณะกิจกรรมที่มีความเสี่ยงที่อาจจะเกิดขึ้น โดย จร.ทร.ได้กำหนดวิธีการจัดการและควบคุมความเลี่ยงไว้อย่างเหมาะสม ครอบคลุมทุกกิจกรรมตามแผนปฏิบัติงานของหน่วย และเป็นไปตามหลักเกณฑ์กระทรวงการคลังว่าด้วยมาตรฐานและหลักเกณฑ์ปฏิบัติการควบคุมภายใน สำหรับหน่วยงานของรัฐ พ.ศ.๒๕๖๑</div></span> "
+    // strHTML += " <span id='spanResultEvaluation'> ทรภ.๒ มีการควบคุมภายในด้านการข่าว ที่เพียงพอและเหม่าะสม.มีการรักษาความปลอดภัยเกี่ยวกับสถานที่และการปฏิบัติการด้านการข่าว รวมทั้งข้อมูลข่าวสารลับมีประสิทธิภาพเพียงพอต่อการรักษาความปลอดภัยเกี่ยวกับบุคคล มีแนวทางการบริหารจัดการเพียงพอให้การปฏิบัติงานด้านการข่าว กำลังพลมีเพียงพอที่จะปฏิบัติงานด้านการข่าว มีความรู้ความชำนาญในการวิเคราะห์ข่าวและปฏิบัติตามกฎระเบียบข้อบังคับหรือมาตรการเกี่ยวกับการรักษา ความปลอดภัยโดยเคร่งครัด ทั้งนี้ ในส่วนของเครื่องมือและอุปกรณ์ที่ใช้ในงาน ด้านการข่าว พบว่า.เครื่องมือ/อุปกรณ์ในการรวบรวมข้อมูลด้านการข่าวยังมีความไม่ทันสมัยและมีประสิทธิภาพไม่เพียงพอต่อการปฏิบัติงาน. จำเป็นต้องปรับปรุงการควบคุมภายในให้ดีขึ้น โดยการจัดหาเครื่องมือ/อุปกรณ์เพิ่มเติม เพื่อให้การดำเนินการรวบรวมข้อมูลด้านการข่าวมีประสิทธิภาพเพียงพอต่อการปฏิบัติงาน</div></span> "
     
     return strHTML
 }
 
-function fnSubmitTextCommentEvaluation(id) {
+function fnSubmitTextCommentEvaluation() {
     var textarea = document.getElementById('commentEvaluation');
     var button = document.getElementById('submitButtonCommentEvaluation');
     var displayText = document.getElementById('displayTextCommentEvaluation');
-    var formattedText = ''
-    var tab = '&emsp;&emsp;'
+    var editIcon = document.getElementById('editIconCommentEvaluation');
+    var tab = '&emsp;'
 
     if (textarea.value) {
-        formattedText = textarea.value.replace(/\n/g, "<br>");
-        displayText.innerHTML = tab + formattedText;
+        displayText.innerHTML = tab + textarea.value;
 
         /* ซ่อน textarea และปุ่ม */
         textarea.style.display = 'none';
-        button.style.display = 'none';  
+        button.style.display = 'none'; 
+        
+        /* ซ่อนไอคอนแก้ไข */
+        editIcon.style.display = 'inline';
     } else {
         Swal.fire({
             title: "",
@@ -215,7 +243,22 @@ function fnSubmitTextCommentEvaluation(id) {
             icon: "warning"
         });
     }
+}
 
+function fnEditTextCommentEvaluation() {
+    const textarea = document.getElementById('commentEvaluation');
+    const button = document.getElementById('submitButtonCommentEvaluation');
+    const editIcon = document.getElementById('editIconCommentEvaluation');
+
+    /* แสดง textarea และปุ่ม */
+    textarea.style.display = 'inline';
+    button.style.display = 'inline';
+
+    /* ซ่อนไอคอนแก้ไข */
+    editIcon.style.display = 'none';
+
+    /* เติมข้อความที่จะแก้ไขใน textarea */
+    textarea.value = document.getElementById('displayTextCommentEvaluation').innerText.trim();
 }
 
 function fnSaveDraftDocument() {

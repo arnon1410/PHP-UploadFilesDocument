@@ -41,6 +41,10 @@ function fnDrawTableForm(access,objData,engName) {
     strHTML += " <div>ตำแหน่ง.........................................................................</div> "
     strHTML += " <div>วันที่...............................................................................</div> "
     
+    strHTML += "<button id='btnEditSignature' type='button' class='btn btn-warning'; onclick='fnEditSignature()' style='margin: 5px 5px 0px 0px;'>"
+    strHTML += "<i class='las la-pen mr-1' aria-hidden=;'true' style='margin-right:5px'></i><span>กรอกข้อมูลผู้รายงาน<span>"
+    strHTML += "</button>"
+
     strHTML += " </div> "
 
     strHTML += " <div class='dvFooterForm'> "
@@ -83,6 +87,7 @@ function fnDrawCellTable(id, condition, text, commentId, sizeTD,sizeTextarea) {
             </div>
             <div class='text-start'>
                 <span style='white-space: pre-wrap;' id='displayText${id}'></span>
+                <i class='las la-pencil-alt' id='editIcon${id}' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText("${id}")'></i>
             </div>
         `;
     }
@@ -96,14 +101,16 @@ function fnSubmitText(id) {
     var textarea = document.getElementById('comment' +id);
     var button = document.getElementById('submitButton' + id);
     var displayText = document.getElementById('displayText' + id);
-    var tab = '&emsp;&emsp;&emsp;&emsp;'
+    var editIcon = document.getElementById('editIcon' + id);
+    var tab = '&emsp;'
 
     if (textarea.value) {
         displayText.innerHTML = tab + textarea.value;
 
         /* ซ่อน textarea และปุ่ม */
         textarea.style.display = 'none';
-        button.style.display = 'none';  
+        button.style.display = 'none';
+        editIcon.style.display = 'inline';
     } else {
         Swal.fire({
             title: "",
@@ -111,7 +118,23 @@ function fnSubmitText(id) {
             icon: "warning"
         });
     }
+}
 
+/* ฟังก์ชันสำหรับการแก้ไขข้อความ */
+function fnEditText(id) {
+    const textarea = document.getElementById('comment' + id);
+    const button = document.getElementById('submitButton' + id);
+    const editIcon = document.getElementById('editIcon' + id);
+
+    /* แสดง textarea และปุ่ม */
+    textarea.style.display = 'inline';
+    button.style.display = 'inline';
+
+    /* ซ่อนไอคอนแก้ไข */
+    editIcon.style.display = 'none';
+
+    /* เติมข้อความที่จะแก้ไขใน textarea */
+    textarea.value = document.getElementById('displayText' + id).innerText.trim();
 }
 
 function fnSaveDraftDocument() {

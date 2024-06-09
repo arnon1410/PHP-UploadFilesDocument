@@ -1,9 +1,19 @@
 function fnSetHeader(dataHeader){
     var strHTML = ''
     strHTML += "<th class='text-center textHeadTable'>คำถาม</th>"
-    strHTML += "<th class='text-center textHeadTable'>มี/ใช่</th>"
-    strHTML += "<th class='text-center textHeadTable'>ไม่มี/ไม่ใช่</th>"
+    // strHTML += "<th class='text-center textHeadTable'>มี/ใช่</th>"
+    // strHTML += "<th class='text-center textHeadTable'>ไม่มี/ไม่ใช่</th>"
+    strHTML += "<th class='text-center textHeadTable'>มี/ใช่</th>";
+    strHTML += "<th class='text-center textHeadTable'>ไม่มี/ไม่ใช่</th>";
     strHTML += "<th class='text-center textHeadTable'>คำอธิบาย/คำตอบ</th>"
+
+    strHTML += "<tr>";
+    strHTML += "<td></td>";
+    strHTML += "<td class='text-center tdUnderline'>&#10003;</td>";
+    strHTML += "<td class='text-center tdUnderline'>&#10005; (NA)</td>";
+    strHTML += "<td></td>";
+    strHTML += "</tr>";
+
     return strHTML
 }
 function fnDrawTableForm(access,objData,engName) {
@@ -32,7 +42,11 @@ function fnDrawTableForm(access,objData,engName) {
     strHTML += " <div>ชื่อผู้ประเมิน.........................................</div> "
     strHTML += " <div>ตำแหน่ง................................................</div> "
     strHTML += " <div>วันที่......................................................</div> "
-    
+
+    strHTML += "<button id='btnEditSignature' type='button' class='btn btn-warning'; onclick='fnEditSignature()' style='margin: 5px 5px 0px 0px;'>"
+    strHTML += "<i class='las la-pen mr-1' aria-hidden=;'true' style='margin-right:5px'></i><span>กรอกข้อมูลผู้ประเมิน<span>"
+    strHTML += "</button>"
+
     strHTML += " </div> "
     strHTML += " <div class='dvFooterForm'> "
     strHTML += "    <button type='button' class='btn btn-primary' id='btnSaveData' onclick='fnSaveDraftDocument()'>บันทึกฉบับร่าง</button>"
@@ -83,24 +97,22 @@ function fnCreateInputRadioAndSpan(text, groups, validate) {
 }
 
 function fnDrawTableReportAssessment() { /* ด้านการข่าว */
-    var strHTML = "";
+    var strHTML = "" ;
 
     /* แถวที่มี Checkbox และ TextArea */
     function createCheckboxAndTextAreaRow(text, id) {
         return "<tr>" +
             "<td style='width: 50%;'>" + text + "</td>" +
             "<td style='width: 8%;' class='text-center'> " +
-            "<input type='checkbox' id='haveData_" + id + "' name='haveData_" + id + "' onchange='fnToggleTextarea(\"comment_" + id + "\",\"submitButton" + id + "\", this, \"1 \",\"" + id + "\")'/>" +
+            "<input type='checkbox' id='haveData_" + id + "' name='haveData_" + id + "' onchange='fnToggleTextarea(\"btnUploadDoc" + id + "\",\"btnViewDoc" + id + "\",\"comment_" + id + "\",\"submitButton" + id + "\", this, \"1 \",\"" + id + "\")'/>" +
             "<label for='haveData_" + id + "' id='lablehaveData_" + id + "' class='hidden'>&#10003;</label> " +
             "</td>" +
             "<td style='width: 8%;' class='text-center'> " +
-            "<input type='checkbox' id='nothaveData_" + id + "' name='nothaveData_" + id + "' onchange='fnToggleTextarea(\"comment_" + id + "\",\"submitButton" + id + "\", this, \"2 \",\"" + id + "\")' style='margin-right: 5px;'/>" +
+            "<input type='checkbox' id='nothaveData_" + id + "' name='nothaveData_" + id + "' onchange='fnToggleTextarea(\"btnUploadDoc" + id + "\",\"btnViewDoc" + id + "\",\"comment_" + id + "\",\"submitButton" + id + "\", this, \"2 \",\"" + id + "\")' style='margin-right: 5px;'/>" +
             "<label for='notAppData_" + id + "' id='lablenotAppData_" + id + "' class='hidden'>&#10005;</label> " +
-            "<input type='checkbox' id='notAppData_" + id + "' name='notAppData_" + id + "' onchange='fnToggleTextarea(\"comment_" + id + "\",\"submitButton" + id + "\", this, \"3 \",\"" + id + "\")'/>" +
+            "<input type='checkbox' id='notAppData_" + id + "' name='notAppData_" + id + "' onchange='fnToggleTextarea(\"btnUploadDoc" + id + "\",\"btnViewDoc" + id + "\",\"comment_" + id + "\",\"submitButton" + id + "\", this, \"3 \",\"" + id + "\")'/>" +
             "</td>" +
-            "<td style='width: 50%;'>"+ fncreateTextAreaAndButton(id) +"</td>" +
-            // "<textarea id='story_" + id + "' name='story_" + id + "' rows='1' cols='25' style='display:none'></textarea>" +
-            // "<td style='width: 34%;' class='text-center'>" + createCheckboxAndTextArea(id) + "</td>" +
+            "<td style='width: 50%;'>"+ fncreateTextAreaAndButton(text, id) +"</td>" +
             "</tr>";
     }
 
@@ -226,7 +238,7 @@ function fnDrawTableReportAssessment() { /* ด้านการข่าว */
     // $("#dvTableReportAssessment")[0].innerHTML = strHTML;
 }
 
-function fncreateTextAreaAndButton(id) {
+function fncreateTextAreaAndButton(text, id) {
     return `
         <div style='display:flex; align-items: center;'>
             <textarea id='comment_${id}' name='comment_${id}' rows='1' cols='19' style='display:none'></textarea>
@@ -236,35 +248,104 @@ function fncreateTextAreaAndButton(id) {
             <p class='text-left pComment' id='displayText${id}'></p>
             <i class='las la-pencil-alt' id='editIcon${id}' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText(${id})'></i>
         </div>
+        <div id='dvUploadDoc${id}' class="text-center align-middle">
+            <button id='btnUploadDoc${id}' type='button' class='btn btn-primary'; onclick='fnUploadDocConfig("${text}", "${id}")' style='display:none;margin-right: 5px;' data-bs-toggle='modal' data-bs-target='#relateDocumentModal'>
+            <i class='las la-upload mr-1' aria-hidden=;'true' style='margin-left:5px'></i><span>อัปโหลด<span>
+            </button>
+            <button id='btnViewDoc${id}' type='button' class='btn btn-success'; onclick='fnViewDocConfig("${text}", "${id}")' style='display:none;'>
+            <i class='las la-file-pdf mr-1' aria-hidden=;'true' style='margin-left:5px'></i><span>ดูเอกสาร<span>
+            </button>
         </div>
     `;
 }
 
+function fnUploadDocConfig (text, id) {
+    var strtext = text
+    fnGetDataModal(strtext, id);
+}
 
-function fnToggleTextarea(textareaId,buttonsId ,checkbox, coloums, id) {
+function fnViewDocConfig (text, id) {
+    var strCheckedValue = 0 // id
+
+    if (strCheckedValue == 1){
+        //export file 
+    } else {
+        Swal.fire({
+            title: "",
+            html: "ไม่มีเอกสารที่แนบมาในกิจกรรมนี้",
+            icon: "warning"
+        });
+    }
+}
+
+function fnGetDataModal(strtext, id) {
+    // var arrData = fnGetDataInternalControl(id) // call function get data
+    var arrData = [{id:1 , mainControl: 'ด้านการข่าว'}]
+    var strHTML = ''
+    var strHTML2 = ''
+
+    // draw modal
+    strHTML += " <div class='mb-3'> "
+    strHTML += " <label for='headCheckTopic' class='lableHead'>หัวข้อที่ตรวจสอบ</label> "
+    strHTML += " <input type='text' class='form-control' id='headCheckTopic' value='"+ arrData[0].mainControl +"' readonly> "
+    strHTML += " </div> "
+
+    strHTML += " <div class='mb-3'> "
+    strHTML += " <label for='nameMenuCheck' class='lableHead'>ชื่อรายการที่ตรวจสอบ</label> "
+    
+    strHTML += "<input type='text' class='form-control' id='nameMenuCheckTopic' value='"+ strtext +"' readonly>"
+    strHTML += " </div> "
+
+    strHTML += " <div id='dvuploadfile' class='mb-3'> "
+    strHTML += " <label for='formFile' class='lableHead'>ไฟล์ที่แนบ</label> "
+    strHTML += " <input class='form-control form-control-sm' id='formFile' type='file'> "
+    strHTML += " </div> "
+
+
+    strHTML2 += " <button type='button' class='btn btn-primary'>บันทึกข้อมูล</button> "
+    strHTML2 += " <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>ยกเลิก</button> "            
+
+
+    $("#dvBodyModalRelateDocumentModal")[0].innerHTML = strHTML
+    $("#dvFooterModalrelateDocumentModal")[0].innerHTML = strHTML2
+    
+    // fnChangeSizeSelect("slNameRates") //ปรับขนาด select
+    
+}
+
+function fnToggleTextarea(btnUpdload,btnViewDoc,textareaId,buttonsId ,checkbox, coloums, id) {
+    const btnUpdloads = document.getElementById(btnUpdload);
+    const btnViewDocs = document.getElementById(btnViewDoc);
     const textarea = document.getElementById(textareaId);
     const buttons = document.getElementById(buttonsId);
     const displayText = document.getElementById('displayText' + id);
     const editIcon = document.getElementById('editIcon' + id);
     if (coloums == 2) {
         if (textarea && buttons) {
+            btnUpdloads.style.display = 'none';
+            btnViewDocs.style.display = 'none';
             textarea.style.display = checkbox.checked ? 'block' : 'none';
             textarea.value = '';
             buttons.style.display  = checkbox.checked ? 'block' : 'none';
             displayText.style.display = checkbox.checked ? 'block' : 'none';
             displayText.innerText = '';
             editIcon.style.display = 'none';
-
-            
         }
     } else if (coloums == 3) {
-        textarea.style.display = checkbox.checked ? 'block' : 'none';
-        textarea.value = '';
-        buttons.style.display  = checkbox.checked ? 'block' : 'none';
-        displayText.style.display = checkbox.checked ? 'block' : 'none';
-        displayText.innerText = '';
-        editIcon.style.display = 'none';
+        if (textarea && buttons) {
+            btnUpdloads.style.display = 'none';
+            btnViewDocs.style.display = 'none';
+            textarea.style.display = checkbox.checked ? 'block' : 'none';
+            textarea.value = '';
+            buttons.style.display  = checkbox.checked ? 'block' : 'none';
+            displayText.style.display = checkbox.checked ? 'block' : 'none';
+            displayText.innerText = '';
+            editIcon.style.display = 'none';
+        }
+
     } else { // col1
+        btnUpdloads.style.display = checkbox.checked ? '' : 'none';
+        btnViewDocs.style.display = checkbox.checked ? '' : 'none';
         textarea.style.display = 'none';
         textarea.value = '';
         buttons.style.display  = 'none';
@@ -337,7 +418,7 @@ function fnSubmitTextSum(val) {
     const displayText = document.getElementById('displayTextSum' + val);
     const editIcon = document.getElementById('editIconSum' + val);
     const tab = '&emsp;'
-    // console.log(textarea)
+
     if (textarea.value) {
         displayText.innerHTML = tab + textarea.value;
 
@@ -411,8 +492,8 @@ function fnSubmitTextCommentEvaluation() {
     var textarea = document.getElementById('commentEvaluation');
     var button = document.getElementById('submitButtonCommentEvaluation');
     var displayText = document.getElementById('displayTextCommentEvaluation');
-    var tab = '&emsp;'
     var editIcon = document.getElementById('editIconCommentEvaluation');
+    var tab = '&emsp;'
 
     if (textarea.value) {
         displayText.innerHTML = tab + textarea.value;
@@ -489,4 +570,19 @@ function fnExportDocument() {
           });
         }
       });
+}
+
+function fnChangeSizeSelect(name) {
+    var selectElement = document.getElementById(name);
+
+    // กำหนดความยาวสูงสุดของ select element ให้เท่ากับ 200px
+    selectElement.style.width = "466px";
+
+    // ปรับความยาวของ option elements ให้ไม่เกิน 200px โดยใช้ JavaScript
+    var options = selectElement.getElementsByTagName("option");
+    for (var i = 0; i < options.length; i++) {
+        if (options[i].textContent.length > 50) {
+            options[i].textContent = options[i].textContent.substr(0, 50) + "..."; // ตัดข้อความให้สั้นลง
+          }
+    }
 }

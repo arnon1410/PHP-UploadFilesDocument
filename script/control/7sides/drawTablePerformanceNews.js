@@ -47,6 +47,10 @@ function fnDrawTableForm(access,objData,engName) {
     strHTML += " <div>ตำแหน่ง.........................................................................</div> "
     strHTML += " <div>วันที่...............................................................................</div> "
     
+    strHTML += "<button id='btnEditSignature' type='button' class='btn btn-warning'; onclick='fnEditSignature()' style='margin: 5px 5px 0px 0px;'>"
+    strHTML += "<i class='las la-pen mr-1' aria-hidden=;'true' style='margin-right:5px'></i><span>กรอกข้อมูลผู้รายงาน<span>"
+    strHTML += "</button>"
+    
     strHTML += " </div> "
 
     strHTML += " <div class='dvFooterForm'> "
@@ -63,13 +67,13 @@ function fnDrawTablePerformance(objData) { /* ด้านการข่าว 
     var data = objData
     for (var i = 0; i < data.length; i++) {
         strHTML += "<tr>"
-        strHTML += "<td id='headRisk" + (i + 1) + "'  class='text-left align-top' style='width: 25%;white-space: pre-wrap;'>" + (data[i].headRisk ? (data[i].headRisk) : '-') + "</td>"
+        strHTML += "<td id='headRisk" + (i + 1) + "'  class='text-left align-top' style='width: 27%;white-space: pre-wrap;'>" + (data[i].headRisk ? (data[i].headRisk) : '-') + "</td>"
         strHTML += "<td id='objRisk" + (i + 1) + "'  class='text-left align-top' style='width: 20%;white-space: pre-wrap;'>" + (data[i].objRisk ? (data[i].objRisk) : '-') + "</td>"
         strHTML += "<td id='risking" + (i + 1) + "'  class='text-left align-top' style='width: 20%;white-space: pre-wrap;'>" + (data[i].risking ? (data[i].risking) : '-') + "</td>"
         if (data[i].activityControl) {
             strHTML += "<td id='activityControl" + (i + 1) + "'  class='text-center align-top' style='width: 10%;white-space: pre-wrap;'> "+ data[i].activityControl +" </td>"
         } else {
-            strHTML += "<td class='align-top'> "
+            strHTML += "<td class='align-top' style='width: 10%;'> "
             strHTML += fnCreateTextAreaAndButton('activityControl' + i)
             strHTML += "</td>"
         }
@@ -161,7 +165,8 @@ function fnCreateTextAreaAndButton(id) {
         strHTML += " <button class='btn btn-secondary' type='submit' id='submitButton" + id + "' onclick='fnSubmitText(\"" + id + "\")'>ยืนยัน</button> "
         strHTML += " </div> "
         strHTML += " <div> "
-        strHTML += " <p class='text-left' id='displayText" + id + "'></p> "
+        strHTML += " <span class='text-left' id='displayText" + id + "'></span> "
+        strHTML += " <i class='las la-pencil-alt' id='editIcon"+ id +"' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText(\"" + id + "\")'></i> "
         strHTML += " </div> "
 
     return strHTML
@@ -172,6 +177,7 @@ function fnSubmitText(id) {
     var textarea = document.getElementById('comment_' + id);
     var button = document.getElementById('submitButton' + id);
     var displayText = document.getElementById('displayText' + id);
+    var editIcon = document.getElementById('editIcon' + id);
     var formattedText = ''
     var tab = ''
 
@@ -182,6 +188,9 @@ function fnSubmitText(id) {
         /* ซ่อน textarea และปุ่ม */
         textarea.style.display = 'none';
         button.style.display = 'none';  
+
+        /* ซ่อนไอคอนแก้ไข */
+        editIcon.style.display = 'inline';
     } else {
         Swal.fire({
             title: "",
@@ -189,7 +198,23 @@ function fnSubmitText(id) {
             icon: "warning"
         });
     }
+}
 
+/* ฟังก์ชันสำหรับการแก้ไขข้อความ */
+function fnEditText(id) {
+    const textarea = document.getElementById('comment_' + id);
+    const button = document.getElementById('submitButton' + id);
+    const editIcon = document.getElementById('editIcon' + id);
+
+    /* แสดง textarea และปุ่ม */
+    textarea.style.display = 'inline';
+    button.style.display = 'inline';
+
+    /* ซ่อนไอคอนแก้ไข */
+    editIcon.style.display = 'none';
+
+    /* เติมข้อความที่จะแก้ไขใน textarea */
+    textarea.value = document.getElementById('displayText' + id).innerText.trim();
 }
 
 function fnOpenModalAndSetChanceRisk(val) {

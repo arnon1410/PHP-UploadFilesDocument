@@ -75,6 +75,9 @@ th {
     top: 0;
     z-index: 1;
 }
+.tdUnderline {
+    border-bottom: 1px solid black;
+}
 .hidden {
     display: none;
 }
@@ -110,6 +113,24 @@ p {
         <!-- Content -->
     </div>
 
+    <!-- Start Modal สร้างฟอร์ม -->
+    <div class="modal fade" id="relateDocumentModal" tabindex="-1" aria-labelledby="relateDocumentModalModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="textHeadModal">เพิ่มเอกสารที่เกี่ยวข้องกับกิจกรรม</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="dvBodyModalRelateDocumentModal">
+            
+        </div>
+        <div class="modal-footer" id="dvFooterModalrelateDocumentModal">
+
+        </div>
+        </div>
+    </div>
+</div>
+
 </body>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -121,28 +142,6 @@ p {
 <script>
     $(document).ready(function() {
         fnGetDataInternalControl()
-
-            /* input checkbox*/
-    // $('input[type="checkbox"]').on('click', function() {
-    //     var checkbox = $(this);
-    //     var label = $('label[for="' + checkbox.attr('id') + '"]');
-
-    //     var checkboxes = $(this).closest('tr').find('input[type="checkbox"]');
-
-    //     checkboxes.each(function() {
-    //             if ($(this).prop('checked') && this !== event.target) {
-    //                 $(this).prop('checked', false);
-    //             }
-    //         });
-    //     });
-        
-        // if (checkbox.is(':checked')) {
-        //     checkbox.addClass('hidden');
-        //     label.removeClass('hidden');
-        // } else {
-        //     checkbox.removeClass('hidden');
-        //     label.addClass('hidden');
-        // }
 
     $('input[type="checkbox"]').click(function(event) {
         var checkboxes = $(this).closest('tr').find('input[type="checkbox"]');

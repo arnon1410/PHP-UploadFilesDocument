@@ -82,7 +82,7 @@
             </div>
         </div>
 
-            <!-- Start Modal สร้างฟอร์ม -->
+        <!-- Start Modal สร้างฟอร์ม -->
         <div class="modal fade" id="AssessmentModal" tabindex="-1" aria-labelledby="AssessmentModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -132,15 +132,7 @@
 
     function fnGetDataInternalControl() {
         const data = [
-            {id: '1' , mainControl: 'คำสั่งแต่งตั้งคณะทำงาน', listControl: 'คำสั่งแต่งตั้งคณะทำงาน'},
-            // {id: '4' , MainRates: 'สาขากำลังพล', headRates: 'สาขากำลังพล', listRates: 'เอกสารอ้างอิงด้านกำลังพล'},
-            // {id: '5' , MainRates: 'สาขากำลังพล', headRates: 'สาขากำลังพล', listRates: 'คู่มือปฏิบัติงานประจำตัวประจำตำแหน่ง'},
-            // {id: '6' , MainRates: 'สาขากำลังพล', headRates: 'สาขากำลังพล', listRates: 'คำสั่งแต่งตั้งกรรมการพิจารณาบำเหน็จ'},
-            // {id: '7' , MainRates: 'สาขากำลังพล', headRates: 'สาขากำลังพล', listRates: 'การทดสอบสมรรถภาพร่างกายประจำปี'},
-            // {id: '8' , MainRates: 'สาขากำลังพล', headRates: 'สาขากำลังพล', listRates: 'การทดสอบภาษาอังกฤษของกำลังพล'},
-            // {id: '9' , MainRates: 'สาขากำลังพล', headRates: 'สาขากำลังพล', listRates: 'คำสั่ง 5 ส. การจัดกิจกรรม'},
-            // {id: '10', MainRates: 'สาขากำลังพล', headRates: 'สาขากำลังพล', listRates: 'การร้องทุกข์คำสั่งแต่งตั้งเจ้าหน้าที่ เจ้าหน้าที่ระบบ hrmiss'},
-            // {id: '11', MainRates: 'สาขากำลังพล', headRates: 'สาขากำลังพล', listRates: 'การจัดการความรู้ Km'},
+            {id: '1' , mainControl: 'คำสั่งแต่งตั้งคณะทำงาน', listControl: 'คำสั่งแต่งตั้งคณะทำงาน'}
         ]
 
         /* start ส่วนของสิทธิผู้ใช้งาน */
