@@ -42,7 +42,7 @@ function fnDrawTableForm(access,objData,engName) {
     strHTML += " <div>ตำแหน่ง.........................................................................</div> "
     strHTML += " <div>วันที่...............................................................................</div> "
     
-    strHTML += "<button id='btnEditSignature' type='button' class='btn btn-warning'; onclick='fnEditSignature()' style='margin: 5px 5px 0px 0px;'>"
+    strHTML += "<button id='btnEditSignature' type='button' class='btn btn-warning'; onclick='fnEditSignature()' style='display:none;margin: 5px 5px 0px 0px;'>"
     strHTML += "<i class='las la-pen mr-1' aria-hidden=;'true' style='margin-right:5px'></i><span>กรอกข้อมูลผู้รายงาน<span>"
     strHTML += "</button>"
 

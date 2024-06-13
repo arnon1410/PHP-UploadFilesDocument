@@ -67,9 +67,22 @@ function fnStringToInt(str) {
     return parseInt(str, 10);
 }
 
-function fnConvertToThaiNumerals(number) {
+function fnConvertToThaiNumeralsAndPoint(number) {
     const thaiNumerals = ['๐', '๑', '๒', '๓', '๔', '๕', '๖', '๗', '๘', '๙'];
-    return number.toString().split('').map(digit => thaiNumerals[digit]).join('');
+
+    // แปลงเป็น string ก่อนหากต้องการรองรับทั้งตัวเลขและสตริงที่มีจุดทศนิยม
+    const numberString = number.toString(); // แปลงเป็น string โดยตรง
+
+    // แยกแต่ละตัวเลขแล้วแปลงเป็นตัวอักษรเลขไทย
+    const thaiNumeralsString = numberString.split('').map(digit => {
+        if (digit === '.') {
+            return '.'; // ถ้าเจอจุดทศนิยมให้คงค่าเดิม
+        } else {
+            return thaiNumerals[parseInt(digit)]; // แปลงตัวเลขเป็นตัวอักษรเลขไทย
+        }
+    }).join('');
+
+    return thaiNumeralsString;
 }
 
 function fnConvertToArabicNumerals(thaiNumber) {

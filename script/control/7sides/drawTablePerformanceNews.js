@@ -47,10 +47,10 @@ function fnDrawTableForm(access,objData,engName) {
     strHTML += " <div>ตำแหน่ง.........................................................................</div> "
     strHTML += " <div>วันที่...............................................................................</div> "
     
-    strHTML += "<button id='btnEditSignature' type='button' class='btn btn-warning'; onclick='fnEditSignature()' style='margin: 5px 5px 0px 0px;'>"
+    strHTML += "<button id='btnEditSignature' type='button' class='btn btn-warning'; onclick='fnEditSignature()' style='display:none;margin: 5px 5px 0px 0px;'>"
     strHTML += "<i class='las la-pen mr-1' aria-hidden=;'true' style='margin-right:5px'></i><span>กรอกข้อมูลผู้รายงาน<span>"
     strHTML += "</button>"
-    
+
     strHTML += " </div> "
 
     strHTML += " <div class='dvFooterForm'> "
@@ -63,7 +63,6 @@ function fnDrawTableForm(access,objData,engName) {
 
 function fnDrawTablePerformance(objData) { /* ด้านการข่าว */
     var strHTML = "";
-    var team = "test"
     var data = objData
     for (var i = 0; i < data.length; i++) {
         strHTML += "<tr>"
@@ -104,7 +103,7 @@ function fnDrawTablePerformance(objData) { /* ด้านการข่าว 
             // RankRisk
             strHTML += "<td class='text-center align-middle' style='width: 10%;'> "
             strHTML += fnSetRankRiskTable((i + 1))
-            // strHTML += "<div>"
+            // strHTML += "<div >"
             // strHTML += "<span id='spanRankRisk" + (i + 1)+ "'>" + (data[i].rankRisk ? fnConvertToThaiNumerals(data[i].rankRisk) : '-') + "</span>"
             // strHTML += "</div>";
             // strHTML += "<div>"

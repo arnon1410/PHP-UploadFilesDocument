@@ -52,14 +52,14 @@ body {
   background-color: #fff2d6 !important;
   color: #ffab00 !important;
 }
+.bg-label-incomplete {
+  background-color: #FF8080 !important;
+  color: #FFF !important;
+}
 .bg-label-notprocess {
   background-color: #e7e7ff !important;
   color: #696cff !important;
-}
-.bg-label-primary {
-  background-color: #e7e7ff !important;
-  color: #696cff !important;
-}
+} 
 .bg-label-info {
   background-color: #d7f5fc !important;
   color: #03c3ec !important;
