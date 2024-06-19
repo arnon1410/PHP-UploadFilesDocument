@@ -224,6 +224,27 @@ p {
     display: none;
 }
 
+.btn-custom {
+    font-size: 0.85rem; /* ลดขนาดฟอนต์ */
+    padding: 0.50rem 0.5rem; /* ปรับ padding */
+    margin-right: 3px; /* ปรับ margin ตามต้องการ */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-custom2 {
+    font-size: 0.85rem; /* ลดขนาดฟอนต์ */
+    padding: 0.50rem 0.5rem; /* ปรับ padding */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-custom i , .btn-custom2 i {
+    margin-right: 5px; /* ปรับ margin ของไอคอน */
+}
+
+
 </style>
     <title>แบบสอบถาม</title>
 </head>

@@ -310,12 +310,12 @@ function fncreateTextAreaAndButton(text, id) {
             <p class='text-left pComment' id='displayText${id}' style='white-space: pre-wrap;'></p>
             <i class='las la-pencil-alt' id='editIcon${id}' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText(${id})'></i>
         </div>
-        <div id='dvUploadDoc${id}' class="text-center align-middle">
-            <button id='btnUploadDoc${id}' type='button' class='btn btn-primary btn-sm'; onclick='fnUploadDocConfig("${text}", "${id}")' style='display:none;margin-right: 5px;' data-bs-toggle='modal' data-bs-target='#relateDocumentModal'>
-            <i class='las la-upload mr-1' aria-hidden=;'true' style='margin-left:5px'></i><span>อัปโหลด<span>
+        <div id='dvUploadDoc${id}' class="text-center align-middle" style="display: flex;">
+            <button id='btnUploadDoc${id}' type='button' class='btn btn-primary btn-sm btn-custom' onclick='fnUploadDocConfig("${text}", "${id}")' style='display:none;' data-bs-toggle='modal' data-bs-target='#relateDocumentModal'>
+                <i class='las la-upload' aria-hidden='true'></i><span>อัปโหลด</span>
             </button>
-            <button id='btnViewDoc${id}' type='button' class='btn btn-success btn-sm'; onclick='fnViewDocConfig("${text}", "${id}")' style='display:none;'>
-            <i class='las la-file-pdf mr-1' aria-hidden=;'true' style='margin-left:5px'></i><span>ดูเอกสาร<span>
+            <button id='btnViewDoc${id}' type='button' class='btn btn-success btn-sm btn-custom2' onclick='fnViewDocConfig("${text}", "${id}")' style='display:none;'>
+                <i class='las la-pen' aria-hidden='true'></i><span>กรอกข้อมูล</span>
             </button>
         </div>
     `;
@@ -326,18 +326,12 @@ function fnUploadDocConfig (text, id) {
     fnGetDataModal(strtext, id);
 }
 
-function fnViewDocConfig (text, id) {
-    var strCheckedValue = 0 // id
-
-    if (strCheckedValue == 1){
-        //export file 
-    } else {
-        Swal.fire({
-            title: "",
-            html: "ไม่มีเอกสารที่แนบมาในกิจกรรมนี้",
-            icon: "warning"
-        });
-    }
+function fnViewDocConfig(text, id) {
+    document.getElementById(`btnUploadDoc${id}`).style.display = 'none';
+    document.getElementById(`btnViewDoc${id}`).style.display = 'none';
+    document.getElementById(`comment_${id}`).style.display = 'block';
+    document.getElementById(`submitButton${id}`).style.display = 'block';
+    document.getElementById(`displayText${id}`).style.display = 'block';
 }
 
 // function fnSidesOtherConfig (side, id, nameSides) {
@@ -379,13 +373,13 @@ function fnGetDataModal(strtext, id) {
     
 }
 
-function fnGetModalSidesOther (sides, value, nameSides, arrObj) {
+function fnGetModalSidesOther (sides, number, nameSides, arrObj) {
     var strHTML = ''
     var strHTML2 = ''
     if (sides == 'branchoperation') {
 
     } else { // ด้านที่เหลือ
-
+        console.log(arrObj)
     
         // draw modal
         strHTML += " <div class='mb-3'> "
@@ -413,7 +407,7 @@ function fnGetModalSidesOther (sides, value, nameSides, arrObj) {
         strHTML += "<input type='text' class='form-control' id='nameActivity2' value=''>"
         strHTML += " </div> "
     
-        strHTML2 += " <button type='button' class='btn btn-primary' onclick='fnAddNewRowFromModal(\"" + arrObj + "\")'>บันทึกข้อมูล</button> "
+        strHTML2 += " <button type='button' class='btn btn-primary' onclick='fnAddNewRowFromModal(\"" + number + "\",\"" +  arrObj + "\")'>บันทึกข้อมูล</button> "
         strHTML2 += " <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>ยกเลิก</button> "           
     
     
@@ -426,41 +420,30 @@ function fnGetModalSidesOther (sides, value, nameSides, arrObj) {
  }
 
  // ฟังก์ชันเพื่อเพิ่มแถวใหม่จาก modal
-function fnAddNewRowFromModal(arrObj) {
+function fnAddNewRowFromModal(number, arrObj) {
     var nameSides = $('#headCheckTopic').val();
     var activityTitle = $('#nameMenuCheckTopic').val();
     var objective = $('#nameObjective').val();
     var activityName1 = $('#nameActivity').val();
     var activityName2 = $('#nameActivity2').val();
-
-    // ดึงข้อมูล data จาก attribute ของตาราง
-    var dataString = $('#dvTableReportAssessment').attr('data-table');
-    var data;
-    try {
-        data = JSON.parse(dataString);
-    } catch (e) {
-        console.error("Error parsing JSON data: ", e);
-        data = [];
-    }
-
-    var newRow = {
-        id: new Date().getTime(), // ใช้ timestamp เป็น id
-        id_control: '',
-        head_id: 2,
-        text: activityTitle,
-        main_Obj: objective,
-        Object_name: activityName1 + (activityName2 ? ", " + activityName2 : "")
-    };
-
+    var newId = new Date().getTime();
+    console.log(arrObj)
+    // เพิ่มแถวใหม่เข้าไปใน arrObj
+    // arrObj.push(
+    //     { id: newId, id_control: '7.1', head_id: 7, maincontrol_id: 2, text: activityTitle, main_Obj: objective, Object_name: activityName1 + (activityName2 ? ", " + activityName2 : "") },
+    //     { id: newId + 1, head_id: 7, sum_id: newId, value: '', text: activityTitle },
+    //     { id: newId + 2, head_id: 7, sum_id: newId + 1, value: '1', text: "มีการควบคุมเพียงพอ" },
+    //     { id: newId + 3, head_id: 7, sum_id: newId + 1, value: '0', text: "กรณีไม่เพียงพอมีแนวทางหรือวิธีการปรับปรุงการควบคุมภายในให้ดีขึ้น ดังนี้" }
+    // );
      // เพิ่มแถวใหม่เข้าไปใน data
-     data.push(newRow);
+    //  arrObj.push(newRow);
 
     // วาดตารางใหม่
-    var updatedTableHTML = fnDrawTableReportAssessment(data);
-    $('#dvTableReportAssessment').html(updatedTableHTML);
+    // var updatedTableHTML = fnDrawTableReportAssessment(arrObj);
+    // $('#dvTableReportAssessment').html(updatedTableHTML);
 
     // อัปเดต attribute data-table ด้วยข้อมูลใหม่
-    $('#dvTableReportAssessment').attr('data-table', JSON.stringify(data));
+    // $('#dvTableReportAssessment').attr('data-table', JSON.stringify(arrObj));
 
 
     // ปิด modal
