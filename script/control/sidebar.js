@@ -8,7 +8,7 @@ function fnSetSidebarMenuConTrol(namePages){
     var menuItemsForm = [
         { page: 'Appointment', text: 'คำสั่งแต่งตั้งคณะทำงาน', icon: 'las la-file' },
         { page: 'branchPersonal', text: 'ด้านกำลังพล', icon: 'las la-user' },
-        { page: 'branchOperation', text: 'ด้านยุทธการ', icon: 'las la-share-alt' },
+        { page: 'branchOperation', text: 'ด้านการยุทธการ', icon: 'las la-share-alt' },
         { page: 'branchNews', text: 'ด้านการข่าว', icon: 'las la-newspaper' },
         { page: 'branchLogistics', text: 'ด้านส่งกำลังบำรุง', icon: 'las la-box-open' },
         { page: 'branchCommunication', text: 'ด้านสื่อสาร', icon: 'las la-satellite-dish' },
@@ -49,7 +49,6 @@ function fnSetSidebarMenuConTrol(namePages){
 
 function fnCreateBtnTabForm (namePages) {
     var strHTML = ""
-    var strHTML2 = ""
     var menuItems = []
     if (namePages == 'Appointment') {
         strHTML += " <button type='button' class='btn gradient-btn' onclick='fnGetDataModal()'  data-bs-toggle='modal' data-bs-target='#AssessmentModal' style='margin-top: 20px;'> "
@@ -79,7 +78,7 @@ function fnCreateBtnTabForm (namePages) {
         for (var i = 0; i < menuItems.length; i++) {
             var menuItemA = menuItems[i];
             // var isActive = (namePages === menuItemA.page) ? ' active' : '';
-            strHTML += `<li><a class='dropdown-item text-center' href='${menuItemA.page}.php' target='_blank'>${menuItemA.text}</a></li>`        
+            strHTML += `<li><a class='dropdown-item text-center' href='${menuItemA.page}.php?sides=${namePages}' target='_blank'>${menuItemA.text}</a></li>`        
         }
 
         strHTML += " </ul>"

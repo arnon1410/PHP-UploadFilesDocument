@@ -147,48 +147,9 @@
         </div>
   </main>
 
-  <div class="header-action" id="btnAddData2" style="margin-top:50px; text-align:right;">
+  <!-- <div class="header-action" id="btnAddData2" style="margin-top:50px; text-align:right;"> -->
         <!-- Content -->
-      </div>
-
-      <!-- <main>
-    <section>
-      <div class="block-grid-test">
-        <div class="revenue-card">
-          <h3 class="section-head"></h3>
-          <div class="rev-content-test">
-    <section>
-    <main class="py-6 bgColorMain">
-        <div class="container-fluid">
-            <div class="card shadow border-0">
-                <div class="card-header">
-                    <div class="container" id="dvHeadSelectAssessment2">
-
-                    </div>
-                    <div class="table-responsive" id="dvContentTable2">
-                    
-                    </div>
-                
-            </div>
-        </div>
-
-        <div class="modal fade" id="AssessmentModal2" tabindex="-1" aria-labelledby="AssessmentModalLabel2" aria-hidden="true">
-          <div class="modal-dialog">
-              <div class="modal-content">
-              <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="textHeadModal">เพิ่มข้อมูลการประเมิน</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body" id="dvBodyModalAssessment2">
-                  
-              </div>
-              <div class="modal-footer" id="dvFooterModalAssessment2">
-
-              </div>
-              </div>
-          </div>
-      </div>
-  </main> -->
+      <!-- </div> -->
 </div>
 </body>
     <!-- Optional JavaScript -->

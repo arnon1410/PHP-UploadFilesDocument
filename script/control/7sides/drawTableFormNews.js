@@ -1,44 +1,62 @@
-function fnSetHeader(dataHeader){
+function fnSetHeader(){
     var strHTML = ''
     strHTML += "<th class='text-center textHeadTable' style='width: 55%;'>คำถาม</th>"
-    // strHTML += "<th class='text-center textHeadTable'>มี/ใช่</th>"
-    // strHTML += "<th class='text-center textHeadTable'>ไม่มี/ไม่ใช่</th>"
     strHTML += "<th class='text-center textHeadTable' style='width: 8%;'>มี/ใช่</th>";
-    strHTML += "<th class='text-center textHeadTable' style='width: 8%;'>ไม่มี/ไม่ใช่</th>";
+    strHTML += "<th class='text-center textHeadTable' style='width: 10%;'>ไม่มี/ไม่ใช่</th>";
     strHTML += "<th class='text-center textHeadTable' style='width: 29%;'>คำอธิบาย/คำตอบ</th>"
 
     strHTML += "<tr>";
     strHTML += "<td></td>";
-    strHTML += "<td class='text-center tdUnderline'>&#10003;</td>";
-    strHTML += "<td class='text-center tdUnderline'>&#10005; (NA)</td>";
+    strHTML += "<td class='text-center tdUnderline' style='width: 8%;' >&#10003;</td>";
+    strHTML += "<td class='text-center tdUnderline' style='width: 8%;' >&#10005; (NA)</td>";
     strHTML += "<td></td>";
     strHTML += "</tr>";
 
     return strHTML
 }
-
-function fnDrawTableForm(access,objData,engName) {
+function fnDrawTableForm(access,valSides,objData) {
     if (access == 'admin') {
         // fnGetDataSelect()
     }
      // Get data selete before create table 
     var strHTML = ''
     var data = objData
-    
+    var strSides = valSides
+
+    var arrSides = [
+        { key: 'branchpersonal', NameSides: 'ด้านกำลังพล',value: 4 },
+        { key: 'branchoperation',NameSides: 'ด้านกาารยุทธการ', value: 3 },
+        { key: 'branchnews',NameSides: 'ด้านการข่าว', value: 7 },
+        { key: 'branchlogistics',NameSides: 'ด้านส่งกำลังบำรุง', value: 7 },
+        { key: 'branchcommunication',NameSides: 'ด้านสื่อสาร', value: 5 },
+        { key: 'branchtechnology',NameSides: 'ด้านระบบเทคโนโลยีในการบริหารจัดการ', value: 3 },
+        { key: 'branchcivilaffairs',NameSides: 'ด้านกิจการพลเรือน', value: 4 },
+        { key: 'branchbudget',NameSides: 'ด้านการงบประมาณ', value: 6 },
+        { key: 'branchfinanceandacc',NameSides: 'ด้านการเงินและการบัญชี', value: 6 },
+        { key: 'branchpercelsandproperty',NameSides: 'ด้านพัสดุและทรัพย์สิน', value: 8 },
+    ];
+
+    var index = arrSides.findIndex(item => item.key === strSides);
+
     strHTML += " <div class='title'>แบบสอบถามการควบคุม</div> "
-    strHTML += " <div class='subtitle'>" + objData[0].mainControl + "</div> "
+    strHTML += " <div class='subtitle'>" + arrSides[index].NameSides + "</div> "
     strHTML += " <div class='a4-size'> "
-    strHTML += "<table id='tb_" + engName + "'>"
+    strHTML += "<table id='tb_" + valSides + "'>"
     strHTML += "<thead>"
     strHTML += "<tr>"
-    strHTML += fnSetHeader(data) 
+    strHTML += fnSetHeader() 
     strHTML += "</tr>"
     strHTML += "</thead>"
     strHTML += "<tbody>"
-    strHTML += fnDrawTableReportAssessment()
+    if (valSides == 'branchOperation') { // ถ้าเป็นด้านยุทธการจะเรียก function นี้
+        strHTML += fnDrawTableReportAssessmentFix(data)
+    } else {
+        strHTML += fnDrawTableReportAssessment(data)
+    }
+    strHTML += fnDrawTableReportAssessmentOther(strSides, arrSides)
     strHTML += "</tbody>"
     strHTML += "</table>"
-    strHTML += fnDrawCommentDivEvaluation(objData[0].mainControl)
+    strHTML += fnDrawCommentDivEvaluation(arrSides[index].NameSides)
     strHTML += " <div class='dvSignature'> "
     strHTML += " <div>ชื่อผู้ประเมิน.........................................</div> "
     strHTML += " <div>ตำแหน่ง................................................</div> "
@@ -56,7 +74,8 @@ function fnDrawTableForm(access,objData,engName) {
     $("#dvFormReport")[0].innerHTML = strHTML
 }
 
-/*function createCheckboxAndTextArea(id) {
+/*
+function createCheckboxAndTextArea(id) {
     if (id == 503) {
         return "<div style='display:flex;'>" +
         "<input type='checkbox' id='horns_" + id + "' name='horns_" + id + "' style='display:none'/>" +
@@ -70,13 +89,11 @@ function fnDrawTableForm(access,objData,engName) {
         "</div>";
     }
 
-}*/
+}
+*/
 
 function fnCreateInputRadioAndSpan(text, index, validate) {
     var strHTML = ""
-    strHTML = "<div>"
-
-    strHTML = "</div>"
     if (validate && validate == '1') {
         strHTML += "<div style='display:flex;'>"
         strHTML += "<input type='radio' id='inputRadioSumOfSide" + index + "_" + validate + "' name='inputRadioSumOfSide" + index + "' style='margin: 5px 10px 0px 0px;' value='1' onchange='fnToggleTextSum(\"" + index + "_" + validate + "\", this)'/>"
@@ -92,7 +109,7 @@ function fnCreateInputRadioAndSpan(text, index, validate) {
         strHTML += "<button class='btn btn-secondary btn-sm' type='submit' id='submitButtonSum" + index + "_" + validate + "' onclick='fnSubmitTextSum(\"" + index + "_" + validate + "\")' style='display:none'>ยืนยัน</button>"
         strHTML += "</div>"
         strHTML += "<div style='display:flex;'> "
-        strHTML += "<p class='text-left pComment' id='displayTextSum" + index + "_" + validate + "'></p>"
+        strHTML += "<p class='text-left pComment' id='displayTextSum" + index + "_" + validate + "' style='white-space: pre-wrap;'></p>"
         strHTML += "<i class='las la-pencil-alt' id='editIconSum" + index + "_" + validate + "' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditTextSum(\"" + index + "_" + validate + "\")'></i>"
         strHTML += "</div>"
        
@@ -100,140 +117,30 @@ function fnCreateInputRadioAndSpan(text, index, validate) {
     return strHTML
 }
 
-function fnDrawTableReportAssessment() { /* ด้านการข่าว */
+function fnDrawTableReportAssessment(data) {
     var strHTML = "" ;
-
+    var dataControl = data
     /* แถวที่มี Checkbox และ TextArea */
-    function createCheckboxAndTextAreaRow(id_control, text, id) {
+    function fnCreateCheckboxAndTextAreaRow(id_control, text, id, size) {
         return "<tr>" +
-            "<td style='width: 55%;text-indent: 17px;'>"+ (id_control ? fnConvertToThaiNumeralsAndPoint(id_control) + ' ' : '')  + text + "</td>" +
-            "<td style='width: 8%;' class='text-center'> " +
+            "<td style='width: 55%;text-indent: " + size + "'>"+ (id_control ? fnConvertToThaiNumeralsAndPoint(id_control) + ' ' : '')  + text + "</td>" +
+            "<td style='width: 8%;' class='text-center checkbox-container'> " +
             "<input type='checkbox' id='haveData_" + id + "' class='have-checkbox' name='haveData_" + id + "' onchange='fnToggleTextarea(\"btnUploadDoc" + id + "\",\"btnViewDoc" + id + "\",\"comment_" + id + "\",\"submitButton" + id + "\", this, \"1 \",\"" + id + "\")'/>" +
             "<label for='haveData_" + id + "' id='lablehaveData_" + id + "' class='hidden'>&#10003;</label> " +
             "</td>" +
-            "<td style='width: 8%;' class='text-center'> " +
-            "<input type='checkbox' id='nothaveData_" + id + "' class='nothave-checkbox' name='nothaveData_" + id + "' onchange='fnToggleTextarea(\"btnUploadDoc" + id + "\",\"btnViewDoc" + id + "\",\"comment_" + id + "\",\"submitButton" + id + "\", this, \"2 \",\"" + id + "\")' style='margin-right: 6px;'/>" +
-            "<label for='nothaveData_" + id + "' id='lablenothaveData_" + id + "' class='hidden'>&#10005;</label> " +
+            "<td style='width: 8%;' class='text-center checkbox-container'> " +
+            "<input type='checkbox' id='nothaveData_" + id + "' class='nothave-checkbox' name='nothaveData_" + id + "' onchange='fnToggleTextarea(\"btnUploadDoc" + id + "\",\"btnViewDoc" + id + "\",\"comment_" + id + "\",\"submitButton" + id + "\", this, \"2 \",\"" + id + "\")'/>" +
+            "<label for='nothaveData_" + id + "' id='lablenothaveData_" + id + "' class='hidden' style='width: 4%;'>&#10005;</label> " +
             "<input type='checkbox' id='notAppData_" + id + "' class='notapp-checkbox' name='notAppData_" + id + "' onchange='fnToggleTextarea(\"btnUploadDoc" + id + "\",\"btnViewDoc" + id + "\",\"comment_" + id + "\",\"submitButton" + id + "\", this, \"3 \",\"" + id + "\")'/>" +
-            "<label for='notAppData_" + id + "' id='lablenotAppData_" + id + "' class='hidden'>NA</label> " +
+            "<label for='notAppData_" + id + "' id='lablenotAppData_" + id + "' class='hidden' style='width: 4%;'>NA</label> " +
             "</td>" +
             "<td style='width: 29%;'>"+ fncreateTextAreaAndButton(text, id) +"</td>" +
             "</tr>";
     }
 
-    var textAndIds = [
-
-        // -------------------------- 1 -------------------------- //
-        // หัวข้อคือเทเบิ้ลหลัก 
-        { id: 101, id_control: '1.',  maincontrol_id: 1 , head_id: 1, text: "การรักษาความปลอดภัยเกี่ยวกับข้อมูลข่าวสารลับ" , main_Obj:"วัตถุประสงค์ของการควบคุม" , Object_name: "เพื่อให้มั่นใจว่ามีเครื่องมือ และอุปกรณ์ที่มีประสิทธิภาพเพียงพอต่อการรักษาความปลอดภัยเกี่ยวกับข้อมูลข่าวสารลับ"},
-        { id: 102, id_control: '1.1', head_id: 1, text: "มีการแต่งตั้งนายทะเบียน ผู้ช่วย เจ้าหน้าที่ข้อมูลข่าวสารลับ" , is_subcontrol:0},
-        { id: 103, id_control: '1.2', head_id: 1, text: "มีการกำหนดชั้นความลับตามระเบียบว่าด้วยการรักษาความลับของทางราชการ พ.ศ.๒๕๕๔" , is_subcontrol:0},
-        { id: 104, id_control: '1.3', head_id: 1, text: 'การอนุญาตให้บุคลากรเข้าถึงชั้นความลับ โดยยืดหลัก "จำกัดให้ทราบเท่าที่จำเป็น"' , is_subcontrol:0},
-        { id: 105, id_control: '1.4', head_id: 1 ,text: "ผู้เข้าถึงชั้นความลับ รักษาความลับโดยปฏิบัติตามระเบียบที่กำหนดไว้โดยเคร่งครัด" , is_subcontrol:0},
-        { id: 106, id_control: '1.5', head_id: 1 ,text: "มีการดำเนินการเกี่ยวกับข้อมูลข่าวสารลับให้เป็นไปตามระเบียบว่าด้วยการรักษาความลับของทางราชการ พ.ศ.๒๕๔๔ ทะเบียนรับ ทะเบียนส่ง และทะเบียนควบคุมข้อมูลข่าวสารลับ" , is_subcontrol:0},
-        { id: 107, id_control: '1.6', head_id: 1 ,text: "การดำเนินการเกี่ยวกับเอกสารลับมีใบปกปิดทับตามชั้นเอกสารลับ ชั้นลับ ลับมาก ลับที่สุด" , is_subcontrol:0},
-        { id: 108, id_control: '1.7', head_id: 1 ,text: "การส่งเอกสารลับ ใช้ซองทึบแสง ๒ ชั้น โดยชั้นในแสดงความลับทั้งด้านหน้า - หลัง ส่วนชั้นนอกจะต้องไม่มีเครื่องหมายแสดงใดๆ ที่บ่งบอกว่าเป็นข้อมูลข่าวสารลับ" , is_subcontrol:0},
-        { id: 109, id_control: '1.8', head_id: 1 ,text: "การเก็บรักษาข้อมูลข่าวสารลับเก็บไว้ในที่ปลอดภัย กรณีเก็บไว้ในเครื่องคอมพิวเตอร์มีการกำหนดรหัสผ่าน" , is_subcontrol:0},
-        { id: 110, id_control: '1.9', head_id: 1 ,text: "การยืม มีการพิจารณาผู้ยืมเกี่ยวกับเรื่องนั้นหรือไม่ และเจ้าของเรื่องเดิมต้องอนุญาตก่อน และมีการทำบันทึกการยืมไว้" , is_subcontrol:0},
-        { id: 111, id_control: '1.10',head_id: 1 ,text: "การทำลายข้อมูลข่าวสารลับ มีการดำเนินการตามขั้นตอนที่กำหนดตามระเบียบที่เกี่ยวข้อง " , is_subcontrol:0},
-        { id: 112, id_control: '1.11',head_id: 1 ,text: "กรณีข้อมูลข่าวสารลับสูญหาย หรือรั่วไหล มีการแต่งตั้งกรรมการสอบสวน เพื่อหาสาเหตุ และกำหนดมาตรการป้องกันมิให้เกิดซ้ำ" , is_subcontrol:0},
-        
-        { id: 1001 , head_id: 1, sum_id: 101, value: '',  text: "การรักษาความปลอดภัยเกี่ยวกับข้อมูลข่าวสารลับ" },
-        { id: 1002 , head_id: 1, sum_id: 102, value: '1', text: "มีการควบคุมเพียงพอ"},
-        { id: 1003 , head_id: 1, sum_id: 103, value: '0', text: "กรณีไม่เพียงพอมีแนวทางหรือวิธีการปรับปรุงการควบคุมภายในให้ดีขึ้น ดังนี้"},
-       
-        // -------------------------- 2 -------------------------- //
-        { id: 201, id_control: '2.',  head_id: 2, maincontrol_id: 2 , text: "การรักษาความปลอดภัยเกี่ยวกับบุคคล" , main_Obj:"วัตถุประสงค์ของการควบคุม" , Object_name: "เพื่อให้มั่นใจว่ามีเครื่องมือ และอุปกรณ์ที่มีประสิทธิภาพเพียงพอต่อการรักษาความปลอดภัยเกี่ยวกับบุคคล"},
-        { id: 202, id_control: '2.1', head_id: 2, text: "มีการอบรมชี้แจง ข้าราชการที่มีหน้าที่เกี่ยวข้องกับสิ่งที่เป็นความลับของทางราชการให้ทราบโดยละเอียดถึงความสำคัญและมาตรการของการรักษาความปลอดภัยเป็นครั้งคราวตามโอกาส" , is_subcontrol:0},
-        { id: 203, id_control: '2.2', head_id: 2, text: "มีการลงคำสั่งเป็นลายลักษณ์อักษรแต่งตั้งบุคคลให้ทำหน้าที่เกี่ยวกับสิ่งที่เป็นความลับของทางราชการ" , is_subcontrol:0},
-        
-        { id: 1004 , head_id: 2, sum_id: 201, value:  '', text: "การรักษาความปลอดภัยเกี่ยวกับบุคคล" },
-        { id: 1005 , head_id: 2, sum_id: 202, value: '1', text: "มีการควบคุมเพียงพอ"},
-        { id: 1006 , head_id: 2, sum_id: 203, value: '0', text: "กรณีไม่เพียงพอมีแนวทางหรือวิธีการปรับปรุงการควบคุมภายในให้ดีขึ้น ดังนี้"},
-
-        // -------------------------- 3 -------------------------- //
-        { id: 301, id_control: '3.',   head_id: 3,  maincontrol_id: 3 ,text: "การรักษาความปลอดภัยเกี่ยวกับสถานที่" , main_Obj:"วัตถุประสงค์ของการควบคุม" , Object_name: "เพื่อให้มีความมั่นใจว่าเครื่องมือและอุปกรณ์ ที่มีประสิทธิภาพเพียงพอต่อการรักษาความปลอดภัยเกี่ยวกับสถานที่"},
-        { id: 302, id_control: '3.1',  head_id: 3, text: "มีการกำหนดมาตรการ เพื่อรักษาความปลอดภัยแก่อาคาร สถานที่ วัสดุ อุปกรณ์ ในอาคารสถานที่ให้พ้นจากการโจรกรรม จารกรรม และการก่อวินาศกรรม" , is_subcontrol:0},
-        { id: 303, id_control: '3.2',  head_id: 3, text: "ข้าราชการมีการติดป้ายแสดงตน เพื่อแสดงว่าเป็นผู้ที่ได้รับอนุญาตให้เข้าพื้นที่ได้" , is_subcontrol:0},
-        { id: 304, id_control: '3.3',  head_id: 3, text: "การป้องกันอัคคีภัย มีการแต่งตั้งข้าราชการเป็นเจ้าหน้าที่ดับเพลิงโดยแบ่งเป็น ๒ กลุ่ม คือ กลุ่มที่มีหน้าที่ดับเพลิง และกลุ่มที่มีหน้าที่ขนย้าย" , is_subcontrol:0},
-        { id: 305, id_control: '3.4',  head_id: 3, text: "มีหมายเลขโทรศัพท์ของหน่วยดับเพลิงและที่จำเป็นเพื่อ ติดต่อขอความช่วยเหลือหรือแจ้งเหตุให้ทราบ" , is_subcontrol:0},
-        { id: 306, id_control: '3.5',  head_id: 3, text: "ข้าราชการได้รับการอบรมชี้แจงเกี่ยวกับขั้นตอนการปฏิบัติเมื่อเกิดอัคคีภัย เส้นทางอพยพและขนย้ายและการใช้เครื่องมือ ดับเพลิงเบื้องต้น" , is_subcontrol:0},
-        { id: 307, id_control: '3.6',  head_id: 3, text: "มีการจัดลำดับความสำคัญในการขนย้ายพัสดุ สิ่งของเอกสารภายในสำนักงาน และมีการปิดป้ายหมายเลขไว้" , is_subcontrol:0},
-
-        { id: 1007 , head_id: 3, sum_id: 301, value:  '', text: "การรักษาความปลอดภัยเกี่ยวกับสถานที่" },
-        { id: 1008 , head_id: 3, sum_id: 302, value: '1', text: "มีการควบคุมเพียงพอ"},
-        { id: 1009 , head_id: 3, sum_id: 303, value: '0', text: "กรณีไม่เพียงพอมีแนวทางหรือวิธีการปรับปรุงการควบคุมภายในให้ดีขึ้น ดังนี้"},
-
-        // -------------------------- 4 -------------------------- //
-        { id: 401, id_control: '4.',  head_id: 4,  maincontrol_id: 4 ,text: "ความพร้อมในการดำเนินงานด้านการข่าว" , main_Obj:"วัตถุประสงค์ของการควบคุม" , Object_name: "เพื่อให้มั่นใจว่าการดำเนินงาน ด้านการข่าว มีแนวทางการบริหารจัดการเพียงพอให้การปฏิบัติงาน ด้านการข่าวบรรลุภารกิจของหน่วย"},
-        { id: 402, id_control: '4.1', head_id: 4, text: "มีการจัดทำแผนการปฏิบัติงานด้านการข่าวของหน่วย" , is_subcontrol:1},
-        { id: 101, id_control: '4.1', id_subcontrol: '4.1.1', head_id: 4, text: "ระยะสั้น"}, // เทเบิ้ล subcontrol
-        { id: 102, id_control: '4.1', id_subcontrol: '4.1.2', head_id: 4, text: "ระยะปานกลาง" }, // เทเบิ้ล subcontrol
-        { id: 403, id_control: '4.2', head_id: 4, text: "มีการกำหนดผู้รับผิดชอบหลัก ผู้รับผิดชอบรอง ผู้ปฏิบัติและหน่วยสนับสนุนในการปฏิบัติงานด้านการข่าว" , is_subcontrol:0},
-        { id: 404, id_control: '4.3', head_id: 4, text: 'มีการจัดทำแผนรวบรวมข่าวสาร เพื่อแบ่งมอบภารกิจ/เป้าหมายในการรวบรวมข่าวอย่างชัดเจน' , is_subcontrol:0},
-        { id: 405, id_control: '4.4', head_id: 4 ,text: "กำลังพลในหน่วยมีความเข้าใจหน้าที่และความรับผิดชอบในการดำเนินงานด้านการข่าวของตนเอง" , is_subcontrol:0},
-        { id: 406, id_control: '4.5', head_id: 4 ,text: "มีงบประมาณที่ใช้ในการปฏิบัติงานด้านการข่าวอย่างเพียงพอ" , is_subcontrol:0},
-        { id: 407, id_control: '4.6', head_id: 4 ,text: "มีการกำหนดวงรอบการรายงานข่าวสารอย่างเป็นระบบ" , is_subcontrol:0},
-        { id: 408, id_control: '4.7', head_id: 4 ,text: "มีขีดความสามารถในการฝึกอบรมให้กำลังพลมีความรู้ความสามารถในการปฏิบัติงานด้านการข่าว" , is_subcontrol:0},
-        { id: 409, id_control: '4.8', head_id: 4 ,text: "มีแผนการฝึกอบรมเพิ่มเติมหรือการฝึกทบทวนทั้งในระยะสั้นหรือระยะปานกลาง เพื่อพัฒนาให้กำลังพลมีความพร้อมและประสบการณ์ เพิ่มมากขึ้น" , is_subcontrol:0},
-        { id: 410, id_control: '4.9', head_id: 4 ,text: "มีการสนับสนุนการฝึก ศึกษา และอบรม ทั้งจากภายในและภายนอก ทร." , is_subcontrol:0},
-        { id: 411, id_control: '4.10',head_id: 4 ,text: "มีการประชุมหน่วยเกี่ยวข้องเพื่อประสานงานและแก้ไข ปัญหาที่เกิดขึ้นในการปฏิบัติงาน" , is_subcontrol:0},
-        { id: 412, id_control: '4.11',head_id: 4 ,text: "กำลังพลมีความเข้าใจแผนปฏิบัติงานด้านการข่าว หรือแผนรวบรวมข่าวสาร" , is_subcontrol:0},
-        { id: 413, id_control: '4.12',head_id: 4 ,text: "มีการจัดทำแผน และมาตรการ การรักษาความปลอดภัย" , is_subcontrol:1},
-        { id: 101, id_control: '4.12', id_subcontrol: '4.12.1', head_id: 4, text: "ด้านสถานที่" },
-        { id: 102, id_control: '4.12', id_subcontrol: '4.12.2', head_id: 4, text: "ด้านเอกสาร" },
-        { id: 102, id_control: '4.12', id_subcontrol: '4.12.3', head_id: 4, text: "ด้านบุคคล" },
-        { id: 414, id_control: '4.13',head_id: 4 ,text: "มีการจัดทำแผนต่อต้านข่าวกรอง" , is_subcontrol:0},
-        { id: 415, id_control: '4.14',head_id: 4 ,text: "มีการจัดหาแหล่งข่าว เพื่อรวบรวมข่าวสารทั้งภายในและภายนอกประเทศ" , is_subcontrol:0},
-        { id: 416, id_control: '4.15',head_id: 4 ,text: "มีการจัดหาแหล่งข่าวเพิ่มเติม เพื่อให้เพียงพอต่อการรวบรวม ข้อมูลหรือข่าวสาร ตามเป้าหมายด้านการข่าวที่เพิ่มมากขึ้น" , is_subcontrol:0},
-        { id: 417, id_control: '4.16',head_id: 4 ,text: "มีการกระจายข้อมูลข่าวสารหรือข่าวกรองไปยังหน่วยที่จำเป็นต้องใช้" , is_subcontrol:0},
-        { id: 418, id_control: '4.17',head_id: 4 ,text: "มีการจัดเก็บข้อมูลด้านการข่าว อย่างเป็นระบบ" , is_subcontrol:0},
-        
-        { id: 1010 , head_id: 4, sum_id: 101, value: '',  text: "ความพร้อมในการดำเนินงานด้านการข่าว" },
-        { id: 1011 , head_id: 4, sum_id: 102, value: '1', text: "มีการควบคุมเพียงพอ"},
-        { id: 1012 , head_id: 4, sum_id: 103, value: '0', text: "กรณีไม่เพียงพอมีแนวทางหรือวิธีการปรับปรุงการควบคุมภายในให้ดีขึ้น ดังนี้"},
-       
-        // -------------------------- 5 -------------------------- //
-        { id: 501, id_control: '5.',    head_id: 5, maincontrol_id: 5 , text: "เครื่องมือและอุปกรณ์ที่ใช้ในงานด้านการข่าว" , main_Obj:"วัตถุประสงค์ของการควบคุม" , Object_name: "เพื่อให้มั่นใจว่าเครืองมือและอุปกรณ์ที่มีประสิทธิภาพเพียงพอต่อการปฏิบัติงานด้านการข่าว"},
-        { id: 502, id_control: '5.1',  head_id: 5, text: "มีการจัดหาเครื่องมือ อุปกรณ์ และยานพาหนะด้านการข่าว ที่มีความทันสมัยและประสิทธิภาพเพียงพอต่อการปฏิบัติงาน" , is_subcontrol:0},
-        { id: 503, id_control: '5.2',  head_id: 5, text: "มีการลงทะเบียนครุภัณฑ์และจัดทำรายการแจกจ่ายเครื่องมือและอุปกรณ์ถูกต้องตามระเบียบ รวมทั้งมีการตรวจสอบประจำปี" , is_subcontrol:0},
-        { id: 504, id_control: '5.3',  head_id: 5, text: "มีสถานที่เก็บเครื่องมือและอุปกรณ์ที่มีความปลอดภัย" , is_subcontrol:0},
-        { id: 505, id_control: '5.4',  head_id: 5, text: "มีการจัดทำแผน เพื่อจัดหาและซ่อมบำรุงเครื่องมือและ อุปกรณ์ด้านการข่าว" , is_subcontrol:0},
-        { id: 506, id_control: '5.5',  head_id: 5, text: "มีการดำเนินการจำหน่ายเครื่องมือและอุปกรณ์ด้านการข่าว ที่ชำรุดหรือหมดความจำเป็นในการใช้งาน" , is_subcontrol:0},
-        { id: 507, id_control: '5.6',  head_id: 5, text: "มีการนำระบบเทคโนโลยีสารสนเทศมาใช้ในการปฏิบัติงาน" , is_subcontrol:0},
-
-        { id: 1013 , head_id: 5, sum_id: 501, value:  '', text: "เครื่องมือและอุปกรณ์ที่ใช้ในงานด้านการข่าว" },
-        { id: 1014 , head_id: 5, sum_id: 502, value: '1', text: "มีการควบคุมเพียงพอ"},
-        { id: 1015 , head_id: 5, sum_id: 503, value: '0', text: "กรณีไม่เพียงพอมีแนวทางหรือวิธีการปรับปรุงการควบคุมภายในให้ดีขึ้น ดังนี้"},
-
-
-        // -------------------------- 6 -------------------------- //
-        { id: 601, id_control: '6.',   head_id: 6, maincontrol_id: 6 ,text: "การปฏิบัติงานด้านการข่าว" , main_Obj:"วัตถุประสงค์ของการควบคุม" , Object_name: "เพื่อให้มีความมั่นใจว่ากำลังพล มีเพียงพอที่จะปฏิบัติงานด้านการข่าว มีความรู้ ความชำนาญ ในการ วิเคราะห์ข่าว และปฏิบัติตามกฎ ระเบียบ ข้อบังคับหรือมาตรการเกี่ยวกับการรักษาความปลอดภัยโดยเคร่งครัดรวมทั้งมีแนวทางในการบริหารงานด้านบุคคลากรด้านการข่าว"},
-        { id: 602, id_control: '6.1', head_id: 6, text: "มีการกำหนดคุณสมบัติของกำลังพลที่ปฏิบัติงานด้านการข่าว" , is_subcontrol:0},
-        { id: 603, id_control: '6.2', head_id: 6, text: "ระบบการรายงานข้อมูลด้านการข่าวมีความรวดเร็ว ทันต่อเหตุการณ์ และการตัดสินใจของผู้บังคับบัญชา" , is_subcontrol:0},
-        { id: 604, id_control: '6.3', head_id: 6, text: 'มีการฝึกอบรมให้เจ้าหน้าที่มีความรู้ ความชำนาญในการใช้เครื่องมือ อุปกรณ์ หรือระบบสารสนเทศด้านการข่าว' , is_subcontrol:0},
-        { id: 605, id_control: '6.4', head_id: 6 ,text: "มีการฝึกอบรมเพื่อให้ความรู้ ความชำนาญและประสบการณ์ในการปฏิบัติงานด้านการข่าว โดยเฉพาะในการวิเคราะห์ข่าวสาร" , is_subcontrol:0},
-        { id: 606, id_control: '6.5', head_id: 6 ,text: "มีการสรรหาหรือคัดเลือกกำลังพลที่มีขีดความสามารถและเหมาะสม เพื่อให้มาปฏิบัติงานด้านการข่าว" , is_subcontrol:0},
-        { id: 607, id_control: '6.6', head_id: 6 ,text: "มีแนวทางในการบริหารบุคลากร และมีสิ่งจูงใจในการปฏิบัติงาน ให้กำลังพลด้านการข่าว" , is_subcontrol:0},
-        { id: 608, id_control: '6.7', head_id: 6 ,text: "มีกำลังพลเพียงพอในการปฏิบัติงาน" , is_subcontrol:0},
-        { id: 609, id_control: '6.8', head_id: 6 ,text: "มีนักวิเคราะห์ข่าวในการปฏิบัติงานด้านการข่าว" , is_subcontrol:0},
-        { id: 610, id_control: '6.9', head_id: 6 ,text: "มีการตรวจสอบขีดความสามารถ และความไว้วางใจ บุคคลของกำลังพลที่ปฏิบัติงานด้านการข่าวของหน่วย" , is_subcontrol:0},
-        { id: 611, id_control: '6.10',head_id: 6 ,text: "มีการประชุมหน่วยเกี่ยวข้องเพื่อประสานงานและแก้ไข ปัญหาที่เกิดขึ้นในการปฏิบัติงาน" , is_subcontrol:0},
-        { id: 612, id_control: '6.11',head_id: 6 ,text: "มีการปฏิบัติตามกฎ ระเบียบ ข้อบังคับ ด้านการรักษาความปลอดภัยและด้านการข่าว" , is_subcontrol:0},
-        { id: 613, id_control: '6.12',head_id: 6 ,text: "มีการกวดขันกำลังพลให้ปฏิบัติตามกฎ ระเบียบ ข้อบังคับหรือมาตรการที่เกี่ยวกับการรักษาความปลอดภัย" , is_subcontrol:0},
-        { id: 614, id_control: '6.13',head_id: 6 ,text: "มีการลงโทษผู้ละเมิดกฎ ระเบียบ ข้อบังคับหรือมาตรการรักษาความปลอดภัย หรือมีมาตรการการลงโทษผู้ละเมิด ดังกล่าว", is_subcontrol:0 },
-        { id: 615, id_control: '6.14',head_id: 6 ,text: "มีการปรับปรุงกฎ ระเบียบ ข้อบังคับหรือมาตรการรักษาความปลอดภัย เพื่อให้ทันกับการเปลี่ยนแปลงของสถานการณ์ในปัจจุบัน" , is_subcontrol:0},
-        { id: 616, id_control: '6.15',head_id: 6 ,text: "มีแนวทางการสร้างเสริมจิตสำนึกในการปฏิบัติงานด้านการข่าวให้กับกำลังพลทั่วไปของหน่วย", is_subcontrol:0 },
-        { id: 617, id_control: '6.16',head_id: 6 ,text: "มีการประเมินผลการปฏิบัติและทบทวน ปรับปรุงแก้ไขแผนรวบรวมข่าวสารให้ทันสมัย", is_subcontrol:0 },
-        
-        { id: 1016 , head_id: 6, sum_id: 601, value: '',  text: "การปฏิบัติงานด้านการข่าว" },
-        { id: 1017 , head_id: 6, sum_id: 602, value: '1', text: "มีการควบคุมเพียงพอ"},
-        { id: 1018 , head_id: 6, sum_id: 603, value: '0', text: "กรณีไม่เพียงพอมีแนวทางหรือวิธีการปรับปรุงการควบคุมภายในให้ดีขึ้น ดังนี้"},
-       
-    ];
     
-    for (var i = 0; i < textAndIds.length; i++) {
-        var item = textAndIds[i];
+    for (var i = 0; i < dataControl.length; i++) {
+        var item = dataControl[i];
         if (item.maincontrol_id !== undefined || item.sum_id !== undefined) {
             if (item.sum_id && item.value) { // ส่วนสรุป
                 strSumDetail = fnMapValueToCallFunction(item)
@@ -252,60 +159,23 @@ function fnDrawTableReportAssessment() { /* ด้านการข่าว */
                 }
             }
         } else { // หัวข้อย่อยทั้งหมด
-            if (item.is_subcontrol == 1) { // ถ้ามีหัวข้อย่อย 
-                // console.log(item.text)
-                // strHTML += "<tr><td style='width: 55%;text-indent: 17px;'>"+ fnConvertToThaiNumeralsAndPoint(item.id_subcontrol) + ' ' + item.text + "</td><td></td><td></td><td></td></tr>";
-            } else { // ไม่มีหัวข้อย่อย
-                
-                // strHTML += createCheckboxAndTextAreaRow(item.id_control, item.text, item.id);
-                if(item.is_subcontrol) {
-                    strHTML += createCheckboxAndTextAreaRow(item.id_control, item.text, item.id);
+            
+            if ((item.is_subcontrol && item.is_subcontrol == 1) || (item.is_innercontrol && item.is_innercontrol == 1)) { // ถ้ามีหัวข้อย่อย 
+                if (item.id_subcontrol) {
+                    strHTML += "<tr><td style='width: 55%;text-indent: 12%'>"+ fnConvertToThaiNumeralsAndPoint(item.id_subcontrol) + ' ' + item.text + "</td><td></td><td></td><td></td></tr>";
                 } else {
-                    strHTML += createCheckboxAndTextAreaRow(item.id_control, item.text, item.id);
+                    strHTML += "<tr><td style='width: 55%;text-indent: 17px;'>"+ fnConvertToThaiNumeralsAndPoint(item.id_control) + ' ' + item.text + "</td><td></td><td></td><td></td></tr>";
+                }
+            } else { // ไม่มีหัวข้อย่อย is_subcontrol == 0 หรือ item.is_innercontrol == 0
+                if (item.id_innercontrol) { // 1
+                    strHTML += fnCreateCheckboxAndTextAreaRow(item.id_innercontrol, item.text, item.id, '26%');
+                } else if (item.id_subcontrol) {
+                    strHTML += fnCreateCheckboxAndTextAreaRow(item.id_subcontrol, item.text, item.id, '12%');
+                } else {
+                    strHTML += fnCreateCheckboxAndTextAreaRow(item.id_control, item.text, item.id, '17px');
                 }
             }
         }
-    }
-
-    for (var i = 0; i < textAndIds.length; i++) {
-        var item = textAndIds[i];
-
-        var strSumDetail = ''
-        // if (typeof item.text === 'string' && ["101", "102","108", "109", "110", "201", "202","208", "209", "210", "301", "302", "309", "310", "311", "401", "402","425" ,"426" ,"427", "501", "502" ,"509", "510", "511", "601", "602", "619", "620","621"].includes(item.id)) {
-        // if (typeof item.text === 'string' && [101,102,103, 115, 116, 117, 201, 202, 203, 206,207, 208, 209, 301, 302, 303, 310, 311, 312, 401, 402, 403 ,426 , 427, 428, 501, 502 , 503, 510, 511, 512, 601, 602, 603,620,621,622].includes(item.id)) {
-        // if (typeof item.text === 'string' && [101, 115, 116, 117, 201, 202, 203, 206,207, 208, 209, 301, 302, 303, 310, 311, 312, 401, 402, 403 ,426 , 427, 428, 501, 502 , 503, 510, 511, 512, 601, 602, 603,620,621,622].includes(item.id)) {
-        // if (typeof item.text === 'string' && [101, 115, 116, 117, 201, 206,207, 208, 209, 301, 310, 311, 312, 401, 402, 403 ,426 , 427, 428, 501, 502 , 503, 510, 511, 512, 601, 602, 603,620,621,622].includes(item.id)) {   
-        // if (typeof item.text === 'string' && [101,].includes(item.id)) {
-        // if (typeof item.text === 'string'){
-            // if (item.sum_id && item.value) { // ส่วนสรุป
-            //     strSumDetail = fnMapValueToCallFunction(item)
-            //     strHTML += "<tr><td style='width: 55%;'>" + strSumDetail.text + "</td><td></td><td></td><td></td></tr>"
-            // } else { // ส่วนอื่น ๆ วัตถุประสงค์ 
-            //     if (item.sum_id) { // ตรงส่วนสรุปแต่ละคำถาม
-            //         strHTML += "<tr><td style='width: 55%;'><u>สรุป</u> : " + item.text + "</td><td></td><td></td><td></td></tr>";
-
-            //     } else { // หัวข้ออื่น ๆ 
-                    
-            //         if (item.is_subcontrol == 1) { // หัวข้อหลัก
-            //            console.log(item.text)
-            //             strHTML += "<tr><td style='width: 55%;'>"+ fnConvertToThaiNumeralsAndPoint(item.id_control) + ' ' + item.text + "</td><td></td><td></td><td></td></tr>";
-            //         } else { // หัวข้อย่อย
-            //             strHTML += "<tr><td style='width: 55%;text-indent: 17px;'>"+ fnConvertToThaiNumeralsAndPoint(item.id_control) + ' ' + item.text + "</td><td></td><td></td><td></td></tr>";
-            //         }
-            //     }
-            //     if (item.main_Obj) {
-            //         strHTML += "<tr><td style='width: 55%;text-indent: 17px;'>" + item.main_Obj + "</td><td></td><td></td><td></td></tr>";
-            //     }
-            //     if (item.Object_name) {
-            //         strHTML += "<tr><td style='width: 55%;text-indent: 17px;'>" + item.Object_name + "</td><td></td><td></td><td></td></tr>";
-            //     }
-            // }
-        // if (filteredArray) {
-
-        // }
-        // } else  { // กรณีที่ เป็นหัวข้อย่อยของทั้งหมด
-        //     strHTML += createCheckboxAndTextAreaRow(item.id_control, item.text, item.id);
-        // }
     }
 
 
@@ -313,6 +183,100 @@ function fnDrawTableReportAssessment() { /* ด้านการข่าว */
     // แทรกโค้ดเข้าไปใน #dvTableReportAssessment
     // $("#dvTableReportAssessment")[0].innerHTML = strHTML;
 }
+
+function fnDrawTableReportAssessmentFix (data) {  /* ด้านยุทธการ */
+    var strHTML = "" ;
+    var dataControl = data
+    /* แถวที่มี Checkbox และ TextArea */
+// checkbox-container
+    var mainHeadings = [
+        { id: 1, text: "การเตรียมกำลัง" },
+        { id: 2, text: "การใช้กำลัง" }
+    ];
+
+
+    function fnAddMainHeadingIfNeeded(currentMainControlId) {
+        var mainHeading = mainHeadings.find(heading => heading.id === currentMainControlId);
+        if (mainHeading) {
+            strHTML += `<tr><td style='width: 55%; font-weight: bold;'>${fnConvertToThaiNumeralsAndPoint(mainHeading.id)}. ${mainHeading.text}</td><td></td><td></td><td></td></tr>`;
+            mainHeadings = mainHeadings.filter(heading => heading.id !== currentMainControlId);
+        }
+    }
+    
+    
+    if (dataControl.length > 0) {
+        var currentMainControlId = null;
+        for (var i = 0; i < dataControl.length; i++) {
+            var item = dataControl[i];
+            if (currentMainControlId !== item.maincontrol_id) {
+                currentMainControlId = item.maincontrol_id;
+                fnAddMainHeadingIfNeeded(currentMainControlId);
+            }
+
+            if (item.maincontrol_id !== undefined || item.sum_id !== undefined) {
+                if (item.sum_id && item.value) { // ส่วนสรุป
+                    strSumDetail = fnMapValueToCallFunction(item)
+                    strHTML += "<tr><td style='width: 55%;'>" + strSumDetail.text + "</td><td></td><td></td><td></td></tr>"
+                } else { // ส่วนอื่น ๆ วัตถุประสงค์ 
+                    if (item.sum_id) { // ตรงส่วนสรุปแต่ละคำถาม
+                        strHTML += "<tr><td style='width: 55%;font-weight: bold;'><u>สรุป</u> : " + item.text + "</td><td></td><td></td><td></td></tr>";
+                    } else { // หัวข้อหลัก 1,2,3,4,5
+                        strHTML += "<tr><td style='width: 55%;;font-weight: bold;text-indent: 5%;'>"+ fnConvertToThaiNumeralsAndPoint(item.id_control) + ' ' + item.text + "</td><td></td><td></td><td></td></tr>";
+                    }
+                    if (item.main_Obj) { //วัตถุประสงค์ของการควบคุม ใช้ร่วมกัน
+                        strHTML += "<tr><td style='width: 55%;font-weight: bold;text-indent: 12%;'>" + item.main_Obj + "</td><td></td><td></td><td></td></tr>";
+                    }
+                    if (item.Object_name) { // เพื่อ ......
+                        strHTML += "<tr><td style='width: 55%;font-style: italic;text-indent: 12%;'>" + item.Object_name + "</td><td></td><td></td><td></td></tr>";
+                    }
+                }
+            } else { // หัวข้อย่อยทั้งหมด
+                
+                if ((item.is_subcontrol && item.is_subcontrol == 1) || (item.is_innercontrol && item.is_innercontrol == 1)) { // ถ้ามีหัวข้อย่อย 
+                    if (item.id_subcontrol) {
+                        strHTML += "<tr><td style='width: 55%;text-indent: 12%'>"+ fnConvertToThaiNumeralsAndPoint(item.id_subcontrol) + ' ' + item.text + "</td><td></td><td></td><td></td></tr>";
+                    } else {
+                        strHTML += "<tr><td style='width: 55%;text-indent: 12%;'>"+ fnConvertToThaiNumeralsAndPoint(item.id_control) + ' ' + item.text + "</td><td></td><td></td><td></td></tr>";
+                    }
+                } else { // ไม่มีหัวข้อย่อย is_subcontrol == 0 หรือ item.is_innercontrol == 0
+                    if (item.id_innercontrol) { // 1
+                        strHTML += fnCreateCheckboxAndTextAreaRow(item.id_innercontrol, item.text, item.id, '26%');
+                    } else if (item.id_subcontrol) {
+                        strHTML += fnCreateCheckboxAndTextAreaRow(item.id_subcontrol, item.text, item.id, '12%');
+                    } else {
+                        strHTML += fnCreateCheckboxAndTextAreaRow(item.id_control, item.text, item.id, '12%');
+                    }
+                }
+            }
+        }
+    }
+    return strHTML;
+    // แทรกโค้ดเข้าไปใน #dvTableReportAssessment
+    // $("#dvTableReportAssessment")[0].innerHTML = strHTML;
+}
+
+function fnDrawTableReportAssessmentOther(strSides, data) {
+    console.log()
+    var strHTML = "" ;
+    var arrSides = data
+    var index = arrSides.findIndex(item => item.key === strSides);
+   
+    strHTML += " <div id='dvSidesOther'>"
+    strHTML += "    <tr><td class='tdSidesOther' style='width: 55%;font-weight: bold;'>"
+    strHTML += "    <div> "+ fnConvertToThaiNumeralsAndPoint(arrSides[index].value) +". อื่น ๆ "
+    strHTML += "    <button id='btn_SidesOther' type='button' class='btn btn-success btn-sm'; onclick='fnGetModalSidesOther(\"" + strSides + "\",\"" + arrSides[index].value + "\",\"" + arrSides[index].NameSides + "\")' style='margin-left : 5px;'  data-bs-toggle='modal' data-bs-target='#OtherRiskModal'>"
+    strHTML += "    <i class='las la-plus mr-1' aria-hidden=;'true' style='margin-right:5px'></i><span>เพื่มความเสี่ยงอื่นที่พบ</span>"
+    strHTML += "    </button>"
+    strHTML += "  <div id='dvSidesOther'>"
+    strHTML += "    <div>............................................................................................</div>"
+    strHTML += "    <div>............................................................................................</div>"
+    strHTML += "    </td>"
+    strHTML += "    <td class='tdSidesOther'></td><td class='tdSidesOther'></td><td class='tdSidesOther'></td></tr>";
+    strHTML += "  </div> "
+    strHTML += " </div> "
+    return strHTML;
+}
+
 
 function fnMapValueToCallFunction(items) {
     // ตรวจสอบว่า items เป็น object หรือ array
@@ -343,7 +307,7 @@ function fncreateTextAreaAndButton(text, id) {
             <button class='btn btn-secondary btn-sm' type='submit' id='submitButton${id}' onclick='fnSubmitText(${id})' style='display:none'>ยืนยัน</button>
         </div>
         <div style='display:flex; align-items: center;'>
-            <p class='text-left pComment' id='displayText${id}'></p>
+            <p class='text-left pComment' id='displayText${id}' style='white-space: pre-wrap;'></p>
             <i class='las la-pencil-alt' id='editIcon${id}' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText(${id})'></i>
         </div>
         <div id='dvUploadDoc${id}' class="text-center align-middle">
@@ -375,6 +339,10 @@ function fnViewDocConfig (text, id) {
         });
     }
 }
+
+// function fnSidesOtherConfig (side, id, nameSides) {
+//     fnGetModalSidesOther(side, id, nameSides);
+// }
 
 function fnGetDataModal(strtext, id) {
     // var arrData = fnGetDataInternalControl(id) // call function get data
@@ -409,6 +377,94 @@ function fnGetDataModal(strtext, id) {
     
     // fnChangeSizeSelect("slNameRates") //ปรับขนาด select
     
+}
+
+function fnGetModalSidesOther (sides, value, nameSides) {
+    var strHTML = ''
+    var strHTML2 = ''
+    if (sides == 'branchoperation') {
+
+    } else { // ด้านที่เหลือ
+
+    
+        // draw modal
+        strHTML += " <div class='mb-3'> "
+        strHTML += " <label for='headCheckTopic' class='lableHead'>ด้านของกิจกรรม</label> "
+        strHTML += " <input type='text' class='form-control' id='headCheckTopic' value='" + nameSides + "' style='background: darkgray;' readonly> "
+        strHTML += " </div> "
+    
+        strHTML += " <div class='mb-3'> "
+        strHTML += " <label for='nameMenuCheckTopic' class='lableHead label-required'>หัวข้อกิจกรรม</label> "
+        strHTML += "<input type='text' class='form-control' id='nameMenuCheckTopic' value=''>"
+        strHTML += " </div> "
+
+        strHTML += " <div class='mb-3'> "
+        strHTML += " <label for='nameActivity' class='lableHead label-required'>วัตถุประสงค์</label> "
+        strHTML += "<input type='text' class='form-control' id='nameObjective' value=''>"
+        strHTML += " </div> "
+    
+        strHTML += " <div class='mb-3'> "
+        strHTML += " <label for='nameActivity' class='lableHead label-required'>ชื่อกิจกรรม 1</label> "
+        strHTML += "<input type='text' class='form-control' id='nameActivity' value=''>"
+        strHTML += " </div> "
+
+        strHTML += " <div class='mb-3'> "
+        strHTML += " <label for='nameActivity2' class='lableHead'>ชื่อกิจกรรม 2</label> "
+        strHTML += "<input type='text' class='form-control' id='nameActivity2' value=''>"
+        strHTML += " </div> "
+    
+        strHTML2 += " <button type='button' class='btn btn-primary' onclick='fnAddNewRowFromModal()'>บันทึกข้อมูล</button> "
+        strHTML2 += " <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>ยกเลิก</button> "           
+    
+    
+        $("#dvBodyModalOtherRiskModal")[0].innerHTML = strHTML
+        $("#dvFooterModalOtherRiskModal")[0].innerHTML = strHTML2
+
+    }
+    
+
+ }
+
+ // ฟังก์ชันเพื่อเพิ่มแถวใหม่จาก modal
+function fnAddNewRowFromModal() {
+    var nameSides = $('#headCheckTopic').val();
+    var activityTitle = $('#nameMenuCheckTopic').val();
+    var objective = $('#nameObjective').val();
+    var activityName1 = $('#nameActivity').val();
+    var activityName2 = $('#nameActivity2').val();
+
+    // ดึงข้อมูล data จาก attribute ของตาราง
+    var dataString = $('#dvTableReportAssessment').attr('data-table');
+    var data;
+    try {
+        data = JSON.parse(dataString);
+    } catch (e) {
+        console.error("Error parsing JSON data: ", e);
+        data = [];
+    }
+
+    var newRow = {
+        id: new Date().getTime(), // ใช้ timestamp เป็น id
+        id_control: '',
+        head_id: 2,
+        text: activityTitle,
+        main_Obj: objective,
+        Object_name: activityName1 + (activityName2 ? ", " + activityName2 : "")
+    };
+
+     // เพิ่มแถวใหม่เข้าไปใน data
+     data.push(newRow);
+
+    // วาดตารางใหม่
+    var updatedTableHTML = fnDrawTableReportAssessment(data);
+    $('#dvTableReportAssessment').html(updatedTableHTML);
+
+    // อัปเดต attribute data-table ด้วยข้อมูลใหม่
+    $('#dvTableReportAssessment').attr('data-table', JSON.stringify(data));
+
+
+    // ปิด modal
+    $('#OtherRiskModal').modal('hide');
 }
 
 function fnToggleTextarea(btnUpdload,btnViewDoc,textareaId,buttonsId ,checkbox, coloums, id) {
@@ -489,9 +545,11 @@ function fnSubmitText(id) {
     const displayText = document.getElementById('displayText' + id);
     const editIcon = document.getElementById('editIcon' + id);
     const tab = '&emsp;';
+    let format = ''
 
     if (textarea.value) {
-        displayText.innerHTML = tab + textarea.value;
+        format = textarea.value.replace(/\n/g, '<br>');
+        displayText.innerHTML = tab + format
 
         /* ซ่อน textarea และปุ่ม */
         textarea.style.display = 'none';
@@ -516,9 +574,11 @@ function fnSubmitTextSum(val) {
     const displayText = document.getElementById('displayTextSum' + val);
     const editIcon = document.getElementById('editIconSum' + val);
     const tab = '&emsp;'
+    let format = ''
 
     if (textarea.value) {
-        displayText.innerHTML = tab + textarea.value;
+        format = textarea.value.replace(/\n/g, '<br>');
+        displayText.innerHTML = tab + format
 
         /* ซ่อน textarea และปุ่ม */
         textarea.style.display = 'none';
@@ -568,9 +628,9 @@ function fnEditTextSum(val) {
 }
 
 
-function fnDrawCommentDivEvaluation(side) {
+function fnDrawCommentDivEvaluation(data) {
     var strHTML = ''
-    strHTML += " <div class='dvEvaluation'>สรุป : การควบคุมภายใน"+side+"</div> "
+    strHTML += " <div class='dvEvaluation'>สรุป : การควบคุมภายใน"+data+"</div> "
     strHTML += " <div> "
     strHTML += " <textarea id='commentEvaluation' name='commentEvaluation' rows='5' cols='83'></textarea> "
     strHTML += " </div> "
@@ -578,7 +638,7 @@ function fnDrawCommentDivEvaluation(side) {
     strHTML += " <button class='btn btn-secondary' type='submit' id='submitButtonCommentEvaluation' onclick='fnSubmitTextCommentEvaluation()' style='width: 100px;'>ยืนยัน</button> "
     strHTML += " </div> "
     strHTML += " <div class='text-start'> "
-    strHTML += " <span id='displayTextCommentEvaluation'></span> "
+    strHTML += " <span id='displayTextCommentEvaluation' style='white-space: pre-wrap;'></span> "
     strHTML += " <i class='las la-pencil-alt' id='editIconCommentEvaluation' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditTextCommentEvaluation()'></i> "
     strHTML += " </div> "
     // strHTML += " <span id='spanResultEvaluation'> ทรภ.๒ มีการควบคุมภายในด้านการข่าว ที่เพียงพอและเหม่าะสม.มีการรักษาความปลอดภัยเกี่ยวกับสถานที่และการปฏิบัติการด้านการข่าว รวมทั้งข้อมูลข่าวสารลับมีประสิทธิภาพเพียงพอต่อการรักษาความปลอดภัยเกี่ยวกับบุคคล มีแนวทางการบริหารจัดการเพียงพอให้การปฏิบัติงานด้านการข่าว กำลังพลมีเพียงพอที่จะปฏิบัติงานด้านการข่าว มีความรู้ความชำนาญในการวิเคราะห์ข่าวและปฏิบัติตามกฎระเบียบข้อบังคับหรือมาตรการเกี่ยวกับการรักษา ความปลอดภัยโดยเคร่งครัด ทั้งนี้ ในส่วนของเครื่องมือและอุปกรณ์ที่ใช้ในงาน ด้านการข่าว พบว่า.เครื่องมือ/อุปกรณ์ในการรวบรวมข้อมูลด้านการข่าวยังมีความไม่ทันสมัยและมีประสิทธิภาพไม่เพียงพอต่อการปฏิบัติงาน. จำเป็นต้องปรับปรุงการควบคุมภายในให้ดีขึ้น โดยการจัดหาเครื่องมือ/อุปกรณ์เพิ่มเติม เพื่อให้การดำเนินการรวบรวมข้อมูลด้านการข่าวมีประสิทธิภาพเพียงพอต่อการปฏิบัติงาน</div></span> "
@@ -592,9 +652,11 @@ function fnSubmitTextCommentEvaluation() {
     var displayText = document.getElementById('displayTextCommentEvaluation');
     var editIcon = document.getElementById('editIconCommentEvaluation');
     var tab = '&emsp;'
+    var format = ''
 
     if (textarea.value) {
-        displayText.innerHTML = tab + textarea.value;
+        format = textarea.value.replace(/\n/g, '<br>');
+        displayText.innerHTML = tab + format
 
         /* ซ่อน textarea และปุ่ม */
         textarea.style.display = 'none';
@@ -684,3 +746,5 @@ function fnChangeSizeSelect(name) {
           }
     }
 }
+
+ 

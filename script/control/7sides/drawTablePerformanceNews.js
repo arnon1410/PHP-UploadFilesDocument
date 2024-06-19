@@ -1,9 +1,9 @@
 function fnSetHeader(dataHeader){
     var strHTML = ''
-    strHTML += "<th rowspan='2' class='text-center textHeadTable'>ภารกิจตามกฎหมายที่จัดตั้งหน่วยงานภาครัฐหรือภารกิจตามแผนการดำเนินการหรือภารกิจอื่น ๆ ที่สำคัญของหน่วยงานภาครัฐ</th>"
-    strHTML += "<th rowspan='2' class='text-center textHeadTable'>วัตถุประสงค์</th>"
-    strHTML += "<th rowspan='2' class='text-center textHeadTable'>ความเสี่ยงที่อาจเกิดขึ้น</th>"
-    strHTML += "<th rowspan='2' class='text-center textHeadTable'>กิจกรรมควบคุมภายในที่มีอยู่</th>"
+    strHTML += "<th rowspan='2' class='text-center textHeadTable' style=''>ภารกิจตามกฎหมายที่จัดตั้งหน่วยงานภาครัฐหรือภารกิจตามแผนการดำเนินการหรือภารกิจอื่น ๆ ที่สำคัญของหน่วยงานภาครัฐ</th>"
+    strHTML += "<th rowspan='2' class='text-center textHeadTable' style=''>วัตถุประสงค์</th>"
+    strHTML += "<th rowspan='2' class='text-center textHeadTable' style=''>ความเสี่ยงที่อาจเกิดขึ้น</th>"
+    strHTML += "<th rowspan='2' class='text-center textHeadTable style=''>กิจกรรมควบคุมภายในที่มีอยู่</th>"
     strHTML += "<th colspan='3' class='text-center textHeadTable'>ความเสี่ยงที่เหลืออยู่</th>"
     strHTML += "<th rowspan='2' class='text-center textHeadTable'>การปรับปรุงการควบคุมภายใน</th>"
     return strHTML
@@ -66,20 +66,20 @@ function fnDrawTablePerformance(objData) { /* ด้านการข่าว 
     var data = objData
     for (var i = 0; i < data.length; i++) {
         strHTML += "<tr>"
-        strHTML += "<td id='headRisk" + (i + 1) + "'  class='text-left align-top' style='width: 27%;white-space: pre-wrap;'>" + (data[i].headRisk ? (data[i].headRisk) : '-') + "</td>"
-        strHTML += "<td id='objRisk" + (i + 1) + "'  class='text-left align-top' style='width: 20%;white-space: pre-wrap;'>" + (data[i].objRisk ? (data[i].objRisk) : '-') + "</td>"
-        strHTML += "<td id='risking" + (i + 1) + "'  class='text-left align-top' style='width: 20%;white-space: pre-wrap;'>" + (data[i].risking ? (data[i].risking) : '-') + "</td>"
+        strHTML += "<td id='headRisk" + (i + 1) + "'  class='text-left align-top' style='white-space: pre-wrap;'>" + (data[i].headRisk ? (data[i].headRisk) : '-') + "</td>"
+        strHTML += "<td id='objRisk" + (i + 1) + "'  class='text-left align-top' style='white-space: pre-wrap;'>" + (data[i].objRisk ? (data[i].objRisk) : '-') + "</td>"
+        strHTML += "<td id='risking" + (i + 1) + "'  class='text-left align-top' style='white-space: pre-wrap;'>" + (data[i].risking ? (data[i].risking) : '-') + "</td>"
         if (data[i].activityControl) {
-            strHTML += "<td id='activityControl" + (i + 1) + "'  class='text-center align-top' style='width: 10%;white-space: pre-wrap;'> "+ data[i].activityControl +" </td>"
+            strHTML += "<td id='activityControl" + (i + 1) + "'  class='text-center align-top' style='white-space: pre-wrap;'> "+ data[i].activityControl +" </td>"
         } else {
-            strHTML += "<td class='align-top' style='width: 10%;'> "
+            strHTML += "<td class='align-top' style=''> "
             strHTML += fnCreateTextAreaAndButton('activityControl' + i)
             strHTML += "</td>"
         }
         // ChanceRisk
-            strHTML += "<td class='text-center align-middle' style='width: 10%;'>";
+            strHTML += "<td class='text-center align-middle' style=''>";
             strHTML += "<div>";
-            strHTML += "<span id='spanChanceRisk" + (i + 1) + "'>" + (data[i].chanceRisk ? fnConvertToThaiNumerals(data[i].chanceRisk) : '-') + "</span>";
+            strHTML += "<span id='spanChanceRisk" + (i + 1) + "'>" + (data[i].chanceRisk ? fnConvertToThaiNumeralsAndPoint(data[i].chanceRisk) : '-') + "</span>";
             strHTML += "</div>";
             strHTML += "<div>";
             strHTML += "<button id='btnChanceRisk" + (i + 1) + "' type='button' class='btn btn-warning mt-2' onclick='fnOpenModalAndSetChanceRisk(\"ChanceRisk" +  (i + 1) + "\")'>";
@@ -89,9 +89,9 @@ function fnDrawTablePerformance(objData) { /* ด้านการข่าว 
             strHTML += "</td>";
             
             // EffectRisk
-            strHTML += "<td class='text-center align-middle' style='width: 10%;'>";
+            strHTML += "<td class='text-center align-middle' style=''>";
             strHTML += "<div>";
-            strHTML += "<span id='spanEffectRisk" + (i + 1) + "'>" + (data[i].effectRisk ? fnConvertToThaiNumerals(data[i].effectRisk) : '-') + "</span>";
+            strHTML += "<span id='spanEffectRisk" + (i + 1) + "'>" + (data[i].effectRisk ? fnConvertToThaiNumeralsAndPoint(data[i].effectRisk) : '-') + "</span>";
             strHTML += "</div>";
             strHTML += "<div>";
             strHTML += "<button id='btnEffectRisk" + (i + 1) + "' type='button' class='btn btn-warning mt-2' onclick='fnOpenModalAndSetEffectRisk(\"EffectRisk" +  (i + 1) + "\")'>";
@@ -101,13 +101,13 @@ function fnDrawTablePerformance(objData) { /* ด้านการข่าว 
             strHTML += "</td>";
 
             // RankRisk
-            strHTML += "<td class='text-center align-middle' style='width: 10%;'> "
+            strHTML += "<td class='text-center align-middle' style=''> "
             strHTML += fnSetRankRiskTable((i + 1))
             // strHTML += "<div >"
-            // strHTML += "<span id='spanRankRisk" + (i + 1)+ "'>" + (data[i].rankRisk ? fnConvertToThaiNumerals(data[i].rankRisk) : '-') + "</span>"
+            // strHTML += "<span id='spanRankRisk" + (i + 1)+ "'>" + (data[i].rankRisk ? fnConvertToThaiNumeralsAndPoint(data[i].rankRisk) : '-') + "</span>"
             // strHTML += "</div>";
             // strHTML += "<div>"
-            // strHTML += "<span id='spanRankRisk" + (i + 1)+ "'>" + (data[i].rankRisk ? fnConvertToThaiNumerals(data[i].rankRisk) : '(-)') + "</span>"
+            // strHTML += "<span id='spanRankRisk" + (i + 1)+ "'>" + (data[i].rankRisk ? fnConvertToThaiNumeralsAndPoint(data[i].rankRisk) : '(-)') + "</span>"
             // strHTML += "</div>";
             // strHTML += "<div>";
             // strHTML += "<button id='btnMatrixRank" + (i + 1) + "' type='button' class='btn btn-primary mt-2' data-bs-toggle='modal' data-bs-target='#MatrixRankModal'>"
@@ -117,11 +117,17 @@ function fnDrawTablePerformance(objData) { /* ด้านการข่าว 
             strHTML += "</td>"
         // } else { // ถ้าไม่มี
         //     strHTML += "<td class='text-center align-middle'> "
-        //     strHTML += "<span id='spanRankRisk" + (i + 1)+ "'>" + (data[i].rankRisk ? fnConvertToThaiNumerals(data[i].rankRisk) : '-') + "</span>"
+        //     strHTML += "<span id='spanRankRisk" + (i + 1)+ "'>" + (data[i].rankRisk ? fnConvertToThaiNumeralsAndPoint(data[i].rankRisk) : '-') + "</span>"
         //     strHTML += "</td>"
             
         // }
-        strHTML += "<td id='improvement" + (i + 1) + "'  class='text-left align-top' style='width: 20%;white-space: pre-wrap;'>" + (data[i].improvement ? (data[i].improvement) : '-') + "</td>"
+        if (data[i].activityControl) {
+            strHTML += "<td id='improvement" + (i + 1) + "'  class='text-left align-top' style='white-space: pre-wrap;'>" + data[i].improvement + "</td>"
+        } else {
+            strHTML += "<td class='align-top' style=''> "
+            strHTML += fnCreateTextAreaAndButton('improvement' + i)
+            strHTML += "</td>"
+        }
         strHTML += "</tr>"
     }
 
@@ -164,7 +170,7 @@ function fnCreateTextAreaAndButton(id) {
         strHTML += " <button class='btn btn-secondary' type='submit' id='submitButton" + id + "' onclick='fnSubmitText(\"" + id + "\")'>ยืนยัน</button> "
         strHTML += " </div> "
         strHTML += " <div> "
-        strHTML += " <span class='text-left' id='displayText" + id + "'></span> "
+        strHTML += " <span class='text-left' id='displayText" + id + "' style='white-space: pre-wrap;'></span> "
         strHTML += " <i class='las la-pencil-alt' id='editIcon"+ id +"' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText(\"" + id + "\")'></i> "
         strHTML += " </div> "
 
@@ -177,12 +183,13 @@ function fnSubmitText(id) {
     var button = document.getElementById('submitButton' + id);
     var displayText = document.getElementById('displayText' + id);
     var editIcon = document.getElementById('editIcon' + id);
-    var formattedText = ''
     var tab = ''
+    var format = ''
 
     if (textarea.value) {
-        formattedText = textarea.value.replace(/\n/g, "<br>");
-        displayText.innerHTML = tab + formattedText;
+        format = textarea.value.replace(/\n/g, '<br>');
+        displayText.innerHTML = tab + format
+
 
         /* ซ่อน textarea และปุ่ม */
         textarea.style.display = 'none';
@@ -306,7 +313,7 @@ function fnSaveChanceRiskModal() {
                     strButton = $('#btn' + strInputChanceRisk);
                     lastPositionText = strInputChanceRisk.substring(strInputChanceRisk.length - 1);
                 
-                    strDisplayText.html(fnConvertToThaiNumerals(strCheckedValue)) // add value
+                    strDisplayText.html(fnConvertToThaiNumeralsAndPoint(strCheckedValue)) // add value
                     
                     /* ซ่อนปุ่ม */
                     strDisplayText.css('display', 'block');
@@ -358,7 +365,7 @@ function fnSaveEffectRiskModal() {
                     strButton = $('#btn' + strInputEffectRisk);
                     lastPositionText = strInputEffectRisk.substring(strInputEffectRisk.length - 1);
                 
-                    strDisplayText.html(fnConvertToThaiNumerals(strCheckedValue)) // add value
+                    strDisplayText.html(fnConvertToThaiNumeralsAndPoint(strCheckedValue)) // add value
                     
                     /* ซ่อนปุ่ม */
                     strDisplayText.css('display', 'block');
@@ -419,7 +426,7 @@ function fnSetRankRiskTable (index) {
         replaceSpanRankRisk = $('#spanRankRisk' + index)
         replaceSpanDesRankRisk = $('#spanDesRankRisk' + index)
 
-        replaceSpanRankRisk.text(fnConvertToThaiNumerals(SumResults))
+        replaceSpanRankRisk.text(fnConvertToThaiNumeralsAndPoint(SumResults))
         replaceSpanDesRankRisk.text(`(${riskLevel})`)
 
     } else {

@@ -14,6 +14,42 @@
     <script src="../../script/bootstarp/js/bootstrap.min.js"></script> 
     
     <title>ด้านการเงินและการบัญชี</title>
+    <style>
+        th {
+
+        }
+        td {
+            border-top: 1px solid black; /* เพิ่มเส้นกรอบด้านบน */
+            border-bottom: 1px solid black; /* เพิ่มเส้นกรอบด้านล่าง */
+            padding: 8px; /* เพิ่ม padding เพื่อให้ข้อมูลในเซลล์มีพื้นที่ว่าง */
+        }
+        .textHeadTable {
+            /* border: 1px solid white; เพิ่มเส้นกรอบให้กับ th และ td */
+            /* padding: 8px; เพิ่ม padding เพื่อให้ข้อมูลในเซลล์มีพื้นที่ว่าง */
+        }
+        .fristTD {
+          border-left: 1px solid black;
+          border-right: 1px solid black;
+        }
+        .lastTD {
+          border-right: 1px solid black;
+        }
+        .gradient-btn {
+          background: linear-gradient(-135deg, #c850c0, #4158d0);
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 5px;
+          font-size: 1.2rem;
+          cursor: pointer;
+          transition: background 0.3s ease;
+        }
+        
+        .gradient-btn:hover {
+          background: linear-gradient(-135deg, #4158d0, #c850c0);
+          color: white;
+        }
+    </style>
 </head>
 <body>
 <input type="checkbox" name="" id="menu-toggle">

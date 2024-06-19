@@ -5,7 +5,8 @@ function fnSetHeader(dataHeader){
     strHTML += "<td class='text-center textHeadTable' style='font-size: 18px;'>รายการ</td>"
     strHTML += "<td class='text-center textHeadTable' style='font-size: 18px;'>สถานะ</td>"
     strHTML += "<td class='text-center textHeadTable' style='font-size: 18px;'>Action</td>"
-    strHTML += "<td class='text-center textHeadTable' style='font-size: 18px;'>เอกสารที่เกี่ยวข้อง</td>"
+    strHTML += "<td class='text-center textHeadTable' style='font-size: 18px;'>เอกสาร PDF</td>"
+    strHTML += "<td class='text-center textHeadTable' style='font-size: 18px;'>ลายเซ็น</td>"
     return strHTML
 }
 
@@ -42,23 +43,39 @@ function fnDrawTable(access,objData) {
     } else {
         strHTML += "<td id='status" + (i + 1) + "'  class='text-center align-middle'style='width: 10%; align-middle'>" + (data[i].id ? "<div class='colorCircle'><span class='badge bg-label-notprocess me-1'>ยังไม่ดำเนินการ</span></div>" : '-') + "</td>"
     }
-    strHTML += "<td class='text-center'>"
-    strHTML += "<button id='btnViewComment" + (i + 1) + "' type='button' class='btn btn-success'; onclick='fnViewCommentConfig(\"" + team + "\",\"" + (i + 1) + "\")' style='margin-right: 5px;'>"
+    strHTML += "<td class='text-center text-center align-middle'>"
+    strHTML += "<button id='btnViewComment" + (i + 1) + "' type='button' class='btn btn-success btn-sm'; onclick='fnViewCommentConfig(\"" + team + "\",\"" + (i + 1) + "\")' style='margin-right: 5px;'>"
     strHTML += "<i class='las la-comment-alt mr-1' aria-hidden=;'true' style='margin-right:5px'></i><span>ข้อคิดเห็น</span>"
     strHTML += "</button>"
-    strHTML += "<button id='btnEditDoc" + (i + 1) + "' type='button' class='btn btn-warning'; onclick='fnEditDocConfig(\"" + team + "\",\"" + (i + 1) + "\")' style='margin-right: 5px;'>"
+    strHTML += "<button id='btnEditDoc" + (i + 1) + "' type='button' class='btn btn-warning btn-sm'; onclick='fnEditDocConfig(\"" + team + "\",\"" + (i + 1) + "\")' style='margin-right: 5px;'>"
     strHTML += "<i class='las la-pen mr-1' aria-hidden=;'true' style='margin-right:5px'></i><span>การแก้ไข<span>"
     strHTML += "</button>"
     strHTML += "</td>"
     strHTML += "<td class='text-center align-middle lastTD'>"
-    strHTML += "<button id='btnUploadDoc" + (i + 1) + "' type='button' class='btn btn-info'; onclick='fnUploadDocConfig(\"" + team + "\",\"" + (i + 1) + "\")' style='margin-right: 5px;'>"
+    strHTML += "<button id='btnUploadDoc" + (i + 1) + "' type='button' class='btn btn-info btn-sm'; onclick='fnUploadDocConfig(\"" + team + "\",\"" + (i + 1) + "\")' style='margin-right: 5px;'>"
     strHTML += "<i class='las la-upload mr-1' aria-hidden=;'true' style='margin-left:5px'></i><span>อัปโหลด<span>"
     strHTML += "</button>"
-    strHTML += "<button id='btnViewDoc" + (i + 1) + "' type='button' class='btn btn-primary'; onclick='fnViewDocConfig(\"" + team + "\",\"" + (i + 1) + "\")'>"
+    strHTML += "<button id='btnViewDoc" + (i + 1) + "' type='button' class='btn btn-primary btn-sm'; onclick='fnViewDocConfig(\"" + team + "\",\"" + (i + 1) + "\")'>"
     strHTML += "<i class='las la-file-pdf mr-1' aria-hidden=;'true' style='margin-left:5px'></i><span>ดูเอกสาร<span>"
     strHTML += "</button>"
     strHTML += "</td>"
+
+    // Add signature button
+    if ( i === 0 ) {
+        strHTML += "<td rowspan='3' class='text-center align-middle lastTD'>"
+        strHTML += "<button id='btnUploadDoc" + (i + 1) + "' type='button' class='btn btn-info btn-sm'; onclick='fnUploadDocConfig(\"" + team + "\",\"" + (i + 1) + "\")' style='margin-right: 5px;'>"
+        strHTML += "<i class='las la-upload mr-1' aria-hidden=;'true' style='margin-left:5px'></i><span>อัปโหลด<span>"
+        strHTML += "</button>"
+        strHTML += "<button id='btnViewDoc" + (i + 1) + "' type='button' class='btn btn-primary btn-sm'; onclick='fnViewDocConfig(\"" + team + "\",\"" + (i + 1) + "\")'>"
+        strHTML += "<i class='las la-file-pdf mr-1' aria-hidden=;'true' style='margin-left:5px'></i><span>ดูเอกสาร<span>"
+        strHTML += "</button>"
+        strHTML += "</td>"
+    }
+
+
     strHTML += "</tr>"
+
+      
 }
 strHTML += "</tbody>"
 strHTML += "</table>"

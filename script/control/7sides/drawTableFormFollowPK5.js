@@ -19,7 +19,7 @@ function fnDrawTableForm(access,objData,engName) {
     var NameUnit = 'จร.ทร.'
     var currentYear = new Date().getFullYear();
     var currentThaiYear = currentYear + 543;
-    // var DateFix = 'ณ วันที่ ๓๐ เดือน กันยายน ' + fnConvertToThaiNumerals(currentThaiYear)
+    // var DateFix = 'ณ วันที่ ๓๐ เดือน กันยายน ' + fnConvertToThaiNumeralsAndPoint(currentThaiYear)
     strHTML += " <div class='text-end'>แบบติดตาม ปค.๕</div> "
     strHTML += " <div class='title'>หน่วยงาน......." + NameUnit +  ".......</div> "
     strHTML += " <div class='title'>รายงานการติดตามการประเมินการควบคุมภายใน</div> "
@@ -86,7 +86,7 @@ function fnDrawCellTable(id, condition, text, commentId, sizeTD,sizeTextarea) {
                 <button class='btn btn-secondary' type='submit' id='submitButton${id}' onclick='fnSubmitText("${id}")'>ยืนยัน</button>
             </div>
             <div class='text-start'>
-                <span style='white-space: pre-wrap;' id='displayText${id}'></span>
+                <span id='displayText${id}' style='white-space: pre-wrap;'></span>
                 <i class='las la-pencil-alt' id='editIcon${id}' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText("${id}")'></i>
             </div>
         `;
@@ -103,9 +103,11 @@ function fnSubmitText(id) {
     var displayText = document.getElementById('displayText' + id);
     var editIcon = document.getElementById('editIcon' + id);
     var tab = '&emsp;'
+    var format = ''
 
     if (textarea.value) {
-        displayText.innerHTML = tab + textarea.value;
+        format = textarea.value.replace(/\n/g, '<br>');
+        displayText.innerHTML = tab + format
 
         /* ซ่อน textarea และปุ่ม */
         textarea.style.display = 'none';

@@ -20,7 +20,7 @@ function fnDrawTableForm(access,objData,engName) {
     var NameUnit = 'จร.ทร.'
     var currentYear = new Date().getFullYear();
     var currentThaiYear = currentYear + 543;
-    var DateFix = 'ณ วันที่ ๓๐ เดือน กันยายน ' + fnConvertToThaiNumerals(currentThaiYear)
+    var DateFix = 'ณ วันที่ ๓๐ เดือน กันยายน ' + fnConvertToThaiNumeralsAndPoint(currentThaiYear)
     strHTML += " <div class='text-end'>แบบ ปค.๕</div> "
     strHTML += " <div class='title'>หน่วยงาน......." + NameUnit +  ".......</div> "
     strHTML += " <div class='title'>รายงานการประเมินผลการควบคุมภายใน</div> "
@@ -136,7 +136,7 @@ function fnDrawDataInTable(data) {
             strHTML += "<tr>";
             strHTML += "<td id='headRisk" + index + "' class='text-left align-top' style='width: 25%;'> ";
             strHTML += " <div> ";
-            strHTML += " <span id='spanHeadRisk" + index + "' style='font-weight: bold;'>" + fnConvertToThaiNumerals(id_sides) + ". " + side + "</span> ";
+            strHTML += " <span id='spanHeadRisk" + index + "' style='font-weight: bold;'>" + fnConvertToThaiNumeralsAndPoint(id_sides) + ". " + side + "</span> ";
             strHTML += " </div> ";
             strHTML += " <div> ";
             strHTML += " <span id='spanHeadRisk" + index + "' style='font-weight: bold;'>" + tab + "วัตถุประสงค์</span> ";
@@ -184,7 +184,7 @@ function fnDrawDataInTable(data) {
                 strHTML += "    <button class='btn btn-secondary' type='submit' id='submitRateRisk" + index + "' onclick='fnSubmitText(\"" + index + "\", \"rateRisk\")'>ยืนยัน</button>";
                 strHTML += "</div>"
                 strHTML += "<div class='text-start'>"
-                strHTML += "    <span style='white-space: pre-wrap;' id='displayTextRateRisk" + index + "'></span>"
+                strHTML += "    <span id='displayTextRateRisk" + index + "' style='white-space: pre-wrap;'></span>"
                 strHTML += "    <i class='las la-pencil-alt' id='editIconRateRisk" + index + "' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText(\"" + index + "\", \"rateRisk\")'></i> "
                 strHTML += "</div>"
                 strHTML += " </td>"
@@ -234,7 +234,7 @@ function fnDrawDataInTable(data) {
                 strHTML += "    <button class='btn btn-secondary' type='submit' id='submitResponsibleAgency" + index + "' onclick='fnSubmitText(\"" + index + "\", \"responsibleAgency\")'>ยืนยัน</button>"
                 strHTML += "</div>"
                 strHTML += "<div class='text-start'>"
-                strHTML += "    <span style='white-space: pre-wrap;' id='displayTextResponsibleAgency" + index + "'></span>"
+                strHTML += "    <span id='displayTextResponsibleAgency" + index + "' style='white-space: pre-wrap;'></span>"
                 strHTML += "    <i class='las la-pencil-alt' id='editIconResponsibleAgency" + index + "' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText(\"" + index + "\", \"responsibleAgency\")'></i> "
                 strHTML += "</div>"
                 strHTML += " </td>"
@@ -277,6 +277,7 @@ function fnSubmitText(index, sides) {
     var displayText = ''
     var editIcon = ''
     var tab = '&emsp;'
+    var format = ''
 
     if (sides == 'rateRisk') {
         textarea = document.getElementById('textRateRisk' + index);
@@ -296,7 +297,8 @@ function fnSubmitText(index, sides) {
     }
 
     if (textarea.value) {
-        displayText.innerHTML = tab + textarea.value;
+        format = textarea.value.replace(/\n/g, '<br>');
+        displayText.innerHTML = tab + format
 
         /* ซ่อน textarea และปุ่ม */
         textarea.style.display = 'none';

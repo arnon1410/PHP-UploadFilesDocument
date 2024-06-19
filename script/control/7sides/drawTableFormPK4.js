@@ -14,7 +14,7 @@ function fnDrawTableForm(access,objData) {
     var NameUnit = 'จร.ทร'
     var currentYear = new Date().getFullYear();
     var currentThaiYear = currentYear + 543;
-    var DateFix = 'ณ วันที่ ๓๐ เดือน กันยายน ' + fnConvertToThaiNumerals(currentThaiYear)
+    var DateFix = 'ณ วันที่ ๓๐ เดือน กันยายน ' + fnConvertToThaiNumeralsAndPoint(currentThaiYear)
     strHTML += " <div class='text-end'>แบบ ปค.๔</div> "
     strHTML += " <div class='title'>หน่วยงาน......." + NameUnit +  ".......</div> "
     strHTML += " <div class='title'>รายงานการประเมินองค์ประกอบของการควบคุมภายใน</div> "
@@ -137,7 +137,7 @@ function fnCreateTextAreaAndButton(id) {
     "<button class='btn btn-secondary' type='submit' id='submitButton" + id + "' onclick='fnSubmitText(" + id + ")'>ยืนยัน</button>" +
     "</div>"+
     "<div>"+
-    "<span class='text-left spanDisplay' id='displayText" + id + "'></span>" +
+    "<span class='text-left spanDisplay' id='displayText" + id + "' style='white-space: pre-wrap;'></span>" +
     "<i class='las la-pencil-alt' id='editIcon"+ id +"' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText(\"" + id + "\")'></i>" +
     "</div>"
 }
@@ -148,12 +148,12 @@ function fnSubmitText(id) {
     var button = document.getElementById('submitButton' + id);
     var displayText = document.getElementById('displayText' + id);
     var editIcon = document.getElementById('editIcon' + id);
-    var formattedText = ''
     var tab = '&emsp;&emsp;'
+    var format = ''
 
     if (textarea.value) {
-        formattedText = textarea.value.replace(/\n/g, "<br>");
-        displayText.innerHTML = tab + formattedText;
+        format = textarea.value.replace(/\n/g, '<br>');
+        displayText.innerHTML = tab + format
 
         /* ซ่อน textarea และปุ่ม */
         textarea.style.display = 'none';
@@ -196,7 +196,7 @@ function fnDrawCommentDivEvaluation() {
     strHTML += " <button class='btn btn-secondary' type='submit' id='submitButtonCommentEvaluation' onclick='fnSubmitTextCommentEvaluation()' style='width: 100px;'>ยืนยัน</button> "
     strHTML += " </div> "
     strHTML += " <div class='text-start'> "
-    strHTML += " <span id='displayTextCommentEvaluation'></span> "
+    strHTML += " <span id='displayTextCommentEvaluation' style='white-space: pre-wrap;'></span> "
     strHTML += " <i class='las la-pencil-alt' id='editIconCommentEvaluation' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditTextCommentEvaluation()'></i> "
     strHTML += " </div> "
     // strHTML += " <span id='spanResultEvaluation'> ทรภ.๒ มีการควบคุมภายในด้านการข่าว ที่เพียงพอและเหม่าะสม.มีการรักษาความปลอดภัยเกี่ยวกับสถานที่และการปฏิบัติการด้านการข่าว รวมทั้งข้อมูลข่าวสารลับมีประสิทธิภาพเพียงพอต่อการรักษาความปลอดภัยเกี่ยวกับบุคคล มีแนวทางการบริหารจัดการเพียงพอให้การปฏิบัติงานด้านการข่าว กำลังพลมีเพียงพอที่จะปฏิบัติงานด้านการข่าว มีความรู้ความชำนาญในการวิเคราะห์ข่าวและปฏิบัติตามกฎระเบียบข้อบังคับหรือมาตรการเกี่ยวกับการรักษา ความปลอดภัยโดยเคร่งครัด ทั้งนี้ ในส่วนของเครื่องมือและอุปกรณ์ที่ใช้ในงาน ด้านการข่าว พบว่า.เครื่องมือ/อุปกรณ์ในการรวบรวมข้อมูลด้านการข่าวยังมีความไม่ทันสมัยและมีประสิทธิภาพไม่เพียงพอต่อการปฏิบัติงาน. จำเป็นต้องปรับปรุงการควบคุมภายในให้ดีขึ้น โดยการจัดหาเครื่องมือ/อุปกรณ์เพิ่มเติม เพื่อให้การดำเนินการรวบรวมข้อมูลด้านการข่าวมีประสิทธิภาพเพียงพอต่อการปฏิบัติงาน</div></span> "
