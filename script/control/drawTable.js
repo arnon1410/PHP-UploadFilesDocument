@@ -45,7 +45,7 @@ function fnDrawTable(access,objData) {
     }
     strHTML += "<td class='text-center text-center align-middle'>"
     strHTML += "<button id='btnViewComment" + (i + 1) + "' type='button' class='btn btn-success btn-sm'; onclick='fnViewCommentConfig(\"" + team + "\",\"" + (i + 1) + "\")' style='margin-right: 5px;'>"
-    strHTML += "<i class='las la-comment-alt mr-1' aria-hidden=;'true' style='margin-right:5px'></i><span>ข้อคิดเห็น</span>"
+    strHTML += "<i class='las la-comment-alt mr-1' aria-hidden=;'true' style='margin-right:5px'></i><span>คำแนะนำ</span>"
     strHTML += "</button>"
     strHTML += "<button id='btnEditDoc" + (i + 1) + "' type='button' class='btn btn-warning btn-sm'; onclick='fnEditDocConfig(\"" + team + "\",\"" + (i + 1) + "\")' style='margin-right: 5px;'>"
     strHTML += "<i class='las la-pen mr-1' aria-hidden=;'true' style='margin-right:5px'></i><span>การแก้ไข<span>"

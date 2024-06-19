@@ -53,7 +53,7 @@ function fnDrawTableForm(access,valSides,objData) {
     } else {
         strHTML += fnDrawTableReportAssessment(data)
     }
-    strHTML += fnDrawTableReportAssessmentOther(strSides, arrSides)
+    strHTML += fnDrawTableReportAssessmentOther(strSides, arrSides, data)
     strHTML += "</tbody>"
     strHTML += "</table>"
     strHTML += fnDrawCommentDivEvaluation(arrSides[index].NameSides)
@@ -255,16 +255,16 @@ function fnDrawTableReportAssessmentFix (data) {  /* ด้านยุทธก
     // $("#dvTableReportAssessment")[0].innerHTML = strHTML;
 }
 
-function fnDrawTableReportAssessmentOther(strSides, data) {
-    console.log()
+function fnDrawTableReportAssessmentOther(strSides, data, arrObj) {
     var strHTML = "" ;
     var arrSides = data
+    var arrObject = arrObj
     var index = arrSides.findIndex(item => item.key === strSides);
    
     strHTML += " <div id='dvSidesOther'>"
     strHTML += "    <tr><td class='tdSidesOther' style='width: 55%;font-weight: bold;'>"
     strHTML += "    <div> "+ fnConvertToThaiNumeralsAndPoint(arrSides[index].value) +". อื่น ๆ "
-    strHTML += "    <button id='btn_SidesOther' type='button' class='btn btn-success btn-sm'; onclick='fnGetModalSidesOther(\"" + strSides + "\",\"" + arrSides[index].value + "\",\"" + arrSides[index].NameSides + "\")' style='margin-left : 5px;'  data-bs-toggle='modal' data-bs-target='#OtherRiskModal'>"
+    strHTML += "    <button id='btn_SidesOther' type='button' class='btn btn-success btn-sm'; onclick='fnGetModalSidesOther(\"" + strSides + "\",\"" + arrSides[index].value + "\",\"" + arrSides[index].NameSides + "\",\"" + arrObject + "\")' style='margin-left : 5px;'  data-bs-toggle='modal' data-bs-target='#OtherRiskModal'>"
     strHTML += "    <i class='las la-plus mr-1' aria-hidden=;'true' style='margin-right:5px'></i><span>เพื่มความเสี่ยงอื่นที่พบ</span>"
     strHTML += "    </button>"
     strHTML += "  <div id='dvSidesOther'>"
@@ -379,7 +379,7 @@ function fnGetDataModal(strtext, id) {
     
 }
 
-function fnGetModalSidesOther (sides, value, nameSides) {
+function fnGetModalSidesOther (sides, value, nameSides, arrObj) {
     var strHTML = ''
     var strHTML2 = ''
     if (sides == 'branchoperation') {
@@ -413,7 +413,7 @@ function fnGetModalSidesOther (sides, value, nameSides) {
         strHTML += "<input type='text' class='form-control' id='nameActivity2' value=''>"
         strHTML += " </div> "
     
-        strHTML2 += " <button type='button' class='btn btn-primary' onclick='fnAddNewRowFromModal()'>บันทึกข้อมูล</button> "
+        strHTML2 += " <button type='button' class='btn btn-primary' onclick='fnAddNewRowFromModal(\"" + arrObj + "\")'>บันทึกข้อมูล</button> "
         strHTML2 += " <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>ยกเลิก</button> "           
     
     
@@ -426,7 +426,7 @@ function fnGetModalSidesOther (sides, value, nameSides) {
  }
 
  // ฟังก์ชันเพื่อเพิ่มแถวใหม่จาก modal
-function fnAddNewRowFromModal() {
+function fnAddNewRowFromModal(arrObj) {
     var nameSides = $('#headCheckTopic').val();
     var activityTitle = $('#nameMenuCheckTopic').val();
     var objective = $('#nameObjective').val();
