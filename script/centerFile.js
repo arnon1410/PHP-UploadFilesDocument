@@ -112,7 +112,7 @@ function fnCheckUserAuthen(authen) {
             strName = "กรมจเรทหารเรือ"
         } else {
             strAccess = " หน่วยรับตรวจ<span class='las la-chart-line'></span>"
-            strName = "สำนักงานตรวจสอบภายในทหารเรือ"
+            strName = "กรมจเรทหารเรือ"
         }
         document.getElementById("textStatusUser").innerHTML = strAccess
         document.getElementById("textName").innerHTML = strName
