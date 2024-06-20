@@ -53,6 +53,7 @@ function fnDrawTableForm(access,valSides,objData) {
     } else {
         strHTML += fnDrawTableReportAssessment(data)
     }
+
     strHTML += fnDrawTableReportAssessmentOther(strSides, arrSides, data)
     strHTML += "</tbody>"
     strHTML += "</table>"
@@ -144,12 +145,16 @@ function fnDrawTableReportAssessment(data) {
         if (item.maincontrol_id !== undefined || item.sum_id !== undefined) {
             if (item.sum_id && item.value) { // ส่วนสรุป
                 strSumDetail = fnMapValueToCallFunction(item)
-                strHTML += "<tr><td style='width: 55%;'>" + strSumDetail.text + "</td><td></td><td></td><td></td></tr>"
+                if (item.value == 0) {// ใส่เส้น ล่างตาราง
+                    strHTML += "<tr class='trSidesSum-Line'><td style='width: 55%;'>" + strSumDetail.text + "</td><td></td><td></td><td></td></tr>"
+                } else {
+                    strHTML += "<tr><td style='width: 55%;'>" + strSumDetail.text + "</td><td></td><td></td><td></td></tr>"
+                }
             } else { // ส่วนอื่น ๆ วัตถุประสงค์ 
                 if (item.sum_id) { // ตรงส่วนสรุปแต่ละคำถาม
                     strHTML += "<tr><td style='width: 55%;font-weight: bold;'><u>สรุป</u> : " + item.text + "</td><td></td><td></td><td></td></tr>";
                 } else { // หัวข้อหลัก 1,2,3,4,5
-                    strHTML += "<tr><td style='width: 55%;;font-weight: bold;'>"+ fnConvertToThaiNumeralsAndPoint(item.id_control) + ' ' + item.text + "</td><td></td><td></td><td></td></tr>";
+                    strHTML += "<tr><td style='width: 55%;;font-weight: bold;padding-top: 5px;'>"+ fnConvertToThaiNumeralsAndPoint(item.id_control) + ' ' + item.text + "</td><td></td><td></td><td></td></tr>";
                 }
                 if (item.main_Obj) { //วัตถุประสงค์ของการควบคุม ใช้ร่วมกัน
                     strHTML += "<tr><td style='width: 55%;text-indent: 17px;font-weight: bold;'>" + item.main_Obj + "</td><td></td><td></td><td></td></tr>";
@@ -216,12 +221,17 @@ function fnDrawTableReportAssessmentFix (data) {  /* ด้านยุทธก
             if (item.maincontrol_id !== undefined || item.sum_id !== undefined) {
                 if (item.sum_id && item.value) { // ส่วนสรุป
                     strSumDetail = fnMapValueToCallFunction(item)
-                    strHTML += "<tr><td style='width: 55%;'>" + strSumDetail.text + "</td><td></td><td></td><td></td></tr>"
+                    if (item.value == 0) {// ใส่เส้น ล่างตาราง
+                        strHTML += "<tr class='trSidesSum-Line'><td style='width: 55%;'>" + strSumDetail.text + "</td><td></td><td></td><td></td></tr>"
+                    } else {
+                        strHTML += "<tr><td style='width: 55%;'>" + strSumDetail.text + "</td><td></td><td></td><td></td></tr>"
+                    }
+                    
                 } else { // ส่วนอื่น ๆ วัตถุประสงค์ 
                     if (item.sum_id) { // ตรงส่วนสรุปแต่ละคำถาม
                         strHTML += "<tr><td style='width: 55%;font-weight: bold;'><u>สรุป</u> : " + item.text + "</td><td></td><td></td><td></td></tr>";
                     } else { // หัวข้อหลัก 1,2,3,4,5
-                        strHTML += "<tr><td style='width: 55%;;font-weight: bold;text-indent: 5%;'>"+ fnConvertToThaiNumeralsAndPoint(item.id_control) + ' ' + item.text + "</td><td></td><td></td><td></td></tr>";
+                        strHTML += "<tr><td style='width: 55%;;font-weight: bold;text-indent: 5%;padding-top: 5px;'>"+ fnConvertToThaiNumeralsAndPoint(item.id_control) + ' ' + item.text + "</td><td></td><td></td><td></td></tr>";
                     }
                     if (item.main_Obj) { //วัตถุประสงค์ของการควบคุม ใช้ร่วมกัน
                         strHTML += "<tr><td style='width: 55%;font-weight: bold;text-indent: 12%;'>" + item.main_Obj + "</td><td></td><td></td><td></td></tr>";
@@ -261,19 +271,20 @@ function fnDrawTableReportAssessmentOther(strSides, data, arrObj) {
     var arrObject = arrObj
     var index = arrSides.findIndex(item => item.key === strSides);
    
-    strHTML += " <div id='dvSidesOther'>"
-    strHTML += "    <tr><td class='tdSidesOther' style='width: 55%;font-weight: bold;'>"
+    // strHTML += " <div id='dvSidesOther'>"
+    // strHTML += " <div id='dvSidesOtherTest'>"
+    strHTML += "    <tr id='trSidesOther'><td class='tdSidesOther' style='width: 55%;font-weight: bold;padding-top: 5px;'>"
     strHTML += "    <div> "+ fnConvertToThaiNumeralsAndPoint(arrSides[index].value) +". อื่น ๆ "
     strHTML += "    <button id='btn_SidesOther' type='button' class='btn btn-success btn-sm'; onclick='fnGetModalSidesOther(\"" + strSides + "\",\"" + arrSides[index].value + "\",\"" + arrSides[index].NameSides + "\",\"" + arrObject + "\")' style='margin-left : 5px;'  data-bs-toggle='modal' data-bs-target='#OtherRiskModal'>"
     strHTML += "    <i class='las la-plus mr-1' aria-hidden=;'true' style='margin-right:5px'></i><span>เพื่มความเสี่ยงอื่นที่พบ</span>"
     strHTML += "    </button>"
-    strHTML += "  <div id='dvSidesOther'>"
+    strHTML += "  <div id='dvSidesOther2'>"
     strHTML += "    <div>............................................................................................</div>"
     strHTML += "    <div>............................................................................................</div>"
     strHTML += "    </td>"
     strHTML += "    <td class='tdSidesOther'></td><td class='tdSidesOther'></td><td class='tdSidesOther'></td></tr>";
     strHTML += "  </div> "
-    strHTML += " </div> "
+    // strHTML += " </div> "
     return strHTML;
 }
 
@@ -334,10 +345,6 @@ function fnViewDocConfig(text, id) {
     document.getElementById(`displayText${id}`).style.display = 'block';
 }
 
-// function fnSidesOtherConfig (side, id, nameSides) {
-//     fnGetModalSidesOther(side, id, nameSides);
-// }
-
 function fnGetDataModal(strtext, id) {
     // var arrData = fnGetDataInternalControl(id) // call function get data
     var arrData = [{id:1 , mainControl: 'ด้านการข่าว'}]
@@ -379,7 +386,6 @@ function fnGetModalSidesOther (sides, number, nameSides, arrObj) {
     if (sides == 'branchoperation') {
 
     } else { // ด้านที่เหลือ
-        console.log(arrObj)
     
         // draw modal
         strHTML += " <div class='mb-3'> "
@@ -398,12 +404,12 @@ function fnGetModalSidesOther (sides, number, nameSides, arrObj) {
         strHTML += " </div> "
     
         strHTML += " <div class='mb-3'> "
-        strHTML += " <label for='nameActivity' class='lableHead label-required'>ชื่อกิจกรรม 1</label> "
+        strHTML += " <label for='nameActivity' class='lableHead label-required'>รายการกิจกรรม 1</label> "
         strHTML += "<input type='text' class='form-control' id='nameActivity' value=''>"
         strHTML += " </div> "
 
         strHTML += " <div class='mb-3'> "
-        strHTML += " <label for='nameActivity2' class='lableHead'>ชื่อกิจกรรม 2</label> "
+        strHTML += " <label for='nameActivity2' class='lableHead'>รายการกิจกรรม 2</label> "
         strHTML += "<input type='text' class='form-control' id='nameActivity2' value=''>"
         strHTML += " </div> "
     
@@ -421,13 +427,34 @@ function fnGetModalSidesOther (sides, number, nameSides, arrObj) {
 
  // ฟังก์ชันเพื่อเพิ่มแถวใหม่จาก modal
 function fnAddNewRowFromModal(number, arrObj) {
-    var nameSides = $('#headCheckTopic').val();
-    var activityTitle = $('#nameMenuCheckTopic').val();
-    var objective = $('#nameObjective').val();
-    var activityName1 = $('#nameActivity').val();
-    var activityName2 = $('#nameActivity2').val();
-    var newId = new Date().getTime();
-    console.log(arrObj)
+
+    Swal.fire({
+        title: "",
+        text: "คุณต้องการบันทึกข้อมูลใช่หรือไม่?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "บันทึกข้อมูล",
+        cancelButtonText: "ยกเลิก"
+      }).then((result) => {
+        if (result.isConfirmed) {
+            // 
+          Swal.fire({
+            title: "",
+            text: "บันทึกข้อมูลสำเร็จ",
+            icon: "success"
+          });
+          $('#OtherRiskModal').modal('hide');
+        }
+      });
+
+    // var nameSides = $('#headCheckTopic').val();
+    // var activityTitle = $('#nameMenuCheckTopic').val();
+    // var objective = $('#nameObjective').val();
+    // var activityName1 = $('#nameActivity').val();
+    // var activityName2 = $('#nameActivity2').val();
+    // var newId = new Date().getTime();
     // เพิ่มแถวใหม่เข้าไปใน arrObj
     // arrObj.push(
     //     { id: newId, id_control: '7.1', head_id: 7, maincontrol_id: 2, text: activityTitle, main_Obj: objective, Object_name: activityName1 + (activityName2 ? ", " + activityName2 : "") },
@@ -447,7 +474,7 @@ function fnAddNewRowFromModal(number, arrObj) {
 
 
     // ปิด modal
-    $('#OtherRiskModal').modal('hide');
+    
 }
 
 function fnToggleTextarea(btnUpdload,btnViewDoc,textareaId,buttonsId ,checkbox, coloums, id) {

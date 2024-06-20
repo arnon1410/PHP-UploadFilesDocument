@@ -93,6 +93,12 @@ th {
 .tdSidesOther {
     border-bottom: 1px solid black;
 }
+.trSidesSum-Line {
+    border-bottom: 1px solid black;
+}
+.trSidesOther {
+    padding-top: 5px;
+}
 .hidden {
     display: none;
 }
