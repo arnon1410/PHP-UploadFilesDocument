@@ -1,8 +1,9 @@
+var globalTest = [] //อาจจะไม่ใช้วิธีนี้ หาวิธีอื่น
 function fnSetHeader(){
     var strHTML = ''
     strHTML += "<th class='text-center textHeadTable' style='width: 55%;'>คำถาม</th>"
     strHTML += "<th class='text-center textHeadTable' style='width: 8%;'>มี/ใช่</th>";
-    strHTML += "<th class='text-center textHeadTable' style='width: 10%;'>ไม่มี/ไม่ใช่</th>";
+    strHTML += "<th class='text-center textHeadTable' style='width: 8%;'>ไม่มี/ไม่ใช่</th>";
     strHTML += "<th class='text-center textHeadTable' style='width: 29%;'>คำอธิบาย/คำตอบ</th>"
 
     strHTML += "<tr>";
@@ -22,6 +23,7 @@ function fnDrawTableForm(access,valSides,objData) {
     var strHTML = ''
     var data = objData
     var strSides = valSides
+    globalTest = objData
 
     var arrSides = [
         { key: 'branchpersonal', NameSides: 'ด้านกำลังพล',value: 4 },
@@ -164,7 +166,6 @@ function fnDrawTableReportAssessment(data) {
                 }
             }
         } else { // หัวข้อย่อยทั้งหมด
-            
             if ((item.is_subcontrol && item.is_subcontrol == 1) || (item.is_innercontrol && item.is_innercontrol == 1)) { // ถ้ามีหัวข้อย่อย 
                 if (item.id_subcontrol) {
                     strHTML += "<tr><td style='width: 55%;text-indent: 12%'>"+ fnConvertToThaiNumeralsAndPoint(item.id_subcontrol) + ' ' + item.text + "</td><td></td><td></td><td></td></tr>";
@@ -270,12 +271,13 @@ function fnDrawTableReportAssessmentOther(strSides, data, arrObj) {
     var arrSides = data
     var arrObject = arrObj
     var index = arrSides.findIndex(item => item.key === strSides);
-   
+
     // strHTML += " <div id='dvSidesOther'>"
     // strHTML += " <div id='dvSidesOtherTest'>"
     strHTML += "    <tr id='trSidesOther'><td class='tdSidesOther' style='width: 55%;font-weight: bold;padding-top: 5px;'>"
     strHTML += "    <div> "+ fnConvertToThaiNumeralsAndPoint(arrSides[index].value) +". อื่น ๆ "
-    strHTML += "    <button id='btn_SidesOther' type='button' class='btn btn-success btn-sm'; onclick='fnGetModalSidesOther(\"" + strSides + "\",\"" + arrSides[index].value + "\",\"" + arrSides[index].NameSides + "\",\"" + arrObject + "\")' style='margin-left : 5px;'  data-bs-toggle='modal' data-bs-target='#OtherRiskModal'>"
+    // strHTML += "    <button id='btn_SidesOther' type='button' class='btn btn-success btn-sm'; onclick='fnGetModalSidesOther(\"" + strSides + "\",\"" + arrSides[index].value + "\",\"" + arrSides[index].NameSides + "\")' style='margin-left : 5px;'  data-bs-toggle='modal' data-bs-target='#OtherRiskModal'>"
+    strHTML += "    <button id='btn_SidesOther' type='button' class='btn btn-success btn-sm'; onclick='fnGetModalSidesOther(\"" + strSides + "\",\"" + arrSides[index].value + "\",\"" + arrSides[index].NameSides + "\")' style='margin-left : 5px;'  data-bs-toggle='modal' data-bs-target='#OtherRiskModal'>"
     strHTML += "    <i class='las la-plus mr-1' aria-hidden=;'true' style='margin-right:5px'></i><span>เพื่มความเสี่ยงอื่นที่พบ</span>"
     strHTML += "    </button>"
     strHTML += "  <div id='dvSidesOther2'>"
@@ -383,6 +385,7 @@ function fnGetDataModal(strtext, id) {
 function fnGetModalSidesOther (sides, number, nameSides, arrObj) {
     var strHTML = ''
     var strHTML2 = ''
+    
     if (sides == 'branchoperation') {
 
     } else { // ด้านที่เหลือ
@@ -413,7 +416,7 @@ function fnGetModalSidesOther (sides, number, nameSides, arrObj) {
         strHTML += "<input type='text' class='form-control' id='nameActivity2' value=''>"
         strHTML += " </div> "
     
-        strHTML2 += " <button type='button' class='btn btn-primary' onclick='fnAddNewRowFromModal(\"" + number + "\",\"" +  arrObj + "\")'>บันทึกข้อมูล</button> "
+        strHTML2 += " <button type='button' class='btn btn-primary' onclick='fnAddNewRowFromModal(\"" + number + "\",\"" + JSON.stringify(arrObj) + "\")' data-bs-dismiss='modal'>บันทึกข้อมูล</button> "
         strHTML2 += " <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>ยกเลิก</button> "           
     
     
@@ -427,55 +430,68 @@ function fnGetModalSidesOther (sides, number, nameSides, arrObj) {
 
  // ฟังก์ชันเพื่อเพิ่มแถวใหม่จาก modal
 function fnAddNewRowFromModal(number, arrObj) {
+    // Uncomment this block if you want to use SweetAlert for confirmation
+    // Swal.fire({
+    //     title: "",
+    //     text: "คุณต้องการบันทึกข้อมูลใช่หรือไม่?",
+    //     icon: "warning",
+    //     showCancelButton: true,
+    //     confirmButtonColor: "#3085d6",
+    //     cancelButtonColor: "#d33",
+    //     confirmButtonText: "บันทึกข้อมูล",
+    //     cancelButtonText: "ยกเลิก"
+    // }).then((result) => {
+    //     if (result.isConfirmed) {
+    //         Swal.fire({
+    //             title: "",
+    //             text: "บันทึกข้อมูลสำเร็จ",
+    //             icon: "success"
+    //         });
+    //         $('#OtherRiskModal').modal('hide');
+    //     }
+    // });
 
-    Swal.fire({
-        title: "",
-        text: "คุณต้องการบันทึกข้อมูลใช่หรือไม่?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "บันทึกข้อมูล",
-        cancelButtonText: "ยกเลิก"
-      }).then((result) => {
-        if (result.isConfirmed) {
-            // 
-          Swal.fire({
-            title: "",
-            text: "บันทึกข้อมูลสำเร็จ",
-            icon: "success"
-          });
-          $('#OtherRiskModal').modal('hide');
-        }
-      });
+    var nameSides = $('#headCheckTopic').val();
+    var activityTitle = $('#nameMenuCheckTopic').val();
+    var objective = $('#nameObjective').val();
+    var activityName1 = $('#nameActivity').val();
+    var activityName2 = $('#nameActivity2').val();
+    var newId = new Date().getTime();
 
-    // var nameSides = $('#headCheckTopic').val();
-    // var activityTitle = $('#nameMenuCheckTopic').val();
-    // var objective = $('#nameObjective').val();
-    // var activityName1 = $('#nameActivity').val();
-    // var activityName2 = $('#nameActivity2').val();
-    // var newId = new Date().getTime();
-    // เพิ่มแถวใหม่เข้าไปใน arrObj
-    // arrObj.push(
-    //     { id: newId, id_control: '7.1', head_id: 7, maincontrol_id: 2, text: activityTitle, main_Obj: objective, Object_name: activityName1 + (activityName2 ? ", " + activityName2 : "") },
-    //     { id: newId + 1, head_id: 7, sum_id: newId, value: '', text: activityTitle },
-    //     { id: newId + 2, head_id: 7, sum_id: newId + 1, value: '1', text: "มีการควบคุมเพียงพอ" },
-    //     { id: newId + 3, head_id: 7, sum_id: newId + 1, value: '0', text: "กรณีไม่เพียงพอมีแนวทางหรือวิธีการปรับปรุงการควบคุมภายในให้ดีขึ้น ดังนี้" }
-    // );
-     // เพิ่มแถวใหม่เข้าไปใน data
-    //  arrObj.push(newRow);
-
-    // วาดตารางใหม่
-    // var updatedTableHTML = fnDrawTableReportAssessment(arrObj);
-    // $('#dvTableReportAssessment').html(updatedTableHTML);
-
-    // อัปเดต attribute data-table ด้วยข้อมูลใหม่
-    // $('#dvTableReportAssessment').attr('data-table', JSON.stringify(arrObj));
-
-
-    // ปิด modal
+    // Add new rows to the globalTest array
+    var testarr = [
+        { id: newId, id_control: '7.', head_id: 7, maincontrol_id: 7, text: "อื่น ๆ " + activityTitle, main_Obj: "วัตถุประสงค์ของการควบคุม", Object_name: objective },
+        { id: newId, id_control: '7.1', head_id: 7, text: activityName1, is_subcontrol: 0 },
+    ];
     
+    if (activityName2) {
+        testarr.push({ id: newId, id_control: '7.2', head_id: 7, text: activityName2, is_subcontrol: 0 });
+    }
+    
+    testarr = testarr.concat([
+        { id: newId + 1, head_id: 7, sum_id: newId, value: '', text: "การรักษาความปลอดภัยเกี่ยวกับบุคคล" },
+        { id: newId + 1, head_id: 7, sum_id: newId, value: '1', text: "มีการควบคุมเพียงพอ" },
+        { id: newId + 1, head_id: 7, sum_id: newId, value: '0', text: "กรณีไม่เพียงพอมีแนวทางหรือวิธีการปรับปรุงการควบคุมภายในให้ดีขึ้น ดังนี้" }
+    ]);
+
+    globalTest = globalTest.concat(testarr)
+    // console.log(testarr)
+    // Draw the updated table and update the HTML
+    var updatedTableHTML = fnDrawTableReportAssessment(testarr);
+    $('#dvFormReport tbody').append(updatedTableHTML);
+
+
+
+    // Update the data-table attribute with the new data
+    // $('#dvFormReport').attr('data-table', JSON.stringify(testarr));
+
+    // Optionally close the modal if needed
+    $('#OtherRiskModal').modal('hide');
+
+    $('#trSidesOther').css('display', 'none');
 }
+    
+    
 
 function fnToggleTextarea(btnUpdload,btnViewDoc,textareaId,buttonsId ,checkbox, coloums, id) {
     const btnUpdloads = document.getElementById(btnUpdload);

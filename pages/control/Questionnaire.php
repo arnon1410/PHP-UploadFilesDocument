@@ -275,21 +275,24 @@ p {
         </div>
     </div>
 
-        <!-- Start Modal สร้างฟอร์ม เพิ่มความเสี่ยงอื่นที่พบ -->
-        <div class="modal fade" id="OtherRiskModal" tabindex="-1" aria-labelledby="OtherRiskModalModalLabel" aria-hidden="true">
+      <!-- Start Modal สร้างฟอร์ม เพิ่มความเสี่ยงอื่นที่พบ -->
+    <div class="modal fade" id="OtherRiskModal" tabindex="-1" aria-labelledby="OtherRiskModalModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="textHeadModal2">เพิ่มความเสี่ยงอื่นที่พบ</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body" id="dvBodyModalOtherRiskModal">
-            
-        </div>
-        <div class="modal-footer" id="dvFooterModalOtherRiskModal"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="textHeadModal2">เพิ่มความเสี่ยงอื่นที่พบ</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="dvBodyModalOtherRiskModal">
+                    <!-- ตำแหน่งที่จะแสดงเนื้อหาภายใน Modal Body -->
+                </div>
+                <div class="modal-footer" id="dvFooterModalOtherRiskModal">
+                    <!-- ตำแหน่งที่จะแสดงปุ่มใน Modal Footer -->
+                </div>
             </div>
         </div>
     </div>
+
 
 </body>
     <!-- Optional JavaScript -->
@@ -299,7 +302,6 @@ p {
     <script src='../../script/sweetalert2/sweetalert2.all.min.js'></script>
     <script src='../../script/centerFile.js'></script>
     <script src='../../script/control/7sides/drawTableFormNews.js'></script>
-    
     <script src='../../script/control/7sides/data_testQ.js'></script>    <!-- Data test ลบออกเมื่อสร้างเดต้าเบส -->
 
 <script>
@@ -378,7 +380,6 @@ p {
         // ลบออกด้วย
         // call data 
         var dataTest = fncollectDataTest(valSides)
-        
         fnDrawTableForm(valAccess, valSides, dataTest) // dataTest -> objDataQuestion
         // return data
     }      

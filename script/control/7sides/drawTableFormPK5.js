@@ -80,6 +80,172 @@ function fnDrawTablePerformance(objData) { /* ด้านการข่าว 
     // $("#dvTableReportAssessment")[0].innerHTML = strHTML;
 }
 
+// function fnDrawDataInTable(data) {
+//     var strHTML = '';
+//     var tab = '&emsp;&emsp;&emsp;&emsp;';
+//     const sides = [
+//         'ด้านการกำลังพล', 'ด้านยุทธการ', 'ด้านการข่าว', 
+//         'ด้านการส่งกำลังบำรุง', 'ด้านการสื่อสาร', 
+//         'ด้านระบบเทคโนโลยีสารสนเทศในการบริหารจัดการ', 
+//         'ด้านกิจการพลเรือน', 'ด้านการงบประมาณ', 
+//         'ด้านการเงินและการบัญชี', 'ด้านพัสดุและทรัพย์สิน'
+//     ];
+
+//     // สร้างผลลัพธ์ตามที่ต้องการ
+//     sides.forEach((side, index) => {
+//         const id_sides = (index + 1).toString();
+//         const foundRisks = data.filter(risk => risk.id_sides === id_sides);
+
+//         if (foundRisks.length > 0) {
+//             let headRisksContent = [];
+//             let riskingContent = '';
+//             let existingControlsContent = '';
+//             let rateRiskContent = '';
+//             let existingRiskContent = '';
+//             let improvementControlContent = '';
+//             let responsibleAgencyContent = '';
+//             const strObjRisk = foundRisks[0].objRisk;
+
+//             foundRisks.forEach(risk => {
+//                 if (!headRisksContent.includes(risk.headRisk)) {
+//                     headRisksContent.push(risk.headRisk);
+//                 }
+
+//                 if (risk.risking) {
+//                     riskingContent += `- ${risk.risking}<br><br>`;
+//                 }
+//                 if (risk.existingControls) {
+//                     existingControlsContent += `- ${risk.existingControls}<br><br>`;
+//                 }
+//                 if (risk.existingRisk) {
+//                     rateRiskContent += `- ${risk.existingRisk}<br><br>`;
+//                 }
+//                 if (risk.improvementControl) {
+//                     improvementControlContent += `- ${risk.improvementControl}<br><br>`;
+//                 }
+//                 if (risk.responsibleAgencyContent) {
+//                     responsibleAgencyContent += `- ${risk.responsibleAgency}<br><br>`;
+//                 }
+//                 if (risk.existingRiskContent) {
+//                     responsibleAgencyContent += `- ${risk.existingRisk}<br><br>`;
+//                 }
+//             });
+
+//             const headRisks = Array.from(headRisksContent).join('<br>- ');
+
+//             strHTML += "<tr>";
+//             strHTML += "<td id='headRisk" + index + "' class='text-left align-top' style='width: 25%;'> ";
+//             strHTML += " <div> ";
+//             strHTML += " <span id='spanHeadRisk" + index + "' style='font-weight: bold;'>" + fnConvertToThaiNumeralsAndPoint(id_sides) + ". " + side + "</span> ";
+//             strHTML += " </div> ";
+//             strHTML += " <div> ";
+//             strHTML += " <span id='spanHeadRisk" + index + "' style='font-weight: bold;'>" + tab + "วัตถุประสงค์</span> ";
+//             strHTML += " </div> ";
+//             strHTML += " <div> ";
+//             strHTML += " <span id='spanHeadRisk" + index + "' class='text-left align-top'>" + tab + strObjRisk + "</span> ";
+//             strHTML += " </div> ";
+//             strHTML += " <div> ";
+//             strHTML += " <span id='spanHeadRisk" + index + "' style='font-weight: bold;'>" + tab + "กิจกรรม</span> ";
+//             strHTML += " </div> ";
+//             strHTML += " <div> ";
+//             strHTML += " <div class='tab'> ";
+//             strHTML += " <span id='spanHeadRisk" + index + "'>- " + headRisks + "</span> ";
+//             strHTML += " </div> ";
+//             strHTML += "</td>";
+
+//             if (riskingContent) {
+//                 strHTML += "<td class='text-left align-top' style='width: 12%;'>"
+//                 strHTML += " <div class='word-wrap'> "
+//                 strHTML += " <span id='spanRisking" + index + "'>" + riskingContent + "</span> "
+//                 strHTML += " </div> "
+//                 strHTML += " </td>"      
+//             }
+
+//             if (existingControlsContent) {
+//                 strHTML += "<td class='text-left align-top' style='width: 12%;>"
+//                 strHTML += " <div> "
+//                 strHTML += " <span id='spanExistingControls" + index + "'>" + existingControlsContent + "</span> "
+//                 strHTML += " </div> "
+//                 strHTML += " </td>"    
+//             } 
+
+//             if (rateRiskContent) {
+//                 strHTML += "<td class='text-left align-top' style='width: 12%;>"
+//                 strHTML += " <div> "
+//                 strHTML += " <span id='spanRateRiskContent" + index + "'>" + rateRiskContent + "</span> "
+//                 strHTML += " </div> "
+//                 strHTML += " </td>"
+//             } else {
+//                 strHTML += "<td id='rateRisk" + index + "'  class='text-left align-top' style='width: 12%;'>"
+//                 strHTML += "<div style='text-align: center;'>"
+//                 strHTML += "    <textarea id='textRateRisk" + index + "' name='textRateRisk" + index + "'  rows='6' cols='10'></textarea> "
+//                 strHTML += "</div> "
+//                 strHTML += "<div class='text-end'>"
+//                 strHTML += "    <button class='btn btn-secondary' type='submit' id='submitRateRisk" + index + "' onclick='fnSubmitText(\"" + index + "\", \"rateRisk\")'>ยืนยัน</button>";
+//                 strHTML += "</div>"
+//                 strHTML += "<div class='text-start'>"
+//                 strHTML += "    <span id='displayTextRateRisk" + index + "' style='white-space: pre-wrap;'></span>"
+//                 strHTML += "    <i class='las la-pencil-alt' id='editIconRateRisk" + index + "' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText(\"" + index + "\", \"rateRisk\")'></i> "
+//                 strHTML += "</div>"
+//                 strHTML += " </td>"
+//             }
+
+//             if (existingRiskContent) {
+//                 strHTML += "<td class='text-left align-top' style='width: 12%;>"
+//                 strHTML += " <div> "
+//                 strHTML += " <span id='spanExistingRisk" + index + "'>" + existingRiskContent + "</span> "
+//                 strHTML += " </div> "
+//                 strHTML += " </td>"
+//             } else {
+//                 strHTML += "<td id='rateRisk" + index + "'  class='text-left align-top' style='width: 12%;'>"
+//                 strHTML += "<div style='text-align: center;'>"
+//                 strHTML += "    <textarea id='textExistingRisk" + index + "' name='textExistingRisk" + index + "'  rows='6' cols='10'></textarea> "
+//                 strHTML += "</div> "
+//                 strHTML += "<div class='text-end'>"
+//                 strHTML += "    <button class='btn btn-secondary' type='submit' id='submitExistingRisk" + index + "' onclick='fnSubmitText(\"" + index + "\", \"existingRisk\")'>ยืนยัน</button>"
+//                 strHTML += "</div>"
+//                 strHTML += "<div class='text-start'>"
+//                 strHTML += "    <span style='white-space: pre-wrap;' id='displayTextExistingRisk" + index + "''></span>"
+//                 strHTML += "    <i class='las la-pencil-alt' id='editIconExistingRisk" + index + "' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText(\"" + index + "\", \"existingRisk\")'></i> "
+//                 strHTML += "</div>"
+//                 strHTML += " </td>"
+//             }
+
+//             if (improvementControlContent) {
+//                 strHTML += "<td class='text-left align-top' style='width: 12%;>"
+//                 strHTML += " <div> "
+//                 strHTML += " <span id='spanImprovementControl" + index + "'>" + improvementControlContent + "</span> "
+//                 strHTML += " </div> "
+//                 strHTML += " </td>"
+//             } 
+
+//             if (responsibleAgencyContent) {
+//                 strHTML += "<td class='text-left align-top' style='width: 12%;>"
+//                 strHTML += " <div> "
+//                 strHTML += " <span id='spanResponsibleAgency" + index + "'>" + responsibleAgencyContent + "</span> "
+//                 strHTML += " </div> "
+//                 strHTML += " </td>"
+//             } else {
+//                 strHTML += "<td id='responsibleAgency" + index + "'  class='text-left align-top' style='width: 12%;'>"
+//                 strHTML += "<div style='text-align: center;'>"
+//                 strHTML += "    <textarea id='textResponsibleAgency" + index + "' name='textResponsibleAgency" + index + "'  rows='6' cols='10'></textarea> "
+//                 strHTML += "</div> "
+//                 strHTML += "<div class='text-end'>"
+//                 strHTML += "    <button class='btn btn-secondary' type='submit' id='submitResponsibleAgency" + index + "' onclick='fnSubmitText(\"" + index + "\", \"responsibleAgency\")'>ยืนยัน</button>"
+//                 strHTML += "</div>"
+//                 strHTML += "<div class='text-start'>"
+//                 strHTML += "    <span id='displayTextResponsibleAgency" + index + "' style='white-space: pre-wrap;'></span>"
+//                 strHTML += "    <i class='las la-pencil-alt' id='editIconResponsibleAgency" + index + "' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText(\"" + index + "\", \"responsibleAgency\")'></i> "
+//                 strHTML += "</div>"
+//                 strHTML += " </td>"
+//             }
+
+//             strHTML += "</tr>"
+//         }
+//     });
+//     return strHTML;
+// }
+
 function fnDrawDataInTable(data) {
     var strHTML = '';
     var tab = '&emsp;&emsp;&emsp;&emsp;';
@@ -91,160 +257,220 @@ function fnDrawDataInTable(data) {
         'ด้านการเงินและการบัญชี', 'ด้านพัสดุและทรัพย์สิน'
     ];
 
-    // สร้างผลลัพธ์ตามที่ต้องการ
     sides.forEach((side, index) => {
         const id_sides = (index + 1).toString();
         const foundRisks = data.filter(risk => risk.id_sides === id_sides);
 
         if (foundRisks.length > 0) {
             let headRisksContent = [];
-            let riskingContent = '';
-            let existingControlsContent = '';
-            let rateRiskContent = '';
-            let existingRiskContent = '';
-            let improvementControlContent = '';
-            let responsibleAgencyContent = '';
-            const strObjRisk = foundRisks[0].objRisk;
+            let strObjRisk = foundRisks[0].objRisk;
 
             foundRisks.forEach(risk => {
                 if (!headRisksContent.includes(risk.headRisk)) {
                     headRisksContent.push(risk.headRisk);
                 }
-
-                if (risk.risking) {
-                    riskingContent += `- ${risk.risking}<br>`;
-                }
-                if (risk.existingControls) {
-                    existingControlsContent += `- ${risk.existingControls}<br>`;
-                }
-                if (risk.existingRisk) {
-                    rateRiskContent += `- ${risk.existingRisk}<br>`;
-                }
-                if (risk.improvementControl) {
-                    improvementControlContent += `- ${risk.improvementControl}<br>`;
-                }
-                if (risk.responsibleAgencyContent) {
-                    responsibleAgencyContent += `- ${risk.responsibleAgency}<br>`;
-                }
-                if (risk.existingRiskContent) {
-                    responsibleAgencyContent += `- ${risk.existingRisk}<br>`;
-                }
             });
 
-            const headRisks = Array.from(headRisksContent).join('<br>- ');
+            const headRisks = headRisksContent.join('<br>- ');
 
+            // First row with rowspan for the first column
             strHTML += "<tr>";
-            strHTML += "<td id='headRisk" + index + "' class='text-left align-top' style='width: 25%;'> ";
+            strHTML += `<td rowspan='${foundRisks.length}' id='headRisk${index}' class='text-left align-top' style='width: 25%;'>`;
             strHTML += " <div> ";
-            strHTML += " <span id='spanHeadRisk" + index + "' style='font-weight: bold;'>" + fnConvertToThaiNumeralsAndPoint(id_sides) + ". " + side + "</span> ";
+            strHTML += ` <span id='spanHeadRisk${index}' style='font-weight: bold;'>${fnConvertToThaiNumeralsAndPoint(id_sides)}. ${side}</span> `;
             strHTML += " </div> ";
             strHTML += " <div> ";
-            strHTML += " <span id='spanHeadRisk" + index + "' style='font-weight: bold;'>" + tab + "วัตถุประสงค์</span> ";
+            strHTML += ` <span id='spanHeadRisk${index}' style='font-weight: bold;'>${tab}วัตถุประสงค์</span> `;
             strHTML += " </div> ";
             strHTML += " <div> ";
-            strHTML += " <span id='spanHeadRisk" + index + "' class='text-left align-top'>" + tab + strObjRisk + "</span> ";
+            strHTML += ` <span id='spanHeadRisk${index}' class='text-left align-top'>${tab}${strObjRisk}</span> `;
             strHTML += " </div> ";
             strHTML += " <div> ";
-            strHTML += " <span id='spanHeadRisk" + index + "' style='font-weight: bold;'>" + tab + "กิจกรรม</span> ";
+            strHTML += ` <span id='spanHeadRisk${index}' style='font-weight: bold;'>${tab}กิจกรรม</span> `;
             strHTML += " </div> ";
             strHTML += " <div> ";
             strHTML += " <div class='tab'> ";
-            strHTML += " <span id='spanHeadRisk" + index + "'>- " + headRisks + "</span> ";
+            strHTML += ` <span id='spanHeadRisk${index}'>- ${headRisks}</span> `;
             strHTML += " </div> ";
             strHTML += "</td>";
 
-            if (riskingContent) {
-                strHTML += "<td class='text-left align-top' style='width: 12%;'>"
-                strHTML += " <div class='word-wrap'> "
-                strHTML += " <span id='spanRisking" + index + "'>" + riskingContent + "</span> "
-                strHTML += " </div> "
-                strHTML += " </td>"      
-            }
+            strHTML += "<td class='text-left align-top' style='width: 12%;'>";
+            strHTML += " <div> ";
+            strHTML += ` <span id='spanRisking${index}'>${foundRisks[0].risking ? foundRisks[0].risking : ''}</span> `;
+            strHTML += " </div> ";
+            strHTML += "</td>";
 
-            if (existingControlsContent) {
-                strHTML += "<td class='text-left align-top' style='width: 12%;>"
-                strHTML += " <div> "
-                strHTML += " <span id='spanExistingControls" + index + "'>" + existingControlsContent + "</span> "
-                strHTML += " </div> "
-                strHTML += " </td>"    
-            } 
+            strHTML += "<td class='text-left align-top' style='width: 12%;'>";
+            strHTML += " <div> ";
+            strHTML += ` <span id='spanExistingControls${index}'>${foundRisks[0].existingControls ? foundRisks[0].existingControls : ''}</span> `;
+            strHTML += " </div> ";
+            strHTML += "</td>";
 
-            if (rateRiskContent) {
-                strHTML += "<td class='text-left align-top' style='width: 12%;>"
-                strHTML += " <div> "
-                strHTML += " <span id='spanRateRiskContent" + index + "'>" + rateRiskContent + "</span> "
-                strHTML += " </div> "
-                strHTML += " </td>"
+            if (foundRisks[0].evaluationControls) {
+                strHTML += "<td class='text-left align-top' style='width: 12%;'>";
+                strHTML += " <div> ";
+                strHTML += ` <span id='spanEvaluationControls${index}'>${foundRisks[0].evaluationControls}</span> `;
+                strHTML += " </div> ";
+                strHTML += "</td>";
             } else {
-                strHTML += "<td id='rateRisk" + index + "'  class='text-left align-top' style='width: 12%;'>"
-                strHTML += "<div style='text-align: center;'>"
-                strHTML += "    <textarea id='textRateRisk" + index + "' name='textRateRisk" + index + "'  rows='6' cols='10'></textarea> "
-                strHTML += "</div> "
-                strHTML += "<div class='text-end'>"
-                strHTML += "    <button class='btn btn-secondary' type='submit' id='submitRateRisk" + index + "' onclick='fnSubmitText(\"" + index + "\", \"rateRisk\")'>ยืนยัน</button>";
-                strHTML += "</div>"
-                strHTML += "<div class='text-start'>"
-                strHTML += "    <span id='displayTextRateRisk" + index + "' style='white-space: pre-wrap;'></span>"
-                strHTML += "    <i class='las la-pencil-alt' id='editIconRateRisk" + index + "' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText(\"" + index + "\", \"rateRisk\")'></i> "
-                strHTML += "</div>"
-                strHTML += " </td>"
+                strHTML += "<td id='EvaluationControls" + index + "' class='text-left align-top' style='width: 12%;'>";
+                strHTML += "<div style='text-align: center;'>";
+                strHTML += "    <textarea id='textEvaluationControls" + index + "' name='textEvaluationControls" + index + "' rows='6' cols='10'></textarea> ";
+                strHTML += "</div> ";
+                strHTML += "<div class='text-end'>";
+                strHTML += "    <button class='btn btn-secondary' type='submit' id='submitEvaluationControls" + index + "' onclick='fnSubmitText(\"" + index + "\", \"EvaluationControls\")'>ยืนยัน</button>";
+                strHTML += "</div>";
+                strHTML += "<div class='text-start'>";
+                strHTML += "    <span id='displayTextEvaluationControls" + index + "' style='white-space: pre-wrap;'></span>";
+                strHTML += "    <i class='las la-pencil-alt' id='editIconEvaluationControls" + index + "' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText(\"" + index + "\", \"EvaluationControls\")'></i> ";
+                strHTML += "</div>";
+                strHTML += "</td>";
             }
-
-            if (existingRiskContent) {
-                strHTML += "<td class='text-left align-top' style='width: 12%;>"
-                strHTML += " <div> "
-                strHTML += " <span id='spanExistingRisk" + index + "'>" + existingRiskContent + "</span> "
-                strHTML += " </div> "
-                strHTML += " </td>"
+            if (foundRisks[0].existingRisk) {
+                strHTML += "<td class='text-left align-top' style='width: 12%;'>";
+                strHTML += " <div> ";
+                strHTML += ` <span id='spanExistingRisk${index}'>${foundRisks[0].existingRisk}</span> `;
+                strHTML += " </div> ";
+                strHTML += "</td>";
             } else {
-                strHTML += "<td id='rateRisk" + index + "'  class='text-left align-top' style='width: 12%;'>"
-                strHTML += "<div style='text-align: center;'>"
-                strHTML += "    <textarea id='textExistingRisk" + index + "' name='textExistingRisk" + index + "'  rows='6' cols='10'></textarea> "
-                strHTML += "</div> "
-                strHTML += "<div class='text-end'>"
-                strHTML += "    <button class='btn btn-secondary' type='submit' id='submitExistingRisk" + index + "' onclick='fnSubmitText(\"" + index + "\", \"existingRisk\")'>ยืนยัน</button>"
-                strHTML += "</div>"
-                strHTML += "<div class='text-start'>"
-                strHTML += "    <span style='white-space: pre-wrap;' id='displayTextExistingRisk" + index + "''></span>"
-                strHTML += "    <i class='las la-pencil-alt' id='editIconExistingRisk" + index + "' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText(\"" + index + "\", \"existingRisk\")'></i> "
-                strHTML += "</div>"
-                strHTML += " </td>"
+                strHTML += "<td id='ExistingRisk" + index + "' class='text-left align-top' style='width: 12%;'>";
+                strHTML += "<div style='text-align: center;'>";
+                strHTML += "    <textarea id='textExistingRisk" + index + "' name='textExistingRisk" + index + "' rows='6' cols='10'></textarea> ";
+                strHTML += "</div> ";
+                strHTML += "<div class='text-end'>";
+                strHTML += "    <button class='btn btn-secondary' type='submit' id='submitExistingRisk" + index + "' onclick='fnSubmitText(\"" + index + "\", \"ExistingRisk\")'>ยืนยัน</button>";
+                strHTML += "</div>";
+                strHTML += "<div class='text-start'>";
+                strHTML += "    <span id='displayTextExistingRisk" + index + "' style='white-space: pre-wrap;'></span>";
+                strHTML += "    <i class='las la-pencil-alt' id='editIconExistingRisk" + index + "' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText(\"" + index + "\", \"ExistingRisk\")'></i> ";
+                strHTML += "</div>";
+                strHTML += "</td>";
             }
 
-            if (improvementControlContent) {
-                strHTML += "<td class='text-left align-top' style='width: 12%;>"
-                strHTML += " <div> "
-                strHTML += " <span id='spanImprovementControl" + index + "'>" + improvementControlContent + "</span> "
-                strHTML += " </div> "
-                strHTML += " </td>"
-            } 
+            strHTML += "<td class='text-left align-top' style='width: 12%;'>";
+            strHTML += " <div> ";
+            strHTML += ` <span id='spanImprovementControl${index}'>${foundRisks[0].improvementControl ? foundRisks[0].improvementControl : ''}</span> `;
+            strHTML += " </div> ";
+            strHTML += "</td>";
 
-            if (responsibleAgencyContent) {
-                strHTML += "<td class='text-left align-top' style='width: 12%;>"
-                strHTML += " <div> "
-                strHTML += " <span id='spanResponsibleAgency" + index + "'>" + responsibleAgencyContent + "</span> "
-                strHTML += " </div> "
-                strHTML += " </td>"
+            if (foundRisks[0].responsibleAgencyContent) {
+                strHTML += "<td class='text-left align-top' style='width: 12%;'>";
+                strHTML += " <div> ";
+                strHTML += ` <span id='spanResponsibleAgency${index}'>${foundRisks[0].responsibleAgencyContent}</span> `;
+                strHTML += " </div> ";
+                strHTML += "</td>";
             } else {
-                strHTML += "<td id='responsibleAgency" + index + "'  class='text-left align-top' style='width: 12%;'>"
-                strHTML += "<div style='text-align: center;'>"
-                strHTML += "    <textarea id='textResponsibleAgency" + index + "' name='textResponsibleAgency" + index + "'  rows='6' cols='10'></textarea> "
-                strHTML += "</div> "
-                strHTML += "<div class='text-end'>"
-                strHTML += "    <button class='btn btn-secondary' type='submit' id='submitResponsibleAgency" + index + "' onclick='fnSubmitText(\"" + index + "\", \"responsibleAgency\")'>ยืนยัน</button>"
-                strHTML += "</div>"
-                strHTML += "<div class='text-start'>"
-                strHTML += "    <span id='displayTextResponsibleAgency" + index + "' style='white-space: pre-wrap;'></span>"
-                strHTML += "    <i class='las la-pencil-alt' id='editIconResponsibleAgency" + index + "' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText(\"" + index + "\", \"responsibleAgency\")'></i> "
-                strHTML += "</div>"
-                strHTML += " </td>"
+                strHTML += "<td id='responsibleAgency" + index + "' class='text-left align-top' style='width: 12%;'>";
+                strHTML += "<div style='text-align: center;'>";
+                strHTML += "    <textarea id='textResponsibleAgency" + index + "' name='textResponsibleAgency" + index + "' rows='6' cols='10'></textarea> ";
+                strHTML += "</div> ";
+                strHTML += "<div class='text-end'>";
+                strHTML += "    <button class='btn btn-secondary' type='submit' id='submitResponsibleAgency" + index + "' onclick='fnSubmitText(\"" + index + "\", \"responsibleAgency\")'>ยืนยัน</button>";
+                strHTML += "</div>";
+                strHTML += "<div class='text-start'>";
+                strHTML += "    <span id='displayTextResponsibleAgency" + index + "' style='white-space: pre-wrap;'></span>";
+                strHTML += "    <i class='las la-pencil-alt' id='editIconResponsibleAgency" + index + "' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText(\"" + index + "\", \"responsibleAgency\")'></i> ";
+                strHTML += "</div>";
+                strHTML += "</td>";
             }
 
-            strHTML += "</tr>"
+            strHTML += "</tr>";
+
+
+            // Subsequent rows for the remaining risks
+            for (let i = 1; i < foundRisks.length; i++) {
+                strHTML += "<tr>";
+
+                strHTML += "<td class='text-left align-top' style='width: 12%;'>";
+                strHTML += " <div> ";
+                strHTML += ` <span id='spanRisking${index}_${i}'>${foundRisks[i].risking ? foundRisks[i].risking : ''}</span> `;
+                strHTML += " </div> ";
+                strHTML += "</td>";
+
+                strHTML += "<td class='text-left align-top' style='width: 12%;'>";
+                strHTML += " <div> ";
+                strHTML += ` <span id='spanExistingControls${index}_${i}'>${foundRisks[i].existingControls ? foundRisks[i].existingControls : ''}</span> `;
+                strHTML += " </div> ";
+                strHTML += "</td>";
+
+                if (foundRisks[i].evaluationControls) {
+                    strHTML += "<td class='text-left align-top' style='width: 12%;'>";
+                    strHTML += " <div> ";
+                    strHTML += ` <span id='spanEvaluationControls${index}_${i}'>${foundRisks[i].evaluationControls}</span> `;
+                    strHTML += " </div> ";
+                    strHTML += "</td>";
+                } else {
+                    strHTML += "<td id='EvaluationControls" + index + "_" + i + "' class='text-left align-top' style='width: 12%;'>";
+                    strHTML += "<div style='text-align: center;'>";
+                    strHTML += "    <textarea id='textEvaluationControls" + index + "_" + i + "' name='textEvaluationControls" + index + "_" + i + "' rows='6' cols='10'></textarea> ";
+                    strHTML += "</div> ";
+                    strHTML += "<div class='text-end'>";
+                    strHTML += "    <button class='btn btn-secondary' type='submit' id='submitEvaluationControls" + index + "_" + i + "' onclick='fnSubmitText(\"" + index + "_" + i + "\", \"EvaluationControls\")'>ยืนยัน</button>";
+                    strHTML += "</div>";
+                    strHTML += "<div class='text-start'>";
+                    strHTML += "    <span id='displayTextEvaluationControls" + index + "_" + i + "' style='white-space: pre-wrap;'></span>";
+                    strHTML += "    <i class='las la-pencil-alt' id='editIconEvaluationControls" + index + "_" + i + "' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText(\"" + index + "_" + i + "\", \"EvaluationControls\")'></i> ";
+                    strHTML += "</div>";
+                    strHTML += "</td>";
+                }
+
+                if (foundRisks[i].existingRisk) {
+                    strHTML += "<td class='text-left align-top' style='width: 12%;'>";
+                    strHTML += " <div> ";
+                    strHTML += ` <span id='spanExistingRisk${index}_${i}'>${foundRisks[i].existingRisk}</span> `;
+                    strHTML += " </div> ";
+                    strHTML += "</td>";
+                } else {
+                    strHTML += "<td id='ExistingRisk" + index + "_" + i + "' class='text-left align-top' style='width: 12%;'>";
+                    strHTML += "<div style='text-align: center;'>";
+                    strHTML += "    <textarea id='textExistingRisk" + index + "_" + i + "' name='textExistingRisk" + index + "_" + i + "' rows='6' cols='10'></textarea> ";
+                    strHTML += "</div> ";
+                    strHTML += "<div class='text-end'>";
+                    strHTML += "    <button class='btn btn-secondary' type='submit' id='submitExistingRisk" + index + "_" + i + "' onclick='fnSubmitText(\"" + index + "_" + i + "\", \"ExistingRisk\")'>ยืนยัน</button>";
+                    strHTML += "</div>";
+                    strHTML += "<div class='text-start'>";
+                    strHTML += "    <span id='displayTextExistingRisk" + index + "_" + i + "' style='white-space: pre-wrap;'></span>";
+                    strHTML += "    <i class='las la-pencil-alt' id='editIconExistingRisk" + index + "_" + i + "' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText(\"" + index + "_" + i + "\", \"ExistingRisk\")'></i> ";
+                    strHTML += "</div>";
+                    strHTML += "</td>";
+                }
+
+                strHTML += "<td class='text-left align-top' style='width: 12%;'>";
+                strHTML += " <div> ";
+                strHTML += ` <span id='spanImprovementControl${index}_${i}'>${foundRisks[i].improvementControl ? foundRisks[i].improvementControl : ''}</span> `;
+                strHTML += " </div> ";
+                strHTML += "</td>";
+
+                if (foundRisks[i].responsibleAgencyContent) {
+                    strHTML += "<td class='text-left align-top' style='width: 12%;'>";
+                    strHTML += " <div> ";
+                    strHTML += ` <span id='spanResponsibleAgency${index}_${i}'>${foundRisks[i].responsibleAgencyContent}</span> `;
+                    strHTML += " </div> ";
+                    strHTML += "</td>";
+                } else {
+                    strHTML += "<td id='responsibleAgency" + index + "_" + i + "' class='text-left align-top' style='width: 12%;'>";
+                    strHTML += "<div style='text-align: center;'>";
+                    strHTML += "    <textarea id='textResponsibleAgency" + index + "_" + i + "' name='textResponsibleAgency" + index + "_" + i + "' rows='6' cols='10'></textarea> ";
+                    strHTML += "</div> ";
+                    strHTML += "<div class='text-end'>";
+                    strHTML += "    <button class='btn btn-secondary' type='submit' id='submitResponsibleAgency" + index + "_" + i + "' onclick='fnSubmitText(\"" + index + "_" + i + "\", \"responsibleAgency\")'>ยืนยัน</button>";
+                    strHTML += "</div>";
+                    strHTML += "<div class='text-start'>";
+                    strHTML += "    <span id='displayTextResponsibleAgency" + index + "_" + i + "' style='white-space: pre-wrap;'></span>";
+                    strHTML += "    <i class='las la-pencil-alt' id='editIconResponsibleAgency" + index + "_" + i + "' style='display:none; cursor:pointer; margin-left: 10px;' onclick='fnEditText(\"" + index + "_" + i + "\", \"responsibleAgency\")'></i> ";
+                    strHTML += "</div>";
+                    strHTML += "</td>";
+                }
+
+                strHTML += "</tr>";
+            }
         }
     });
+
     return strHTML;
 }
+
+
 
 function fnDrawChanceRiskModal() {
     var strHTML = "";
@@ -279,12 +505,12 @@ function fnSubmitText(index, sides) {
     var tab = '&emsp;'
     var format = ''
 
-    if (sides == 'rateRisk') {
-        textarea = document.getElementById('textRateRisk' + index);
-        button = document.getElementById('submitRateRisk' + index);
-        displayText = document.getElementById('displayTextRateRisk' + index);
-        editIcon = document.getElementById('editIconRateRisk'+ index);
-    } else if (sides == 'existingRisk') {
+    if (sides == 'EvaluationControls') {
+        textarea = document.getElementById('textEvaluationControls' + index);
+        button = document.getElementById('submitEvaluationControls' + index);
+        displayText = document.getElementById('displayTextEvaluationControls' + index);
+        editIcon = document.getElementById('editIconEvaluationControls'+ index);
+    } else if (sides == 'ExistingRisk') {
         textarea = document.getElementById('textExistingRisk' + index);
         button = document.getElementById('submitExistingRisk' + index);
         displayText = document.getElementById('displayTextExistingRisk' + index)
@@ -320,20 +546,17 @@ function fnEditText(index, sides) {
     var editIcon = ''
     var displayText = ''
 
-    if (sides == 'rateRisk') {
-        console.log(1111)
-        textarea = document.getElementById('textRateRisk' + index);
-        button = document.getElementById('submitRateRisk' + index);
-        displayText = document.getElementById('displayTextRateRisk' + index);
-        editIcon = document.getElementById('editIconRateRisk'+ index);
-    } else if (sides == 'existingRisk') {
-        console.log(2222)
+    if (sides == 'EvaluationControls') {
+        textarea = document.getElementById('textEvaluationControls' + index);
+        button = document.getElementById('submitEvaluationControls' + index);
+        displayText = document.getElementById('displayTextEvaluationControls' + index);
+        editIcon = document.getElementById('editIconEvaluationControls'+ index);
+    } else if (sides == 'ExistingRisk') {
         textarea = document.getElementById('textExistingRisk' + index);
         button = document.getElementById('submitExistingRisk' + index);
         displayText = document.getElementById('displayTextExistingRisk' + index)
         editIcon = document.getElementById('editIconExistingRisk'+ index);
     } else {
-        console.log(3333)
         textarea = document.getElementById('textResponsibleAgency' + index);
         button = document.getElementById('submitResponsibleAgency' + index);
         displayText = document.getElementById('displayTextResponsibleAgency' + index); 
